@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es5", //컴파일할 쟈스버전
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react"
+  },
+  //컴파일 과정에 포함할 파일
+  "include": ["src"]
+}
