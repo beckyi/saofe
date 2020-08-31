@@ -7,6 +7,8 @@ import Jenkins from "./Area/Jenkins";
 import Clock from "./Area/Clock";
 import Icon from "./Area/Icon";
 
+import { Container, Item } from "./Layout/Layout";
+
 const BaseGround = styled.div`
   height: 100%;
   top: 0;
@@ -52,39 +54,62 @@ function App() {
 
   return (
     <BaseGround>
-      <div className="App">
-        <Jenkins name={"최재은"} />
-        <div
-          style={{
-            flex: "1 1 50%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-          }}
-        ></div>
-        <div style={{ display: "block" }}>
-          <span style={{ display: "flex" }}>
-            <EmptyElem />
-            <span>
-              <Clock />
-            </span>
-            <EmptyElem>
-              <span
-                style={{
-                  textAlign: "center",
-                  margin: "55px 25px",
-                }}
-              ></span>
-              <Icon name={"inform"} />
-            </EmptyElem>
-          </span>
-        </div>
-      </div>
-      <Temp>
-        <Icon name={"calendar"} />
-        <Icon name={"rice"} />
-      </Temp>
+      <Container cols={["50%", 500, "50%"]} rows={["100%"]}>
+        <Item
+          range={[
+            [1, 1],
+            [1, 3],
+          ]}
+        >
+          <Jenkins name={"최재은"} />
+        </Item>
+        <Item
+          range={[
+            [2, 1],
+            [2, 3],
+          ]}
+        >
+          <div className="App">
+            <div
+              style={{
+                flex: "1 1 50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            ></div>
+            <div style={{ display: "block" }}>
+              <span style={{ display: "flex" }}>
+                <EmptyElem />
+                <span>
+                  <Clock />
+                </span>
+                <EmptyElem>
+                  <span
+                    style={{
+                      textAlign: "center",
+                      margin: "55px 25px",
+                    }}
+                  ></span>
+                  <Icon name={"inform"} />
+                </EmptyElem>
+              </span>
+            </div>
+          </div>
+        </Item>
+        <Item
+          range={[
+            [3, 1],
+            [3, 3],
+          ]}
+        >
+          <Temp>
+            <Icon name={"calendar"} />
+            <Icon name={"rice"} />
+          </Temp>
+        </Item>
+      </Container>
     </BaseGround>
   );
 }
