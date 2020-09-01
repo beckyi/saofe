@@ -10,6 +10,8 @@ import Modal from "./Area/Modal";
 
 import { Container, Item } from "./Layout/Layout";
 
+import Calendar from "./Area/Calendar";
+
 const BaseGround = styled.div`
   height: 100%;
   top: 0;
@@ -107,6 +109,8 @@ function App() {
           align={"end"}
         >
           <Temp>
+            <Calendar />
+            {/* <Modal /> */}
             <Icon name={"calendar"} />
             <Icon name={"rice"} />
           </Temp>
