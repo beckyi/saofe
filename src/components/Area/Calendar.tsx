@@ -2,6 +2,28 @@ import React, { useState, MouseEvent } from "react";
 import styled from "styled-components";
 import { getCalendar, makeDateSlash, makeYMD } from "../../utils/utils";
 
+const CalMonth = styled.div`
+  width: 99%;
+  height: 99%;
+  box-sizing: border-box;
+  padding: 0.5%;
+`;
+
+interface CDInterface {
+  color: string;
+}
+
+const CalDay = styled.div`
+  display: inline-block;
+  vertical-align: bottom;
+  width: calc(97% / 7);
+  height: calc(98% / 5);
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 20px;
+  color: ${(props: CDInterface) => (props.color ? props.color : "#fff")};
+`; // margin-right: 0.5%; margin-top: 0.5%;
+
 const today = new Date();
 
 function getDate() {
@@ -29,7 +51,7 @@ const Calendar = () => {
 
   console.log(current, monthInfo);
   return (
-    <div className="month">
+    <CalMonth>
       <ul>
         <li id="prev" className="prev" onClick={handleClick}>
           &#10094;
@@ -55,13 +77,13 @@ const Calendar = () => {
       <ul className="days">
         {monthInfo.map((item, idx) => {
           return (
-            <li style={{ color: item[1] }}>
+            <CalDay color={item[1]}>
               {idx + 1}, {item[0]}
-            </li>
+            </CalDay>
           );
         })}
       </ul>
-    </div>
+    </CalMonth>
   );
 };
 

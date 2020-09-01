@@ -10,12 +10,11 @@ import Modal from "./Area/Modal";
 
 import { Container, Item } from "./Layout/Layout";
 
-import Calendar from "./Area/Calendar";
-
 const BaseGround = styled.div`
   height: 100%;
-  top: 0;
+  min-width: 700px;
   position: absolute;
+  top: 0;
   right: 0;
   left: 0;
   bottom: 0;
@@ -50,74 +49,82 @@ function getRandomImg() {
     });
 }
 
-//nodeJS는 타입스크립트를 이해하지 못하므로 자바스크립트 컴파일 과정 필요
-function App() {
-  let name = "JENKINS";
+export interface IAppProps {}
 
-  return (
-    <BaseGround>
-      <Container cols={["50%", 500, "50%"]} rows={["100%"]}>
-        <Item
-          range={[
-            [1, 1],
-            [1, 3],
-          ]}
-        >
-          <Jenkins name={"최재은"} />
-        </Item>
-        <Item
-          range={[
-            [2, 1],
-            [2, 3],
-          ]}
-          align={"center"}
-        >
-          <div className="App">
-            <div
-              style={{
-                flex: "1 1 50%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-              }}
-            ></div>
-            <div style={{ display: "block" }}>
-              <span style={{ display: "flex" }}>
-                <EmptyElem />
-                <span>
-                  <Clock />
+export interface IAppState {}
+
+export default class App extends React.Component<IAppProps, IAppState> {
+  constructor(props: IAppProps) {
+    super(props);
+
+    this.state = {};
+  }
+
+  public render() {
+    return (
+      <BaseGround>
+        <Container cols={["50%", 500, "50%"]} rows={["100%"]}>
+          <Item
+            range={[
+              [1, 1],
+              [1, 3],
+            ]}
+          >
+            <Jenkins name={"최재은"} />
+          </Item>
+          <Item
+            range={[
+              [2, 1],
+              [2, 3],
+            ]}
+            align={"center"}
+          >
+            <div className="App">
+              <div
+                style={{
+                  flex: "1 1 50%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
+                }}
+              ></div>
+              <div style={{ display: "block" }}>
+                <span style={{ display: "flex" }}>
+                  <EmptyElem />
+                  <span>
+                    <Clock />
+                  </span>
+                  <EmptyElem>
+                    <span
+                      style={{
+                        textAlign: "center",
+                        margin: "55px 25px",
+                      }}
+                    ></span>
+                    <Icon name={"inform"} />
+                  </EmptyElem>
                 </span>
-                <EmptyElem>
-                  <span
-                    style={{
-                      textAlign: "center",
-                      margin: "55px 25px",
-                    }}
-                  ></span>
-                  <Icon name={"inform"} />
-                </EmptyElem>
-              </span>
+              </div>
             </div>
-          </div>
-        </Item>
-        <Item
-          range={[
-            [3, 1],
-            [3, 3],
-          ]}
-          align={"end"}
-        >
-          <Temp>
-            <Calendar />
-            {/* <Modal /> */}
-            <Icon name={"calendar"} />
-            <Icon name={"rice"} />
-          </Temp>
-        </Item>
-      </Container>
-    </BaseGround>
-  );
+          </Item>
+          <Item
+            range={[
+              [3, 1],
+              [3, 3],
+            ]}
+            align={"end"}
+          >
+            <Temp>
+              <Modal />
+              <Icon name={"calendar"} />
+              <Icon name={"rice"} />
+            </Temp>
+          </Item>
+        </Container>
+      </BaseGround>
+    );
+  }
 }
 
-export default App;
+//nodeJS는 타입스크립트를 이해하지 못하므로 자바스크립트 컴파일 과정 필요

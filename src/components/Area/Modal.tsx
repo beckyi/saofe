@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import Calendar from "./Calendar";
+
 const Dialog = styled.div`
   bottom: 55px;
   left: 7px;
@@ -30,7 +32,11 @@ const Dialog = styled.div`
 `;
 
 const Modal = () => {
-  return <Dialog></Dialog>;
+  return (
+    <Dialog>
+      <Calendar />
+    </Dialog>
+  );
 };
 
 export default Modal;
