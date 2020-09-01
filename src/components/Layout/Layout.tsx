@@ -8,11 +8,12 @@ interface MainBoxProps {
   cols: Array<string | number>;
   rows: Array<string>;
 }
-////
+//string[]
 
 type BoxProps = {
   children: React.ReactNode;
   range: number[][];
+  align?: string;
 };
 
 interface mainStyles {
@@ -24,6 +25,7 @@ interface mainStyles {
 
 interface boxStyles {
   range: number[][];
+  align?: string;
 }
 
 //position: absolute;
@@ -39,6 +41,7 @@ const MainBox = styled.div`
 
 const Box = styled.div`
   display: grid;
+  align-self: ${(props: boxStyles) => (props.align ? props.align : "stretch")};
   grid-row: ${(props: boxStyles) => props.range[0][0]} / span
     ${(props: boxStyles) => props.range[1][0] - props.range[0][0] + 1};
   grid-column: ${(props: boxStyles) => props.range[0][1]} / span
@@ -71,20 +74,20 @@ const setGridTemplate = (pArr: Array<string | number>) => {
 
 export const Container = (props: MainBoxProps) => {
   console.log(props, props.children);
+  const { children, cols, rows, ...other } = props;
   return (
     <MainBox
-      width={props.width}
-      height={props.height}
-      cols={setGridTemplate(props.cols)}
-      rows={setGridTemplate(props.rows)}
+      cols={setGridTemplate(cols)}
+      rows={setGridTemplate(rows)}
+      {...other}
     >
-      {props.children}
+      {children}
     </MainBox>
   );
 };
 
 export const Item = (props: BoxProps) => {
-  return <Box range={props.range}>{props.children}</Box>;
+  return <Box {...props}>{props.children}</Box>;
 };
 
 //study link :: https://studiomeal.com/archives/533

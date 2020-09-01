@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Jenkins from "./Area/Jenkins";
 import Clock from "./Area/Clock";
 import Icon from "./Area/Icon";
+import Modal from "./Area/Modal";
 
 import { Container, Item } from "./Layout/Layout";
 
@@ -24,9 +25,8 @@ const BaseGround = styled.div`
 `;
 
 const Temp = styled.span`
-  height: 18px;
-  width: 18px;
   transition: transform var(--a-fast) linear;
+  margin: 0px 10px 10px;
 `;
 
 const EmptyElem = styled.span`
@@ -68,6 +68,7 @@ function App() {
             [2, 1],
             [2, 3],
           ]}
+          align={"center"}
         >
           <div className="App">
             <div
@@ -103,6 +104,7 @@ function App() {
             [3, 1],
             [3, 3],
           ]}
+          align={"end"}
         >
           <Temp>
             <Icon name={"calendar"} />
