@@ -4,6 +4,8 @@ import { getCalendar, makeDateSlash, makeYMD } from "../../utils/utils";
 
 import { dayList } from "../../utils/utils";
 
+import { Container, Item } from "../Layout/Layout";
+
 const CalMonth = styled.div`
   width: 99%;
   height: 99%;
@@ -42,6 +44,7 @@ const setCalendar = (monthInfo: calenInterface) => {
 
   const start_day = monthInfo[0][0]; //monthInfo[0][0]; //시작요일 ( 0 ~)
 
+  // generate 7 * 5  Calendar
   for (let idx = 0; idx < 35; idx++) {
     const item = monthInfo[idx - start_day];
     if (idx >= start_day && item) {
@@ -54,16 +57,18 @@ const setCalendar = (monthInfo: calenInterface) => {
         </CalDay>
       );
     } else {
-      component.push(<CalDay />);
+      component.push(<CalDay />); //blank
     }
   }
 
   return component;
 };
 
+const structure = ["14%", "14%", "14%", "14%", "14%", "14%", "14%"];
+
 const Calendar = () => {
   const [current, setCurrent] = useState(makeYMD(today));
-  const monthInfo = getCalendar(current.substr(0, 6));
+  const monthInfo = getCalendar(current.substr(0, 6)); //2d Array
 
   // const handleClick = (): void => setCurrent("20201001");
 
@@ -80,32 +85,47 @@ const Calendar = () => {
     setCurrent(_current); //날짜 갱신
   };
 
-  console.log(current, monthInfo);
   return (
     <CalMonth>
-      <ul>
-        <li id="prev" className="prev" onClick={handleClick}>
-          &#10094;
-        </li>
-        <li id="next" className="next" onClick={handleClick}>
-          &#10095;
-        </li>
-        <li>
-          {current}
-          <br />
-          <span style={{ fontSize: "18px" }}>{current.substr(0, 4)}</span>
-        </li>
-      </ul>
-      <ul className="weekdays">
-        <li>Sun</li>
-        <li>Mon</li>
-        <li>Tue</li>
-        <li>Wed</li>
-        <li>Thu</li>
-        <li>Fri</li>
-        <li>Sat</li>
-      </ul>
-      <ul className="days">{setCalendar(monthInfo)}</ul>
+      <Container cols={structure} rows={structure}>
+        <Item
+          range={[
+            [1, 1],
+            [1, 7],
+          ]}
+        >
+          <ul>
+            <li id="prev" className="prev" onClick={handleClick}>
+              &#10094;
+            </li>
+            <li>
+              {current}
+              <br />
+              <span style={{ fontSize: "18px" }}>{current.substr(0, 4)}</span>
+            </li>
+            <li id="next" className="next" onClick={handleClick}>
+              &#10095;
+            </li>
+          </ul>
+        </Item>
+        <Item
+          range={[
+            [2, 1],
+            [7, 7],
+          ]}
+        >
+          <ul className="weekdays">
+            <li>Sun</li>
+            <li>Mon</li>
+            <li>Tue</li>
+            <li>Wed</li>
+            <li>Thu</li>
+            <li>Fri</li>
+            <li>Sat</li>
+          </ul>
+          <ul className="days">{setCalendar(monthInfo)}</ul>
+        </Item>
+      </Container>
     </CalMonth>
   );
 };

@@ -75,13 +75,13 @@ export const getCalendar = (yyyymm: string) => {
     const today = toMonth.getDay();
     // 0("일") ~  6 ("토")
     const color =
-      fixHolidays.includes(model) || today === 0 
+      fixHolidays.includes(model) || today === 0
         ? "red"
         : today === 6
         ? "blue"
         : "black";
     // form: [요일,색상(휴일여부)]
-    result.push([today, color]);
+    result.push([today, color]); //2d Array
   }
 
   return result;
