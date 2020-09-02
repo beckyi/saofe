@@ -2,6 +2,8 @@ import React, { useState, MouseEvent } from "react";
 import styled from "styled-components";
 import { getCalendar, makeDateSlash, makeYMD } from "../../utils/utils";
 
+import { dayList } from "../../utils/utils";
+
 const CalMonth = styled.div`
   width: 99%;
   height: 99%;
@@ -10,7 +12,11 @@ const CalMonth = styled.div`
 `;
 
 interface CDInterface {
-  color: string;
+  color?: string;
+}
+//monthInfo: Array<Array<number | string>>; (string | number)[][];
+interface calenInterface {
+  [key: number]: any;
 }
 
 const CalDay = styled.div`
@@ -29,6 +35,31 @@ const today = new Date();
 function getDate() {
   return { month: today.getMonth().toString().padStart(2, "0") };
 }
+
+//달력 동적 생성
+const setCalendar = (monthInfo: calenInterface) => {
+  let component = [];
+
+  const start_day = monthInfo[0][0]; //monthInfo[0][0]; //시작요일 ( 0 ~)
+
+  for (let idx = 0; idx < 35; idx++) {
+    const item = monthInfo[idx - start_day];
+    if (idx >= start_day && item) {
+      console.log(dayList, dayList[1]);
+      const i = item[0];
+      const day = dayList[i]; //한글 요일
+      component.push(
+        <CalDay color={item[1]}>
+          {idx + 1 - start_day}, {day}
+        </CalDay>
+      );
+    } else {
+      component.push(<CalDay />);
+    }
+  }
+
+  return component;
+};
 
 const Calendar = () => {
   const [current, setCurrent] = useState(makeYMD(today));
@@ -74,15 +105,7 @@ const Calendar = () => {
         <li>Fri</li>
         <li>Sat</li>
       </ul>
-      <ul className="days">
-        {monthInfo.map((item, idx) => {
-          return (
-            <CalDay color={item[1]}>
-              {idx + 1}, {item[0]}
-            </CalDay>
-          );
-        })}
-      </ul>
+      <ul className="days">{setCalendar(monthInfo)}</ul>
     </CalMonth>
   );
 };

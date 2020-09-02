@@ -1,5 +1,3 @@
-const dayList = ["일", "월", "화", "수", "목", "금", "토"];
-
 //윤달여부에 따라 마지막 날짜
 function getLastdate(pDate: Date) {
   let arrLast;
@@ -16,6 +14,9 @@ function getLastdate(pDate: Date) {
 
   return arrLast[pMonIdx];
 }
+
+//요일 정보
+export const dayList = ["일", "월", "화", "수", "목", "금", "토"];
 
 //날짜 형식 > '/' 붙여서 문자 반환
 export const makeDateSlash = (ymd: string) => {
@@ -72,15 +73,15 @@ export const getCalendar = (yyyymm: string) => {
     toMonth = new Date(ymdSlash);
 
     const today = toMonth.getDay();
-    const day = dayList[today];
+    // 0("일") ~  6 ("토")
     const color =
-      fixHolidays.includes(model) || day === "일"
+      fixHolidays.includes(model) || today === 0 
         ? "red"
-        : day === "토"
+        : today === 6
         ? "blue"
         : "black";
     // form: [요일,색상(휴일여부)]
-    result.push([day, color]);
+    result.push([today, color]);
   }
 
   return result;
