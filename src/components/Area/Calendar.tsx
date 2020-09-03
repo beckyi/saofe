@@ -23,12 +23,10 @@ interface calenInterface {
 
 const CalDay = styled.div`
   display: inline-block;
-  vertical-align: bottom;
-  width: calc(97% / 7);
-  height: calc(98% / 5);
   box-sizing: border-box;
   border-radius: 5px;
   padding: 20px;
+  background: beige;
   color: ${(props: CDInterface) => (props.color ? props.color : "#fff")};
 `; // margin-right: 0.5%; margin-top: 0.5%;
 
@@ -46,18 +44,36 @@ const setCalendar = (monthInfo: calenInterface) => {
 
   // generate 7 * 5  Calendar
   for (let idx = 0; idx < 35; idx++) {
+    const x = Math.floor(idx / 7) + 3;
+    const y = (idx % 7) + 1;
     const item = monthInfo[idx - start_day];
     if (idx >= start_day && item) {
       console.log(dayList, dayList[1]);
       const i = item[0];
       const day = dayList[i]; //한글 요일
       component.push(
-        <CalDay color={item[1]}>
-          {idx + 1 - start_day}, {day}
-        </CalDay>
+        <Item
+          range={[
+            [x, y],
+            [x, y],
+          ]}
+        >
+          <CalDay color={item[1]}>
+            {idx + 1 - start_day}, {day}
+          </CalDay>
+        </Item>
       );
     } else {
-      component.push(<CalDay />); //blank
+      component.push(
+        <Item
+          range={[
+            [x, y],
+            [x, y],
+          ]}
+        >
+          <CalDay />
+        </Item>
+      ); //blank
     }
   }
 
@@ -108,23 +124,31 @@ const Calendar = () => {
             </li>
           </ul>
         </Item>
-        <Item
-          range={[
-            [2, 1],
-            [7, 7],
-          ]}
-        >
-          <ul className="weekdays">
-            <li>Sun</li>
-            <li>Mon</li>
-            <li>Tue</li>
-            <li>Wed</li>
-            <li>Thu</li>
-            <li>Fri</li>
-            <li>Sat</li>
-          </ul>
-          <ul className="days">{setCalendar(monthInfo)}</ul>
-        </Item>
+        {/* weekdays */}
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => {
+          return (
+            <Item
+              range={[
+                [2, idx + 1],
+                [2, idx + 1],
+              ]}
+            >
+              <p
+                style={
+                  day === "Sun"
+                    ? { color: "red" }
+                    : day === "Sat"
+                    ? { color: "blue" }
+                    : {}
+                }
+              >
+                {day}
+              </p>
+            </Item>
+          );
+        })}
+        {/* days */}
+        {setCalendar(monthInfo)}
       </Container>
     </CalMonth>
   );
