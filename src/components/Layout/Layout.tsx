@@ -7,6 +7,7 @@ interface MainBoxProps {
   height?: string;
   cols: Array<string | number>;
   rows: Array<string>;
+  gap?: string | number;
 }
 //string[]
 
@@ -21,6 +22,7 @@ interface mainStyles {
   rows: string;
   width?: string;
   height?: string;
+  gap?: string | number;
 }
 
 interface boxStyles {
@@ -33,10 +35,12 @@ const MainBox = styled.div`
   display: grid;
   width: ${(props: mainStyles) => (props.width ? props.width : "100%")};
   height: ${(props: mainStyles) => (props.height ? props.height : "100%")};
-  grid-template-rows: ${(props: mainStyles) => props.cols};
-  grid-template-columns: ${(props: mainStyles) => props.rows};
-  -ms-grid-rows: ${(props: mainStyles) => props.cols};
-  -ms-grid-columns: ${(props: mainStyles) => props.rows};
+  grid-template-rows: ${(props: mainStyles) => props.rows};
+  grid-template-columns: ${(props: mainStyles) => props.cols};
+  -ms-grid-rows: ${(props: mainStyles) => props.rows};
+  -ms-grid-columns: ${(props: mainStyles) => props.cols};
+  ${(props: mainStyles) =>
+    props.gap !== undefined ? `gap: ${props.gap};` : ""}
 `;
 
 const Box = styled.div`

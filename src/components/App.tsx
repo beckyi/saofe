@@ -51,19 +51,28 @@ function getRandomImg() {
 
 export interface IAppProps {}
 
-export interface IAppState {}
+export interface IAppState {
+  modal_show: string;
+}
 
 export default class App extends React.Component<IAppProps, IAppState> {
   constructor(props: IAppProps) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      modal_show: "",
+    };
   }
 
-  public render() {
+  onClick = () => {};
+
+  render() {
+    const { modal_show } = this.state;
+    // const {onClick} = calbacks;
+
     return (
       <BaseGround>
-        <Container cols={["50%", 500, "50%"]} rows={["100%"]}>
+        <Container cols={["100%"]} rows={["50%", "500px", "50%"]}>
           <Item
             range={[
               [1, 1],
@@ -116,8 +125,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
             align={"end"}
           >
             <Temp>
-              <Modal />
-              <Icon name={"calendar"} />
+              {modal_show && <Modal />}
+              <Icon name={"calendar"} calbacks={calbacks} />
               <Icon name={"rice"} />
             </Temp>
           </Item>

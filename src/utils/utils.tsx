@@ -76,11 +76,11 @@ export const getCalendar = (yyyymm: string) => {
     // 0("일") ~  6 ("토")
     const color =
       fixHolidays.includes(model) || today === 0
-        ? "red"
+        ? "#DC143C"
         : today === 6
-        ? "blue"
+        ? "#1E90FF"
         : "black";
-    // form: [요일,색상(휴일여부)]
+    // form: [요일,색상(휴일여부)] : red - #00BFFF
     result.push([today, color]); //2d Array
   }
 

@@ -8,7 +8,7 @@ import { Container, Item } from "../Layout/Layout";
 
 const CalMonth = styled.div`
   width: 99%;
-  height: 99%;
+  height: 100%;
   box-sizing: border-box;
   padding: 0.5%;
 `;
@@ -24,11 +24,16 @@ interface calenInterface {
 const CalDay = styled.div`
   display: inline-block;
   box-sizing: border-box;
-  border-radius: 5px;
-  padding: 20px;
-  background: beige;
+  border-radius: 10px;
+  font-size: 10px;
+  padding: 10px;
+  background: #f9f9f9;
   color: ${(props: CDInterface) => (props.color ? props.color : "#fff")};
 `; // margin-right: 0.5%; margin-top: 0.5%;
+
+const ArrowBtn = styled.span`
+  cursor: pointer;
+`;
 
 const today = new Date();
 
@@ -58,9 +63,7 @@ const setCalendar = (monthInfo: calenInterface) => {
             [x, y],
           ]}
         >
-          <CalDay color={item[1]}>
-            {idx + 1 - start_day}, {day}
-          </CalDay>
+          <CalDay color={item[1]}>{idx + 1 - start_day}</CalDay>
         </Item>
       );
     } else {
@@ -80,7 +83,8 @@ const setCalendar = (monthInfo: calenInterface) => {
   return component;
 };
 
-const structure = ["14%", "14%", "14%", "14%", "14%", "14%", "14%"];
+const cols = ["98px", "98px", "98px", "98px", "98px", "98px", "98px"];
+const rows = ["15px", "40px", "20%", "20%", "20%", "20%", "20%"];
 
 const Calendar = () => {
   const [current, setCurrent] = useState(makeYMD(today));
@@ -92,7 +96,7 @@ const Calendar = () => {
     const toDate = new Date(makeDateSlash(current));
     const target = event.target as HTMLTextAreaElement;
     let who = target.id;
-    debugger;
+
     let _current =
       who === "next"
         ? makeYMD(new Date(toDate.setMonth(toDate.getMonth() + 1)))
@@ -103,26 +107,39 @@ const Calendar = () => {
 
   return (
     <CalMonth>
-      <Container cols={structure} rows={structure}>
+      <Container cols={cols} rows={rows} gap="3px">
         <Item
           range={[
-            [1, 1],
-            [1, 7],
+            [1, 3],
+            [1, 3],
           ]}
         >
-          <ul>
-            <li id="prev" className="prev" onClick={handleClick}>
-              &#10094;
-            </li>
-            <li>
-              {current}
-              <br />
-              <span style={{ fontSize: "18px" }}>{current.substr(0, 4)}</span>
-            </li>
-            <li id="next" className="next" onClick={handleClick}>
-              &#10095;
-            </li>
-          </ul>
+          <ArrowBtn
+            id="prev"
+            className="prev"
+            onClick={handleClick}
+            style={{ textAlign: "center" }}
+          >
+            &#10094;
+          </ArrowBtn>
+        </Item>
+        <Item
+          range={[
+            [1, 4],
+            [1, 4],
+          ]}
+        >
+          {`${current.substr(0, 4)}.${current.substr(4, 2)}`}
+        </Item>
+        <Item
+          range={[
+            [1, 5],
+            [1, 5],
+          ]}
+        >
+          <ArrowBtn id="next" className="next" onClick={handleClick}>
+            &#10095;
+          </ArrowBtn>
         </Item>
         {/* weekdays */}
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => {
@@ -136,9 +153,9 @@ const Calendar = () => {
               <p
                 style={
                   day === "Sun"
-                    ? { color: "red" }
+                    ? { color: "#DC143C" }
                     : day === "Sat"
-                    ? { color: "blue" }
+                    ? { color: "#1E90FF" }
                     : {}
                 }
               >

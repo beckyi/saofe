@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 interface IconProps {
   name: string;
+  calbacks?: void;
 }
 
 interface Options {
@@ -60,12 +61,12 @@ const setOptions = (name: string): Options => {
   return { viewBox, width, height, d_path };
 };
 
-const SVGIcon: React.FC<IconProps> = ({ name }) => {
+const SVGIcon: React.FC<IconProps> = ({ name, calbacks }) => {
   const option = setOptions(name);
   const { viewBox, width, height, d_path } = option;
 
   return (
-    <IconArea name={name}>
+    <IconArea name={name} onClick={calbacks.onClick}>
       <svg
         x="0px"
         y="0px"
