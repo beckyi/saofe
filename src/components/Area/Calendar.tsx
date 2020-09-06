@@ -15,6 +15,7 @@ const CalMonth = styled.div`
 
 interface CDInterface {
   color?: string;
+  today?: boolean;
 }
 //monthInfo: Array<Array<number | string>>; (string | number)[][];
 interface calenInterface {
@@ -29,6 +30,7 @@ const CalDay = styled.div`
   padding: 10px;
   background: #f9f9f9;
   color: ${(props: CDInterface) => (props.color ? props.color : "#fff")};
+  ${(props: CDInterface) => (props.today ? "border: 3px solid #afd9ec;" : "")}
 `; // margin-right: 0.5%; margin-top: 0.5%;
 
 const ArrowBtn = styled.span`
