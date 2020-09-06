@@ -1,12 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
+// interface func {
+//   onClick: ()=> void;
+// }
+
 interface IconProps {
   name: string;
-  calbacks?: void;
 }
 
-interface Options {
+interface optionsIFC {
   viewBox: string;
   width: number;
   height: number;
@@ -19,7 +22,7 @@ const IconArea = styled.span`
     props.name === "setting" ? "float:right; margin: 10px; opacity: 0.7;" : ""}
 `;
 
-const setOptions = (name: string): Options => {
+const setOptions = (name: string): optionsIFC => {
   let viewBox = "",
     height = 0,
     width = 0,
@@ -61,13 +64,26 @@ const setOptions = (name: string): Options => {
   return { viewBox, width, height, d_path };
 };
 
-const SVGIcon: React.FC<IconProps> = ({ name, calbacks }) => {
+
+//(event: React.MouseEvent) => void
+interface Props {
+  id?: string;
+  name: string;
+  onClick: (event: React.MouseEvent) => void;
+}
+
+/** 
+// const SVGIcon:React.FC<Props> ({name, onClick}) => {
+// const SVGIcon = ({ name, onClick }: IconProps) => {
+*/
+const SVGIcon = ({ name, ...props }: Props) => {
   const option = setOptions(name);
   const { viewBox, width, height, d_path } = option;
-
+console.log(name,'na?')
   return (
-    <IconArea name={name} onClick={calbacks.onClick}>
+    <IconArea id={name} name={name} {...props}> 
       <svg
+        id={name}
         x="0px"
         y="0px"
         fill="#fff"

@@ -20,9 +20,10 @@ const Name = styled.em`
 
 type JenkinsProps = {
   name: string;
+  onClick: (event: React.MouseEvent) => void;
 };
 
-const Jenkins: React.FC<JenkinsProps> = ({ name }) => (
+const Jenkins: React.FC<JenkinsProps> = ({ name, ...props }) => (
   <header>
     <Logo
       // src={require("../img/jenkins.png")}
@@ -34,7 +35,7 @@ const Jenkins: React.FC<JenkinsProps> = ({ name }) => (
     <Hone>
       오늘의 젠킨스씨는 <Name>{name}</Name>입니다.
     </Hone>
-    <Icon name={"setting"} />
+    <Icon name={"setting"} {...props}/>
   </header>
 );
 

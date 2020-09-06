@@ -1,4 +1,4 @@
-import React from "react";
+import React, {MouseEvent} from "react";
 // import "../App.css";
 import axios from "axios";
 import styled from "styled-components";
@@ -55,23 +55,45 @@ export interface IAppState {
   modal_show: string;
 }
 
+// interface test {
+//   onClick: ()=> void;//Function;
+// }
+
 export default class App extends React.Component<IAppProps, IAppState> {
+
   constructor(props: IAppProps) {
     super(props);
-
     this.state = {
       modal_show: "",
     };
+
+    // this.onhandleClick = this.onhandleClick.bind(this);
   }
 
-  onClick = () => {};
+  componentDidMount(){
+    // window.addEventListener()
+  }
 
-  render() {
+//event: MouseEvent, React.MouseEventHandler<HTMLSpanElement>
+  onhandleClick = (event: React.MouseEvent):void => {
+    event.stopPropagation();  //stop bubbling and capturing
+    debugger
+    const currentTarget = event.currentTarget as HTMLElement;
+    console.log('CLICK!',event,event.target,event.currentTarget);
+    const modal_show = currentTarget.id === "calendar" ? "CALENDAR" : "";
+    
+    this.setState({modal_show});
+
+  };
+
+  render() {  //: JSX.Element {
     const { modal_show } = this.state;
-    // const {onClick} = calbacks;
+    // const calbacks:test = { 
+    //   onClick: this.onClick,
+    // };
 
     return (
-      <BaseGround>
+      <BaseGround id="SAOFE" onClick={this.onhandleClick}>
         <Container cols={["100%"]} rows={["50%", "500px", "50%"]}>
           <Item
             range={[
@@ -79,7 +101,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
               [1, 3],
             ]}
           >
-            <Jenkins name={"최재은"} />
+            <Jenkins name={"최재은"} onClick={this.onhandleClick}/>
           </Item>
           <Item
             range={[
@@ -111,7 +133,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
                         margin: "55px 25px",
                       }}
                     ></span>
-                    <Icon name={"inform"} />
+                    <Icon name={"inform"} onClick={this.onhandleClick} />
                   </EmptyElem>
                 </span>
               </div>
@@ -126,8 +148,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
           >
             <Temp>
               {modal_show && <Modal />}
-              <Icon name={"calendar"} calbacks={calbacks} />
-              <Icon name={"rice"} />
+              <Icon name={"calendar"} onClick={this.onhandleClick} />
+              <Icon name={"rice"} onClick={this.onhandleClick} />
             </Temp>
           </Item>
         </Container>
