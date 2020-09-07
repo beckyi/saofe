@@ -6,12 +6,33 @@ import { dayList } from "../../utils/utils";
 
 import { Container, Item } from "../Layout/Layout";
 
+const TODAY = new Date();
+
 const CalMonth = styled.div`
   width: 99%;
   height: 100%;
   box-sizing: border-box;
   padding: 0.5%;
 `;
+
+const CalDay = styled.div`
+  display: inline-block;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-size: 10px;
+  padding: 10px;
+  background: #f9f9f9;
+  color: ${(props: CDInterface) => (props.color ? props.color : "#fff")};
+  ${(props: CDInterface) => (props.today ? "outline: dashed 2px;" : "")}
+`; // margin-right: 0.5%; margin-top: 0.5%;
+
+const ArrowBtn = styled.span`
+  cursor: pointer;
+`;
+
+type Props = {
+  modal_show: string;
+};
 
 interface CDInterface {
   color?: string;
@@ -22,25 +43,8 @@ interface calenInterface {
   [key: number]: any;
 }
 
-const CalDay = styled.div`
-  display: inline-block;
-  box-sizing: border-box;
-  border-radius: 10px;
-  font-size: 10px;
-  padding: 10px;
-  background: #f9f9f9;
-  color: ${(props: CDInterface) => (props.color ? props.color : "#fff")};
-  ${(props: CDInterface) => (props.today ? "border: 3px solid #afd9ec;" : "")}
-`; // margin-right: 0.5%; margin-top: 0.5%;
-
-const ArrowBtn = styled.span`
-  cursor: pointer;
-`;
-
-const today = new Date();
-
 function getDate() {
-  return { month: today.getMonth().toString().padStart(2, "0") };
+  return { month: TODAY.getMonth().toString().padStart(2, "0") };
 }
 
 //달력 동적 생성
@@ -55,22 +59,26 @@ const setCalendar = (monthInfo: calenInterface) => {
     const y = (idx % 7) + 1;
     const item = monthInfo[idx - start_day];
     if (idx >= start_day && item) {
-      console.log(dayList, dayList[1]);
       const i = item[0];
       const day = dayList[i]; //한글 요일
+      const bool_current = item[1] === "#afd9ec";
       component.push(
         <Item
+          key={idx}
           range={[
             [x, y],
             [x, y],
           ]}
         >
-          <CalDay color={item[1]}>{idx + 1 - start_day}</CalDay>
+          <CalDay color={item[1]} today={bool_current}>
+            {idx + 1 - start_day}
+          </CalDay>
         </Item>
       );
     } else {
       component.push(
         <Item
+          key={idx}
           range={[
             [x, y],
             [x, y],
@@ -88,8 +96,8 @@ const setCalendar = (monthInfo: calenInterface) => {
 const cols = ["98px", "98px", "98px", "98px", "98px", "98px", "98px"];
 const rows = ["15px", "40px", "20%", "20%", "20%", "20%", "20%"];
 
-const Calendar = () => {
-  const [current, setCurrent] = useState(makeYMD(today));
+const Calendar = ({ modal_show }: Props) => {
+  const [current, setCurrent] = useState(makeYMD(TODAY));
   const monthInfo = getCalendar(current.substr(0, 6)); //2d Array
 
   // const handleClick = (): void => setCurrent("20201001");

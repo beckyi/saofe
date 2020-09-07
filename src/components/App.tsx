@@ -1,14 +1,15 @@
-import React, {MouseEvent} from "react";
-// import "../App.css";
+import React, { MouseEvent } from "react";
 import axios from "axios";
 import styled from "styled-components";
+
+import { Container, Item } from "./Layout/Layout";
 
 import Jenkins from "./Area/Jenkins";
 import Clock from "./Area/Clock";
 import Icon from "./Area/Icon";
 import Modal from "./Area/Modal";
 
-import { Container, Item } from "./Layout/Layout";
+import NAME from "../utils/Enum";
 
 const BaseGround = styled.div`
   height: 100%;
@@ -60,7 +61,6 @@ export interface IAppState {
 // }
 
 export default class App extends React.Component<IAppProps, IAppState> {
-
   constructor(props: IAppProps) {
     super(props);
     this.state = {
@@ -101,7 +101,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
               [1, 3],
             ]}
           >
-            <Jenkins name={"최재은"} onClick={this.onhandleClick}/>
+            <Jenkins name={"최재은"} onClick={this.onhandleClick} />
           </Item>
           <Item
             range={[
@@ -133,7 +133,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
                         margin: "55px 25px",
                       }}
                     ></span>
-                    <Icon name={"inform"} onClick={this.onhandleClick} />
+                    <Icon name={NAME.INFORM} onClick={this.onhandleClick} />
                   </EmptyElem>
                 </span>
               </div>
@@ -147,9 +147,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
             align={"end"}
           >
             <Temp>
-              {modal_show && <Modal />}
-              <Icon name={"calendar"} onClick={this.onhandleClick} />
-              <Icon name={"rice"} onClick={this.onhandleClick} />
+              {modal_show && (
+                <Modal modal_show={modal_show} onClick={this.onhandleClick} />
+              )}
+              <Icon name={NAME.CALENDAR} onClick={this.onhandleClick} />
+              <Icon name={NAME.RICE} onClick={this.onhandleClick} />
             </Temp>
           </Item>
         </Container>

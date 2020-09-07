@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import Calendar from "./Calendar";
 
+import NAME from "../../utils/Enum";
+
 const Dialog = styled.div`
   bottom: 55px;
   left: 7px;
@@ -31,11 +33,33 @@ const Dialog = styled.div`
 }
 `;
 
-const Modal = () => {
+const Dimm = styled.div`
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  zindex: 1100;
+  background: #000;
+  opacity: 0.3;
+  filter: alpha(opacity=30);
+`;
+
+interface Props {
+  modal_show: string;
+  onClick: (event: React.MouseEvent) => void;
+}
+
+const Modal = ({ modal_show, onClick }: Props) => {
   return (
-    <Dialog>
-      <Calendar />
-    </Dialog>
+    <>
+      <Dimm id="dimmed" onClick={onClick} />
+      <Dialog id="Modal">
+        {modal_show === NAME.CALENDAR}
+        <Calendar modal_show={modal_show} />
+      </Dialog>
+    </>
   );
 };
 

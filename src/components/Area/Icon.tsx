@@ -81,7 +81,7 @@ const SVGIcon = ({ name, ...props }: Props) => {
   const { viewBox, width, height, d_path } = option;
 console.log(name,'na?')
   return (
-    <IconArea id={name} name={name} {...props}> 
+    <IconArea name={name} {...props}> 
       <svg
         id={name}
         x="0px"
