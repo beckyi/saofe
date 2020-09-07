@@ -74,26 +74,28 @@ export default class App extends React.Component<IAppProps, IAppState> {
     // window.addEventListener()
   }
 
-//event: MouseEvent, React.MouseEventHandler<HTMLSpanElement>
-  onhandleClick = (event: React.MouseEvent):void => {
-    event.stopPropagation();  //stop bubbling and capturing
-    debugger
-    const currentTarget = event.currentTarget as HTMLElement;
-    console.log('CLICK!',event,event.target,event.currentTarget);
-    const modal_show = currentTarget.id === "calendar" ? "CALENDAR" : "";
-    
-    this.setState({modal_show});
+  //event: MouseEvent, React.MouseEventHandler<HTMLSpanElement>
+  onhandleClick = (event: MouseEvent): void => {
+    event.stopPropagation(); //stop bubbling and capturing
 
+    const target = event.target as HTMLElement;
+    const { id } = target;
+    const { CALENDAR, RICE } = NAME;
+    const array: string[] = [CALENDAR, RICE];
+    const modal_show = array.includes(id) ? id : "";
+
+    this.setState({ modal_show });
   };
 
-  render() {  //: JSX.Element {
+  render() {
+    //: JSX.Element {
     const { modal_show } = this.state;
-    // const calbacks:test = { 
+    // const calbacks:test = {
     //   onClick: this.onClick,
     // };
 
     return (
-      <BaseGround id="SAOFE" onClick={this.onhandleClick}>
+      <BaseGround id="SAOFE">
         <Container cols={["100%"]} rows={["50%", "500px", "50%"]}>
           <Item
             range={[

@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Icon from "./Icon";
+import NAME from "../../utils/Enum";
 
 const Logo = styled.img`
   display: inline-block;
@@ -35,7 +36,7 @@ const Jenkins: React.FC<JenkinsProps> = ({ name, ...props }) => (
     <Hone>
       오늘의 젠킨스씨는 <Name>{name}</Name>입니다.
     </Hone>
-    <Icon name={"setting"} {...props}/>
+    <Icon name={NAME.SETTING} {...props} />
   </header>
 );
 

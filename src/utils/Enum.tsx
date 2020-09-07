@@ -1,6 +1,7 @@
 enum NAME {
-  CALENDAR = "CALENDAR",
   INFORM = "INFORM",
+  SETTING = "SETTING",
+  CALENDAR = "CALENDAR",
   RICE = "RICE",
 }
 

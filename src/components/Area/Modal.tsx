@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import Calendar from "./Calendar";
-
 import NAME from "../../utils/Enum";
+import Calendar from "./Calendar";
+import Menu from "./Menu";
 
 const Dialog = styled.div`
   bottom: 55px;
@@ -56,8 +56,8 @@ const Modal = ({ modal_show, onClick }: Props) => {
     <>
       <Dimm id="dimmed" onClick={onClick} />
       <Dialog id="Modal">
-        {modal_show === NAME.CALENDAR}
-        <Calendar modal_show={modal_show} />
+        {modal_show === NAME.CALENDAR && <Calendar modal_show={modal_show} />}
+        {modal_show === NAME.RICE && <Menu />}
       </Dialog>
     </>
   );

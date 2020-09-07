@@ -100,8 +100,6 @@ const Calendar = ({ modal_show }: Props) => {
   const [current, setCurrent] = useState(makeYMD(TODAY));
   const monthInfo = getCalendar(current.substr(0, 6)); //2d Array
 
-  // const handleClick = (): void => setCurrent("20201001");
-
   const handleClick = (event: MouseEvent): void => {
     const toDate = new Date(makeDateSlash(current));
     const target = event.target as HTMLTextAreaElement;
