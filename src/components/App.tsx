@@ -2,7 +2,7 @@ import React, { MouseEvent } from "react";
 import axios from "axios";
 import styled from "styled-components";
 
-import { Container, Item } from "./Layout/Layout";
+import { Container, Item, FxContainer, FxItem } from "./Layout";
 
 import Jenkins from "./Area/Jenkins";
 import Clock from "./Area/Clock";
@@ -24,6 +24,26 @@ const BaseGround = styled.div`
   background-size: cover; /*크기 비율을 유지한 상태에서 부모 요소의 width, height 중 큰값에 배경이미지를 맞춘다*/
   background-position: center;
   background-repeat: no-repeat;
+`;
+
+/**
+ * display: inline-block;
+    width: 105px;
+    position: absolute;
+    z-index: 0;
+    padding: 5px 10px 6px 35px;
+    margin-left: -7px;
+    bottom: 2px;
+    background-color: rgba(0,0,0,0.3);
+ */
+const SubFunc = styled.div`
+  display: inline-block;
+  width: 100px;
+  position: absolute;
+  padding: 5px 10px;
+  margin-left: 27px;
+  bottom: 3px;
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 
 const Temp = styled.span`
@@ -54,6 +74,7 @@ export interface IAppProps {}
 
 export interface IAppState {
   modal_show: string;
+  subFunc_show: boolean;
 }
 
 // interface test {
@@ -65,13 +86,19 @@ export default class App extends React.Component<IAppProps, IAppState> {
     super(props);
     this.state = {
       modal_show: "",
+      subFunc_show: false,
     };
 
     // this.onhandleClick = this.onhandleClick.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // window.addEventListener()
+    window.onload = function () {
+      if (window.Notification) {
+        Notification.requestPermission();
+      }
+    };
   }
 
   //event: MouseEvent, React.MouseEventHandler<HTMLSpanElement>
@@ -87,74 +114,81 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.setState({ modal_show });
   };
 
+  handleMouseHover = (event: MouseEvent): void => {
+    event.stopPropagation(); //stop bubbling and capturing
+
+    this.setState({ subFunc_show: !this.state.subFunc_show });
+  };
+
   render() {
     //: JSX.Element {
-    const { modal_show } = this.state;
+    const { modal_show, subFunc_show } = this.state;
     // const calbacks:test = {
     //   onClick: this.onClick,
     // };
 
     return (
       <BaseGround id="SAOFE">
-        <Container cols={["100%"]} rows={["50%", "500px", "50%"]}>
+        <Container cols={["100%"]} rows={["100px", "100%", "100px"]}>
           <Item
             range={[
               [1, 1],
-              [1, 3],
+              [1, 1],
             ]}
           >
-            <Jenkins name={"최재은"} onClick={this.onhandleClick} />
+            <Jenkins name={"최재은"} />
           </Item>
           <Item
             range={[
               [2, 1],
-              [2, 3],
+              [2, 1],
             ]}
             align={"center"}
           >
-            <div className="App">
-              <div
-                style={{
-                  flex: "1 1 50%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  textAlign: "center",
-                }}
-              ></div>
-              <div style={{ display: "block" }}>
-                <span style={{ display: "flex" }}>
-                  <EmptyElem />
-                  <span>
-                    <Clock />
-                  </span>
-                  <EmptyElem>
-                    <span
-                      style={{
-                        textAlign: "center",
-                        margin: "55px 25px",
-                      }}
-                    ></span>
-                    <Icon name={NAME.INFORM} onClick={this.onhandleClick} />
-                  </EmptyElem>
-                </span>
-              </div>
-            </div>
+            <FxContainer>
+              <FxItem flex={"1 0 50px"} alignSelf={"center"} />
+              <FxItem flex={"1 0 50px"} alignSelf={"center"}>
+                <Clock />
+              </FxItem>
+              <FxItem flex={"1 0 50px"} alignSelf={"center"}>
+                <span
+                  style={{
+                    textAlign: "center",
+                    margin: "55px 25px",
+                  }}
+                ></span>
+                <Icon name={NAME.INFORM} onClick={this.onhandleClick} />
+              </FxItem>
+            </FxContainer>
           </Item>
           <Item
             range={[
               [3, 1],
-              [3, 3],
+              [3, 1],
             ]}
             align={"end"}
+            extraStyle={"margin: 10px 10px 10px 12px;"}
           >
-            <Temp>
-              {modal_show && (
-                <Modal modal_show={modal_show} onClick={this.onhandleClick} />
-              )}
-              <Icon name={NAME.CALENDAR} onClick={this.onhandleClick} />
-              <Icon name={NAME.RICE} onClick={this.onhandleClick} />
-            </Temp>
+            <Icon
+              name={NAME.SETTING}
+              onClick={this.onhandleClick}
+              onMouseOver={this.handleMouseHover}
+            />
+            {modal_show && (
+              <Modal modal_show={modal_show} onClick={this.onhandleClick} />
+            )}
+            {subFunc_show && (
+              <SubFunc>
+                <FxContainer jContent={"space-around"}>
+                  <FxItem flex={"0 1 auto"}>
+                    <Icon name={NAME.CALENDAR} onClick={this.onhandleClick} />
+                  </FxItem>
+                  <FxItem flex={"0 1 auto"}>
+                    <Icon name={NAME.RICE} onClick={this.onhandleClick} />
+                  </FxItem>
+                </FxContainer>
+              </SubFunc>
+            )}
           </Item>
         </Container>
       </BaseGround>
