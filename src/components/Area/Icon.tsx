@@ -1,11 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
 import NAME from "../../utils/Enum";
-
-// interface func {
-//   onClick: ()=> void;
-// }
 
 interface IconProps {
   name: string;
@@ -18,7 +13,8 @@ interface optionsIFC {
   d_path?: string;
 }
 
-const IconArea = styled.span`
+const IconArea = styled.div`
+  display: inline-block;
   cursor: pointer;
   ${(props: IconProps) =>
     props.name === "setting" ? "float:right; margin: 10px; opacity: 0.7;" : ""}
@@ -66,11 +62,12 @@ const setOptions = (name: string): optionsIFC => {
   return { viewBox, width, height, d_path };
 };
 
-//(event: React.MouseEvent) => void
+//(event: React.MouseEvent) => void, ()=> void;
 interface Props {
   id?: string;
   name: string;
-  onClick: (event: React.MouseEvent) => void;
+  onClick?: (event: React.MouseEvent) => void;
+  onMouseOver?: (event: React.MouseEvent) => void;
 }
 
 /** 

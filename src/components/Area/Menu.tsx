@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
-import { Container, Item } from "../Layout/Layout";
+import { Container, Item } from "../Layout/Grid";
 
 const MenuBase = styled.div`
   width: 100%;
