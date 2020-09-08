@@ -2,7 +2,6 @@
 function getLastdate(pDate: Date) {
   let arrLast;
   const pMonIdx = pDate.getMonth();
-
   const leapYear = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const notLeapYear = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
@@ -59,6 +58,7 @@ function getFixHoliday(pYear: string) {
 
 //달력 정보 가져오기
 export const getCalendar = (yyyymm: string) => {
+  const current = makeDateSlash(makeYMD(new Date()));
   const fixHolidays = getFixHoliday(yyyymm.substr(0, 4)); //year
   let result = [];
   let model = yyyymm + "01";
@@ -75,6 +75,7 @@ export const getCalendar = (yyyymm: string) => {
     const today = toMonth.getDay();
     // 0("일") ~  6 ("토")
     const color =
+      current === ymdSlash ? "#afd9ec":
       fixHolidays.includes(model) || today === 0
         ? "#DC143C"
         : today === 6

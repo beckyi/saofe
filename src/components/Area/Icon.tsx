@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
-// interface func {
-//   onClick: ()=> void;
-// }
+import NAME from "../../utils/Enum";
 
 interface IconProps {
   name: string;
@@ -16,7 +13,8 @@ interface optionsIFC {
   d_path?: string;
 }
 
-const IconArea = styled.span`
+const IconArea = styled.div`
+  display: inline-block;
   cursor: pointer;
   ${(props: IconProps) =>
     props.name === "setting" ? "float:right; margin: 10px; opacity: 0.7;" : ""}
@@ -29,28 +27,28 @@ const setOptions = (name: string): optionsIFC => {
     d_path = "";
 
   switch (name) {
-    case "inform":
+    case NAME.INFORM:
       viewBox = "0 0 60 60";
       height = 22;
       width = 22;
       d_path =
         "M8 22c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8zM52 22c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8zM30 22c-4.411 0-8 3.589-8 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8z";
       break;
-    case "setting":
+    case NAME.SETTING:
       viewBox = "0 0 340.274 340.274";
       width = 18;
       height = 18;
       d_path =
         "M293.629 127.806l-5.795-13.739c19.846-44.856 18.53-46.189 14.676-50.08l-25.353-24.77-2.516-2.12h-2.937c-1.549 0-6.173 0-44.712 17.48l-14.184-5.719c-18.332-45.444-20.212-45.444-25.58-45.444h-35.765c-5.362 0-7.446-.006-24.448 45.606l-14.123 5.734C86.848 43.757 71.574 38.19 67.452 38.19l-3.381.105-27.27 26.737c-4.138 3.891-5.582 5.263 15.402 49.425l-5.774 13.691C0 146.097 0 147.838 0 153.33v35.068c0 5.501 0 7.44 46.585 24.127l5.773 13.667c-19.843 44.832-18.51 46.178-14.655 50.032l25.353 24.8 2.522 2.168h2.951c1.525 0 6.092 0 44.685-17.516l14.159 5.758c18.335 45.438 20.218 45.427 25.598 45.427h35.771c5.47 0 7.41 0 24.463-45.589l14.195-5.74c26.014 11 41.253 16.585 45.349 16.585l3.404-.096 27.479-26.901c3.909-3.945 5.278-5.309-15.589-49.288l5.734-13.702c46.496-17.967 46.496-19.853 46.496-25.221V151.88c-.005-5.519-.005-7.446-46.644-24.074zM170.128 228.474c-32.798 0-59.504-26.187-59.504-58.364 0-32.153 26.707-58.315 59.504-58.315 32.78 0 59.43 26.168 59.43 58.315-.006 32.177-26.656 58.364-59.43 58.364z";
       break;
-    case "calendar":
+    case NAME.CALENDAR:
       viewBox = "0 0 512 512";
       width = 30;
       height = 30;
       d_path =
         "m446 40h-46v-24c0-8.836-7.163-16-16-16s-16 7.164-16 16v24h-224v-24c0-8.836-7.163-16-16-16s-16 7.164-16 16v24h-46c-36.393 0-66 29.607-66 66v340c0 36.393 29.607 66 66 66h380c36.393 0 66-29.607 66-66v-340c0-36.393-29.607-66-66-66zm-380 32h46v16c0 8.836 7.163 16 16 16s16-7.164 16-16v-16h224v16c0 8.836 7.163 16 16 16s16-7.164 16-16v-16h46c18.748 0 34 15.252 34 34v38h-448v-38c0-18.748 15.252-34 34-34zm380 408h-380c-18.748 0-34-15.252-34-34v-270h448v270c0 18.748-15.252 34-34 34z";
       break;
-    case "rice":
+    case NAME.RICE:
       viewBox = "0 0 512 512";
       width = 30;
       height = 30;
@@ -64,12 +62,12 @@ const setOptions = (name: string): optionsIFC => {
   return { viewBox, width, height, d_path };
 };
 
-
-//(event: React.MouseEvent) => void
+//(event: React.MouseEvent) => void, ()=> void;
 interface Props {
   id?: string;
   name: string;
-  onClick: (event: React.MouseEvent) => void;
+  onClick?: (event: React.MouseEvent) => void;
+  onMouseOver?: (event: React.MouseEvent) => void;
 }
 
 /** 
@@ -79,9 +77,9 @@ interface Props {
 const SVGIcon = ({ name, ...props }: Props) => {
   const option = setOptions(name);
   const { viewBox, width, height, d_path } = option;
-console.log(name,'na?')
+  console.log(name, "na?");
   return (
-    <IconArea id={name} name={name} {...props}> 
+    <IconArea name={name} {...props}>
       <svg
         id={name}
         x="0px"
@@ -95,7 +93,7 @@ console.log(name,'na?')
         <g>
           <path d={d_path} />
         </g>
-        {name === "rice" && (
+        {name === NAME.RICE && (
           <g>
             <g>
               <circle cx="317" cy="135" r="15" />

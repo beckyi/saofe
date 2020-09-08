@@ -3,11 +3,12 @@ import styled from "styled-components";
 
 interface MainBoxProps {
   children: React.ReactNode;
-  width?: string;
-  height?: string;
   cols: Array<string | number>;
   rows: Array<string>;
+  width?: string;
+  height?: string;
   gap?: string | number;
+  extraStyle?: string;
 }
 //string[]
 
@@ -15,6 +16,7 @@ type BoxProps = {
   children: React.ReactNode;
   range: number[][];
   align?: string;
+  extraStyle?: string;
 };
 
 interface mainStyles {
@@ -23,11 +25,7 @@ interface mainStyles {
   width?: string;
   height?: string;
   gap?: string | number;
-}
-
-interface boxStyles {
-  range: number[][];
-  align?: string;
+  extraStyle?: string;
 }
 
 //position: absolute;
@@ -41,15 +39,17 @@ const MainBox = styled.div`
   -ms-grid-columns: ${(props: mainStyles) => props.cols};
   ${(props: mainStyles) =>
     props.gap !== undefined ? `gap: ${props.gap};` : ""}
+  ${(props: mainStyles) => props.extraStyle || ""}
 `;
 
 const Box = styled.div`
   display: grid;
-  align-self: ${(props: boxStyles) => (props.align ? props.align : "stretch")};
-  grid-row: ${(props: boxStyles) => props.range[0][0]} / span
-    ${(props: boxStyles) => props.range[1][0] - props.range[0][0] + 1};
-  grid-column: ${(props: boxStyles) => props.range[0][1]} / span
-    ${(props: boxStyles) => props.range[1][1] - props.range[0][1] + 1};
+  align-self: ${(props: BoxProps) => (props.align ? props.align : "stretch")};
+  grid-row: ${(props: BoxProps) => props.range[0][0]} / span
+    ${(props: BoxProps) => props.range[1][0] - props.range[0][0] + 1};
+  grid-column: ${(props: BoxProps) => props.range[0][1]} / span
+    ${(props: BoxProps) => props.range[1][1] - props.range[0][1] + 1};
+  ${(props: BoxProps) => props.extraStyle || ""}
 `;
 
 const setGridTemplate = (pArr: Array<string | number>) => {
