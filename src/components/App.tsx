@@ -77,10 +77,6 @@ export interface IAppState {
   subFunc_show: boolean;
 }
 
-// interface test {
-//   onClick: ()=> void;//Function;
-// }
-
 export default class App extends React.Component<IAppProps, IAppState> {
   constructor(props: IAppProps) {
     super(props);
@@ -123,9 +119,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
   render() {
     //: JSX.Element {
     const { modal_show, subFunc_show } = this.state;
-    // const calbacks:test = {
-    //   onClick: this.onClick,
-    // };
 
     return (
       <BaseGround id="SAOFE">
