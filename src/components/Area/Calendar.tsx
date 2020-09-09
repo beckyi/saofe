@@ -1,10 +1,12 @@
 import React, { useState, MouseEvent } from "react";
 import styled from "styled-components";
-import { getCalendar, makeDateSlash, makeYMD } from "../../utils/utils";
-
-import { dayList } from "../../utils/utils";
-
 import { Container, Item } from "../Layout/Grid";
+import {
+  dayList,
+  getCalendar,
+  makeDateSlash,
+  makeYMD,
+} from "../../utils/utils";
 
 const TODAY = new Date();
 
@@ -41,10 +43,6 @@ interface CDInterface {
 //monthInfo: Array<Array<number | string>>; (string | number)[][];
 interface calenInterface {
   [key: number]: any;
-}
-
-function getDate() {
-  return { month: TODAY.getMonth().toString().padStart(2, "0") };
 }
 
 //달력 동적 생성
