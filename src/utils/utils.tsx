@@ -47,7 +47,7 @@ export const diffDays = (pDate1: Date, pDate2: Date) => {
    * 밀리세컨드 단위로 변환되어
    * 1000(초) / 60(분) / 60(시간) / 24(일) 나누어 일수로 계산
    */
-  return (pDate2.getTime() - pDate1.getTime()) / 1000 / 60 / 60 / 24;
+  return (pDate2.getTime() - pDate1.getTime()) / (1000 / 60 / 60 / 24);
 };
 //요일 정보
 export const dayList = ["일", "월", "화", "수", "목", "금", "토"];
