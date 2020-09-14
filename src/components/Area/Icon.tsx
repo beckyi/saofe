@@ -4,6 +4,8 @@ import NAME from "../../utils/Enum";
 
 interface IconProps {
   name: string;
+  width?: string;
+  height?: string;
 }
 
 interface optionsIFC {
@@ -66,6 +68,8 @@ const setOptions = (name: string): optionsIFC => {
 interface Props {
   id?: string;
   name: string;
+  width?: string;
+  height?: string;
   onClick?: (event: React.MouseEvent) => void;
   onMouseOver?: (event: React.MouseEvent) => void;
 }

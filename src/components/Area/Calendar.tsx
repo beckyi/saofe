@@ -1,10 +1,25 @@
 import React, { useState, MouseEvent } from "react";
 import styled from "styled-components";
-import { getCalendar, makeDateSlash, makeYMD } from "../../utils/utils";
-
-import { dayList } from "../../utils/utils";
-
 import { Container, Item } from "../Layout/Grid";
+import {
+  dayList,
+  getCalendar,
+  makeDateSlash,
+  makeYMD,
+} from "../../utils/utils";
+
+type Props = {
+  modal_show: string;
+};
+
+interface CDInterface {
+  color?: string;
+  today?: boolean;
+}
+//monthInfo: Array<Array<number | string>>; (string | number)[][];
+interface calenInterface {
+  [key: number]: any;
+}
 
 const TODAY = new Date();
 
@@ -30,23 +45,6 @@ const ArrowBtn = styled.span`
   cursor: pointer;
 `;
 
-type Props = {
-  modal_show: string;
-};
-
-interface CDInterface {
-  color?: string;
-  today?: boolean;
-}
-//monthInfo: Array<Array<number | string>>; (string | number)[][];
-interface calenInterface {
-  [key: number]: any;
-}
-
-function getDate() {
-  return { month: TODAY.getMonth().toString().padStart(2, "0") };
-}
-
 //달력 동적 생성
 const setCalendar = (monthInfo: calenInterface) => {
   let component = [];
@@ -64,7 +62,7 @@ const setCalendar = (monthInfo: calenInterface) => {
       const bool_current = item[1] === "#afd9ec";
       component.push(
         <Item
-          key={idx}
+          key={`IC${idx}`}
           range={[
             [x, y],
             [x, y],
@@ -153,6 +151,7 @@ const Calendar = ({ modal_show }: Props) => {
         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => {
           return (
             <Item
+              key={`IP${idx}`}
               range={[
                 [2, idx + 1],
                 [2, idx + 1],
@@ -180,18 +179,3 @@ const Calendar = ({ modal_show }: Props) => {
 };
 
 export default Calendar;
-{
-  /* <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
-        <li>6</li>
-        <li>7</li>
-        <li>8</li>
-        <li>9</li>
-        <li>
-          <span className="active">10</span>
-        </li>
-        <li>11</li> */
-}

@@ -9,9 +9,9 @@ const Dialog = styled.div`
   bottom: 55px;
   left: 7px;
 
---sidebar-width: 180px;
+  --sidebar-width: 180px;
     height: 450px;
-    width: 700px;
+    width: 713px;
     max-width: none;
     padding: 0;
     z-index: 1;

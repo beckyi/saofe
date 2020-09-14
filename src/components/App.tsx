@@ -46,9 +46,13 @@ const SubFunc = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 `;
 
-const Temp = styled.span`
-  transition: transform var(--a-fast) linear;
-  margin: 0px 10px 10px;
+const Point = styled.span`
+  display: inline-block;
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  margin: 6px;
+  cursor: pointer;
 `;
 
 const EmptyElem = styled.span`
@@ -103,8 +107,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
     const target = event.target as HTMLElement;
     const { id } = target;
-    const { CALENDAR, RICE } = NAME;
-    const array: string[] = [CALENDAR, RICE];
+    const { CALENDAR, RICE, SETTING } = NAME;
+    const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(id) ? id : "";
 
     this.setState({ modal_show });
@@ -162,11 +166,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
             align={"end"}
             extraStyle={"margin: 10px 10px 10px 12px;"}
           >
-            <Icon
-              name={NAME.SETTING}
-              onClick={this.onhandleClick}
-              onMouseOver={this.handleMouseHover}
-            />
+            <Point onMouseOver={this.handleMouseHover} />
+            <Icon name={NAME.SETTING} width={"20px"} />
             {modal_show && (
               <Modal modal_show={modal_show} onClick={this.onhandleClick} />
             )}
