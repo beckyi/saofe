@@ -105,3 +105,52 @@ export const getCalendar = (yyyymm: string) => {
 
   return result;
 };
+
+//FIXME : https://stackoverflow.com/questions/53603770/how-to-properly-use-fromcharcode-apply-with-uint8array-in-typescript-3
+export const fixdata = (data: ArrayBuffer) => {
+  let binary: string = "",
+    l = 0,
+    w = 10240;
+  for (let l = 0; l < data.byteLength / w; ++l) {
+    const result: ArrayBuffer = data.slice(l * w, l * w + w);
+    const temp = new Uint8Array(result);
+
+    temp.forEach((byte: number): void => {
+      binary += String.fromCharCode(byte);
+    });
+    // binary += String.fromCharCode.apply(null, temp as Array<Number>);
+  }
+  const result2: ArrayBuffer = data.slice(l * w);
+  const temp2 = new Uint8Array(result2);
+
+  temp2.forEach((byte: number): void => {
+    binary += String.fromCharCode(byte);
+  });
+  // binary += String.fromCharCode.apply(null, new Uint8Array(result2 as Array));
+  return binary;
+};
+
+//FIXME : https://stackoverrun.com/ko/q/10264681
+function ArrayBufferToString(buffer: Buffer) {
+  return BinaryToString(
+    String.fromCharCode.apply(
+      null,
+      Array.prototype.slice.apply(new Uint8Array(buffer))
+    )
+  );
+}
+
+function BinaryToString(binary: string) {
+  var error;
+
+  try {
+    return decodeURIComponent(escape(binary));
+  } catch (_error) {
+    error = _error;
+    if (error instanceof URIError) {
+      return binary;
+    } else {
+      throw error;
+    }
+  }
+}
