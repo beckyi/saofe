@@ -130,6 +130,7 @@ export const fixdata = (data: ArrayBuffer) => {
   return binary;
 };
 
+//FIXME : https://stackoverrun.com/ko/q/10264681
 function ArrayBufferToString(buffer: Buffer) {
   return BinaryToString(
     String.fromCharCode.apply(

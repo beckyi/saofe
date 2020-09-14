@@ -12,7 +12,7 @@ const onExcelLoad = (event: ProgressEvent<FileReader>) => {
   const XLSX = require("xlsx");
   const target = event.target as FileReader;
 
-  //FIXME : https://github.com/SheetJS/sheetjs/issues/337 , https://stackoverrun.com/ko/q/10264681
+  //FIXME : https://github.com/SheetJS/sheetjs/issues/337
   //FIXME : btoa : https://pro-self-studier.tistory.com/106
   // const workbook = XLSX.read(btoa(fixdata(result)), {type: "base64",cellStyles: true,raw: true,cellDates: true,cellNF: true,dateNF: "yyyy-MM-dd hh:mm:ss",});
 
