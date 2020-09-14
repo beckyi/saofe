@@ -1,6 +1,7 @@
-import * as React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Container, Item } from "../Layout/Grid";
+import { UploadXlsx } from "../../utils/UploadXlsx";
 
 const MenuBase = styled.div`
   width: 100%;
@@ -36,6 +37,8 @@ const DayNav = styled.div`
 const MB = styled.div`
   margin-top: 1px;
   color: ${(props: { bool: boolean }) => (props.bool ? "red" : "blue")};
+  cursor: ${(props: { bool: boolean }) =>
+    props.bool ? "pointer" : "not-allowed"};
 `;
 
 const Content = styled.div`
@@ -74,8 +77,11 @@ const makeMenuList = () => {
 const Menu: React.FunctionComponent<IMenuProps> = (props) => {
   const menuList = window.localStorage.getItem("D-Menu");
   const menuBool = menuList === null;
+  const [excel_show, setExcelShow] = useState(false);
 
-  const handleOnClick = (): void => {};
+  const handleOnClick = (): void => {
+    setExcelShow(true);
+  };
   console.log(menuList);
   return (
     <MenuBase>
@@ -138,6 +144,8 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
         })}
         {makeMenuList()}
       </Container>
+      {/* 엑셀업로드 */}
+      {excel_show && <UploadXlsx />}
     </MenuBase>
   );
 };
