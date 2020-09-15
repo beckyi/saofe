@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { Container, Item } from "../Layout/Grid";
 import { UploadXlsx } from "../../utils/UploadXlsx";
@@ -36,7 +36,7 @@ const DayNav = styled.div`
 
 const MB = styled.div`
   margin-top: 1px;
-  color: ${(props: { bool: boolean }) => (props.bool ? "red" : "blue")};
+  color: ${(props: { bool: boolean }) => (props.bool ? "blue" : "red")};
   cursor: ${(props: { bool: boolean }) =>
     props.bool ? "pointer" : "not-allowed"};
 `;
@@ -75,18 +75,35 @@ const makeMenuList = () => {
 };
 
 const Menu: React.FunctionComponent<IMenuProps> = (props) => {
-  const menuList = window.localStorage.getItem("D-Menu");
-  const menuBool = menuList === null;
+  const DMenu = window.localStorage.getItem("D-Menu");
+  const [menuList, setMenuList] = useState(DMenu ? DMenu : []);
   const [excel_show, setExcelShow] = useState(false);
+  const xlsx = useRef<Element>(null);
+  const menuBool = menuList.length > 0;
+
+  useEffect(() => {
+    //동기
+    console.log("useEffect", menuList, excel_show);
+  });
 
   const handleOnClick = (): void => {
+    // if (menuList.length === 0) {
+    // 엑셀 파일 업로드 시작!
     setExcelShow(true);
+    // }
   };
-  const handleOnClose = (param?: [][]): void => {
+
+  const handleOnClose = (param?: any): void => {
+    // 엑셀 파일 업로드 끝!
     setExcelShow(false);
 
-    if (param) {
+    if (param && param.length > 0) {
       console.log(param);
+      const list = param.map((oneDay: []) => {
+        //[date, day, ...menus]
+        return oneDay.slice(0, 2).concat(oneDay.slice(4));
+      });
+      setMenuList(list);
     }
   };
   console.log(menuList);
@@ -152,7 +169,7 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
         {makeMenuList()}
       </Container>
       {/* 엑셀업로드 */}
-      {excel_show && <UploadXlsx onExcelClose={handleOnClose} />}
+      {excel_show && <UploadXlsx ref={xlsx} onExcelClose={handleOnClose} />}
     </MenuBase>
   );
 };

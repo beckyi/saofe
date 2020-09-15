@@ -1,14 +1,9 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useLayoutEffect,
-  ChangeEvent,
-} from "react";
+import React, { useState, useRef, useLayoutEffect, ChangeEvent } from "react";
 
 import { fixdata } from "../utils/utils";
 
 const onExcelLoad = (_onExcelClose: any, event: ProgressEvent<FileReader>) => {
+  console.log(event);
   const XLSX = require("xlsx");
   const target = event.target as FileReader;
 
@@ -72,21 +67,24 @@ const readExcel = (file: Blob, _onExcelClose: any) => {
 };
 
 interface Props {
+  [key: string]: Element;
   onExcelClose: any;
 }
 
 export const UploadXlsx = ({ onExcelClose }: Props) => {
   const xlsxInput = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState({});
-
+  console.log(onExcelClose);
   useLayoutEffect(() => {
     //비동기 (Rendering 직후 Dom Element 값을 읽는 경우)
+    console.log("useLayoutEffect", Object.keys(file), file, xlsxInput);
     //파일 값이 없을 경우 업로드
     if (file.constructor.name !== "File" && xlsxInput.current !== null) {
       let bool = window.confirm(
         "메뉴 엑셀 파일 있으신가요? 다운받으러 가실까요?"
       );
       if (bool) {
+        onExcelClose(); //init
         //확인 클릭 시 페이지 띄우기 (편의)
         window.open(
           "https://www.ilovepdf.com/ko/pdf_to_excel",
@@ -104,13 +102,11 @@ export const UploadXlsx = ({ onExcelClose }: Props) => {
     }
   });
 
-  useEffect(() => {
-    //동기
-  });
-
   const handleSelectFile = (event: ChangeEvent<HTMLInputElement>): void => {
+    debugger;
     const target = event.target as HTMLInputElement;
     const files = target.files as FileList; //유사배열
+
     setFile(files[0]);
     readExcel(files[0], onExcelClose);
   };
