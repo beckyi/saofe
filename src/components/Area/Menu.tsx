@@ -82,6 +82,13 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
   const handleOnClick = (): void => {
     setExcelShow(true);
   };
+  const handleOnClose = (param?: [][]): void => {
+    setExcelShow(false);
+
+    if (param) {
+      console.log(param);
+    }
+  };
   console.log(menuList);
   return (
     <MenuBase>
@@ -145,7 +152,7 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
         {makeMenuList()}
       </Container>
       {/* 엑셀업로드 */}
-      {excel_show && <UploadXlsx />}
+      {excel_show && <UploadXlsx onExcelClose={handleOnClose} />}
     </MenuBase>
   );
 };
