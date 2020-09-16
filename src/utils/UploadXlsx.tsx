@@ -1,4 +1,10 @@
-import React, { useState, useRef, useLayoutEffect, ChangeEvent } from "react";
+import React, {
+  useState,
+  forwardRef,
+  useLayoutEffect,
+  ChangeEvent,
+  Ref,
+} from "react";
 
 import { fixdata } from "../utils/utils";
 
@@ -67,57 +73,81 @@ const readExcel = (file: Blob, _onExcelClose: any) => {
 };
 
 interface Props {
-  [key: string]: Element;
+  // [key: string]: Element;
+  // ref: React.RefObject<HTMLInputElement>;
   onExcelClose: any;
 }
 
-export const UploadXlsx = ({ onExcelClose }: Props) => {
-  const xlsxInput = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState({});
-  console.log(onExcelClose);
-  useLayoutEffect(() => {
-    //비동기 (Rendering 직후 Dom Element 값을 읽는 경우)
-    console.log("useLayoutEffect", Object.keys(file), file, xlsxInput);
-    //파일 값이 없을 경우 업로드
-    if (file.constructor.name !== "File" && xlsxInput.current !== null) {
-      let bool = window.confirm(
-        "메뉴 엑셀 파일 있으신가요? 다운받으러 가실까요?"
-      );
-      if (bool) {
-        onExcelClose(); //init
-        //확인 클릭 시 페이지 띄우기 (편의)
-        window.open(
-          "https://www.ilovepdf.com/ko/pdf_to_excel",
-          "_blank",
-          "scrollbars=yes,resizable=yes,top=500,left=0,width=500,height=400"
+interface FileProps {
+  // ref: React.RefObject<HTMLInputElement>;
+  onExcelClose: any;
+  handleSelectFile?: any;
+}
+
+// const FileInput = React.forwardRef<HTMLInputElement, FileProps>(
+//   (props: { handleSelectFile: any }, ref) => (
+//     <input
+//       ref={ref}
+//       type="file"
+//       accept=".xls, .xlsx"
+//       onChange={props.handleSelectFile}
+//       style={{ width: 0, display: "none" }}
+//     />
+//   )
+// );
+//forwardRef((props: {name: string}, ref: Ref<RefObject>)=> { ,
+export const UploadXlsx = forwardRef<HTMLInputElement, FileProps>(
+  ({ onExcelClose }: FileProps, ref) => {
+    console.log(ref, "!!!!!!!");
+
+    const xlsxInput = ref as React.RefObject<HTMLInputElement>;
+    const [file, setFile] = useState({});
+
+    useLayoutEffect(() => {
+      //비동기 (Rendering 직후 Dom Element 값을 읽는 경우)
+      console.log("useLayoutEffect", Object.keys(file), file, xlsxInput);
+
+      //파일 값이 없을 경우 업로드
+      if (file.constructor.name !== "File" && xlsxInput.current !== null) {
+        let bool = window.confirm(
+          "메뉴 엑셀 파일 있으신가요? 다운받으러 가실까요?"
         );
-        window.open(
-          "https://gwa.douzone.com/gw/uat/uia/egovLoginUsr.do",
-          "_blank",
-          "scrollbars=yes,resizable=yes,top=500,left=500,width=700,height=400"
-        );
-      } else {
-        xlsxInput.current.click();
+        if (bool) {
+          onExcelClose(); //init
+          //확인 클릭 시 페이지 띄우기 (편의)
+          window.open(
+            "https://www.ilovepdf.com/ko/pdf_to_excel",
+            "_blank",
+            "scrollbars=yes,resizable=yes,top=500,left=0,width=500,height=400"
+          );
+          window.open(
+            "https://gwa.douzone.com/gw/uat/uia/egovLoginUsr.do",
+            "_blank",
+            "scrollbars=yes,resizable=yes,top=500,left=500,width=700,height=400"
+          );
+        } else {
+          xlsxInput.current.click();
+        }
       }
-    }
-  });
+    });
 
-  const handleSelectFile = (event: ChangeEvent<HTMLInputElement>): void => {
-    debugger;
-    const target = event.target as HTMLInputElement;
-    const files = target.files as FileList; //유사배열
+    const handleSelectFile = (event: ChangeEvent<HTMLInputElement>): void => {
+      debugger;
+      const target = event.target as HTMLInputElement;
+      const files = target.files as FileList; //유사배열
 
-    setFile(files[0]);
-    readExcel(files[0], onExcelClose);
-  };
+      setFile(files[0]);
+      readExcel(files[0], onExcelClose);
+    };
 
-  return (
-    <input
-      ref={xlsxInput}
-      type="file"
-      accept=".xls, .xlsx"
-      onChange={handleSelectFile}
-      style={{ width: 0, display: "none" }}
-    />
-  );
-};
+    return (
+      <input
+        ref={ref}
+        type="file"
+        accept=".xls, .xlsx"
+        onChange={handleSelectFile}
+        style={{ width: 0, display: "none" }}
+      />
+    );
+  }
+);

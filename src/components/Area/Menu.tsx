@@ -74,16 +74,21 @@ const makeMenuList = () => {
   return components;
 };
 
+type excelProps = {
+  onExcelClose?: any;
+};
+
 const Menu: React.FunctionComponent<IMenuProps> = (props) => {
   const DMenu = window.localStorage.getItem("D-Menu");
   const [menuList, setMenuList] = useState(DMenu ? DMenu : []);
   const [excel_show, setExcelShow] = useState(false);
-  const xlsx = useRef<Element>(null);
+  const xlsx = useRef<HTMLInputElement>(null);
+  // const xlsx = useRef<React.FunctionComponent<excelProps>>(null);
   const menuBool = menuList.length > 0;
-
+  console.log("xlsx", xlsx);
   useEffect(() => {
     //동기
-    console.log("useEffect", menuList, excel_show);
+    console.log(xlsx, "useEffect", menuList, excel_show);
   });
 
   const handleOnClick = (): void => {
