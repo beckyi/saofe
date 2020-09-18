@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { Container, Item } from "../Layout/Grid";
 import { UploadXlsx } from "../../utils/UploadXlsx";
@@ -38,7 +38,7 @@ const MB = styled.div`
   margin-top: 1px;
   color: ${(props: { bool: boolean }) => (props.bool ? "blue" : "red")};
   cursor: ${(props: { bool: boolean }) =>
-    props.bool ? "pointer" : "not-allowed"};
+    props.bool ? "not-allowed" : "pointer"};
 `;
 
 const Content = styled.div`
@@ -51,13 +51,20 @@ const Content = styled.div`
 
 interface IMenuProps {}
 
+interface calenInterface {
+  [key: number]: any;
+}
+
 const cols = ["15px", "25%", "25%", "25%", "25%"];
 const rows = ["15px", "20px", "20%", "20%", "20%", "20%", "20%"];
 
-const makeMenuList = () => {
+const makeMenuList = (menuList: calenInterface) => {
   let components = [];
   for (let i = 3; i < 8; i++) {
+    //row
     for (let j = 2; j < 6; j++) {
+      //column
+      let food = menuList[i - 3] ? menuList[i - 3][j] : "";
       components.push(
         <Item
           key={`IC${i}${j}`}
@@ -66,7 +73,7 @@ const makeMenuList = () => {
             [i, j],
           ]}
         >
-          <Content isDinner={j === 5}>누들</Content>
+          <Content isDinner={j === 5}>{food}</Content>
         </Item>
       );
     }
@@ -75,11 +82,13 @@ const makeMenuList = () => {
 };
 
 type excelProps = {
+  title: string;
   onExcelClose?: any;
 };
 
 const Menu: React.FunctionComponent<IMenuProps> = (props) => {
   const DMenu = window.localStorage.getItem("D-Menu");
+  const [menuHead, setMenuHead] = useState(DMenu ? "주간 메뉴" : "주간 메뉴");
   const [menuList, setMenuList] = useState(DMenu ? DMenu : []);
   const [excel_show, setExcelShow] = useState(false);
   const xlsx = useRef<HTMLInputElement>(null);
@@ -91,23 +100,34 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
     console.log(xlsx, "useEffect", menuList, excel_show);
   });
 
+  async function asnySetExcelShow(bool: boolean) {
+    await setExcelShow(bool);
+  }
+
   const handleOnClick = (): void => {
     // if (menuList.length === 0) {
     // 엑셀 파일 업로드 시작!
-    setExcelShow(true);
+    debugger;
+    if (excel_show && xlsx && xlsx.current !== null) {
+      xlsx.current.click();
+    } else {
+      asnySetExcelShow(true);
+    }
     // }
   };
 
-  const handleOnClose = (param?: any): void => {
+  const handleOnClose = (title?: string, param?: any): void => {
     // 엑셀 파일 업로드 끝!
     setExcelShow(false);
 
-    if (param && param.length > 0) {
+    if (title && param && param.length > 0) {
       console.log(param);
+      //엑셀 파일 데이터 필터링 및 바인딩
       const list = param.map((oneDay: []) => {
         //[date, day, ...menus]
         return oneDay.slice(0, 2).concat(oneDay.slice(4));
       });
+      setMenuHead(title);
       setMenuList(list);
     }
   };
@@ -121,7 +141,7 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
             [1, 5],
           ]}
         >
-          <Title>9월 메뉴</Title>
+          <Title>{menuHead}</Title>
         </Item>
         <Item
           range={[
@@ -171,7 +191,7 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
             </Item>
           );
         })}
-        {makeMenuList()}
+        {makeMenuList(menuList)}
       </Container>
       {/* 엑셀업로드 */}
       {excel_show && <UploadXlsx ref={xlsx} onExcelClose={handleOnClose} />}
