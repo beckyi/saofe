@@ -107,23 +107,81 @@ const WriteForm: React.FunctionComponent<IWFProps> = ({
   const onExcelClose = (excelJson: any): void => {
     // 엑셀 파일 업로드 끝!
     console.log(excelJson);
-    if (excelJson && excelJson.length > 0) setContentList(excelJson);
+    if (excelJson && excelJson.length > 0) {
+      let isDone: boolean = true;
+      let dic: any = { Fn: [], Hr: [], Comm: [] };
+
+      excelJson.forEach((row: any, idx: number) => {
+        if (idx > 0 && idx !== excelJson.length - 1) {
+          let type =
+            row[0] === NAME.Fn ? "Fn" : row[0] === NAME.Hr ? "Hr" : "Comm";
+
+          dic[type].push(`- ${row[1].replace("..", "")}`);
+
+          if (isDone && row[2] !== NAME.DONE) isDone = false;
+        }
+      });
+
+      //작성 시작!
+      const fnCnt = dic.Fn.length || 0,
+        hrCnt = dic.Hr.length || 0,
+        cmCnt = dic.Comm.length || 0;
+      let result: any = [
+        "2. 모듈별 업데이트 내역",
+        `1) 회계관리 - ${fnCnt}건`,
+        `2) 급여관리 - ${hrCnt}건`,
+        `3) 공통 - ${cmCnt}건`,
+        `- 총 ${fnCnt + hrCnt + cmCnt}건`,
+        "",
+        "",
+        "3. 업데이트 상세내역",
+      ];
+
+      result.push("1) 회계관리");
+      if (dic.Fn.length > 0) {
+        result = result.concat(dic.Fn);
+      } else {
+        result.push("- 없음");
+      }
+
+      result.push("", "2) 급여관리");
+      if (dic.Hr.length > 0) {
+        result = result.concat(dic.Hr);
+      } else {
+        result.push("- 없음");
+      }
+
+      result.push("", "3) 공통");
+      if (dic.Hr.length > 0) {
+        result = result.concat(dic.Hr);
+      } else {
+        result.push("- 없음");
+      }
+      result.push("", "", "4. 특이사항", "- 없음");
+
+      setContentList(result);
+
+      if (!isDone) alert("[주의] 검수 미완료된 리스트가 있습니다.");
+    }
   };
 
   const onhandleClick = () => {
     alert("COPIED!");
   };
 
+  const onhandleUpload = () => {
+    if (contentList.length === 0) {
+      // 엑셀 파일 업로드 시작!
+      if (excel_show && xlsx && xlsx.current !== null) {
+        xlsx.current.click();
+      } else {
+        setExcelShow(true);
+      }
+    }
+  };
+
   useEffect(() => {
     console.log(excel_show, contentList, xlsx);
-    if (
-      contentList.length === 0 &&
-      !excel_show &&
-      xlsx &&
-      xlsx.current !== null
-    ) {
-      // setExcelShow(true);
-    }
   }, [excel_show]);
 
   return (
@@ -142,7 +200,7 @@ const WriteForm: React.FunctionComponent<IWFProps> = ({
                 <Icon
                   name={NAME.UPLOAD}
                   margin={"140px 0px 0px"}
-                  onClick={onhandleClick}
+                  onClick={onhandleUpload}
                 />
               </DropArea>
             </TextInner>
