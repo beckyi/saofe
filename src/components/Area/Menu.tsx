@@ -113,6 +113,12 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
       } else {
         asnySetExcelShow(true);
       }
+    } else {
+      let correct = "슬기로운 더존 생활인 김우동";
+      let text = prompt("메뉴를 변경하시겠습니까? 암호를 대세요!", "GUESS");
+      if (text === correct) {
+        asnySetExcelShow(true);
+      }
     }
   };
 

@@ -39,7 +39,7 @@ const BaseGround = styled.div`
  */
 const SubFunc = styled.div`
   display: inline-block;
-  width: 100px;
+  width: 125px;
   position: absolute;
   padding: 5px 10px;
   margin-left: 27px;
