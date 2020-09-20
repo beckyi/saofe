@@ -10,6 +10,7 @@ enum NAME {
   Hr = "급여관리",
   Comm = "공통",
   DONE = "검수완료",
+  TEXTAREA = "TEXTAREA",
 }
 
 export default NAME;

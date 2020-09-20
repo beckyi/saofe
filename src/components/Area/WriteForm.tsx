@@ -88,7 +88,23 @@ const form: string[] = [
   "1. 업데이트 구분",
   "1) 정기 업데이트",
   "",
+  "",
 ];
+
+const onhandleClick = () => {
+  var from = document.getElementById(NAME.TEXTAREA);
+  var range = document.createRange();
+
+  if (window !== null && from !== null) {
+    window.getSelection()!.removeAllRanges();
+    range.selectNode(from);
+    window.getSelection()!.addRange(range);
+    document.execCommand("copy");
+    window.getSelection()!.removeAllRanges();
+
+    alert("복사 했습니다!");
+  }
+};
 
 const WriteForm: React.FunctionComponent<IWFProps> = ({
   onClick,
@@ -152,8 +168,8 @@ const WriteForm: React.FunctionComponent<IWFProps> = ({
       }
 
       result.push("", "3) 공통");
-      if (dic.Hr.length > 0) {
-        result = result.concat(dic.Hr);
+      if (dic.Comm.length > 0) {
+        result = result.concat(dic.Comm);
       } else {
         result.push("- 없음");
       }
@@ -163,10 +179,6 @@ const WriteForm: React.FunctionComponent<IWFProps> = ({
 
       if (!isDone) alert("[주의] 검수 미완료된 리스트가 있습니다.");
     }
-  };
-
-  const onhandleClick = () => {
-    alert("COPIED!");
   };
 
   const onhandleUpload = () => {
@@ -212,7 +224,7 @@ const WriteForm: React.FunctionComponent<IWFProps> = ({
                 </CopyArea>
                 {title}
                 <hr />
-                <TextArea>
+                <TextArea id={NAME.TEXTAREA}>
                   {ttt.map((item, idx) => {
                     return [item, <br key={idx} />];
                   })}
