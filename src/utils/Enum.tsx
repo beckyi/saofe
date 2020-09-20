@@ -4,6 +4,8 @@ enum NAME {
   CALENDAR = "CALENDAR",
   RICE = "RICE",
   WRITE = "WRITE",
+  COPY = "COPY",
+  UPLOAD = "UPLOAD",
 }
 
 export default NAME;

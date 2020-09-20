@@ -10,27 +10,26 @@ const Dialog = styled.div`
   left: 7px;
 
   --sidebar-width: 180px;
-    height: 450px;
-    width: 713px;
-    max-width: none;
-    padding: 0;
-    z-index: 1;
+  height: 450px;
+  width: 713px;
+  max-width: none;
+  padding: 0;
+  z-index: 1;
 
-    max-height: 100vh;
-    max-width: 100vw;
-    min-width: 200px;
-    padding: 10px;
-    position: absolute;
-    z-index: 2;
-    background: white;
-    border-radius: 10px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    text-align: left;
-    text-shadow: none;
+  max-height: 100vh;
+  max-width: 100vw;
+  min-width: 200px;
+  padding: 10px;
+  position: absolute;
+  z-index: 2;
+  background: white;
+  border-radius: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: left;
+  text-shadow: none;
 
-    transition: var(--a-default);
-}
+  transition: var(--a-default);
 `;
 
 const Dimm = styled.div`

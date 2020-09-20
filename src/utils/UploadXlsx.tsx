@@ -31,7 +31,7 @@ const onExcelLoad = (
       cellNF: true,
       dateNF: "yyyy-MM-dd hh:mm:ss",
     });
-    const tabNum = enterence === NAME.WRITE ? 3 : 0;
+    const tabNum = enterence === NAME.WRITE ? 2 : 0;
     const ws = workbook.Sheets[workbook.SheetNames[tabNum]];
     const excelJson = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
@@ -71,9 +71,7 @@ export const UploadXlsx = forwardRef<HTMLInputElement, FileProps>(
     const [file, setFile] = useState({});
 
     const readFileInfo = () => {
-      let bool = window.confirm(
-        "메뉴 엑셀 파일 있으신가요? 다운받으러 가실까요?"
-      );
+      let bool = window.confirm("엑셀 파일 있으신가요? 다운받으러 가실까요?");
       if (bool) {
         const url =
           enterence === NAME.WRITE

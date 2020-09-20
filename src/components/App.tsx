@@ -8,6 +8,7 @@ import Jenkins from "./Area/Jenkins";
 import Clock from "./Area/Clock";
 import Icon from "./Area/Icon";
 import Modal from "./Area/Modal";
+import WriteForm from "./Area/WriteForm";
 
 import NAME from "../utils/Enum";
 
@@ -55,12 +56,6 @@ const Point = styled.span`
   cursor: pointer;
 `;
 
-const EmptyElem = styled.span`
-  flex: 1 0 50px;
-  display: inline-flex;
-  alignitems: center;
-`;
-
 function getRandomImg() {
   axios
     .get("https://api.unsplash.com/photos/random", {
@@ -79,6 +74,7 @@ export interface IAppProps {}
 export interface IAppState {
   modal_show: string;
   subFunc_show: boolean;
+  writeExcel: boolean;
 }
 
 export default class App extends React.Component<IAppProps, IAppState> {
@@ -87,6 +83,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.state = {
       modal_show: "",
       subFunc_show: false,
+      writeExcel: false,
     };
 
     // this.onhandleClick = this.onhandleClick.bind(this);
@@ -107,11 +104,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
     const target = event.target as HTMLElement;
     const { id } = target;
-    const { CALENDAR, RICE, SETTING } = NAME;
+    const { CALENDAR, RICE, SETTING, WRITE } = NAME;
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(id) ? id : "";
 
-    this.setState({ modal_show });
+    this.setState({ modal_show, writeExcel: id === WRITE });
   };
 
   handleMouseHover = (event: MouseEvent): void => {
@@ -122,7 +119,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   render() {
     //: JSX.Element {
-    const { modal_show, subFunc_show } = this.state;
+    const { modal_show, subFunc_show, writeExcel } = this.state;
 
     return (
       <BaseGround id="SAOFE">
@@ -180,9 +177,13 @@ export default class App extends React.Component<IAppProps, IAppState> {
                   <FxItem flex={"0 1 auto"}>
                     <Icon name={NAME.RICE} onClick={this.onhandleClick} />
                   </FxItem>
+                  <FxItem flex={"0 1 auto"}>
+                    <Icon name={NAME.WRITE} onClick={this.onhandleClick} />
+                  </FxItem>
                 </FxContainer>
               </SubFunc>
             )}
+            {writeExcel && <WriteForm onClick={this.onhandleClick} />}
           </Item>
         </Container>
       </BaseGround>
