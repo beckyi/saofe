@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { Container, Item } from "../Layout/Grid";
 import { UploadXlsx } from "../../utils/UploadXlsx";
+import NAME from "../../utils/Enum";
 
 const MenuBase = styled.div`
   width: 100%;
@@ -105,30 +106,67 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
   }
 
   const handleOnClick = (): void => {
-    // if (menuList.length === 0) {
-    // 엑셀 파일 업로드 시작!
-    debugger;
-    if (excel_show && xlsx && xlsx.current !== null) {
-      xlsx.current.click();
-    } else {
-      asnySetExcelShow(true);
+    if (menuList.length === 0) {
+      // 엑셀 파일 업로드 시작!
+      if (excel_show && xlsx && xlsx.current !== null) {
+        xlsx.current.click();
+      } else {
+        asnySetExcelShow(true);
+      }
     }
-    // }
   };
 
-  const handleOnClose = (title?: string, param?: any): void => {
+  const onExcelClose = (excelJson: any): void => {
     // 엑셀 파일 업로드 끝!
     setExcelShow(false);
+    const current = new Date();
+    const toDay = current.getDay();
+    const calc =
+      toDay === 1 ? 0 : toDay === 0 ? 1 : toDay === 6 ? 2 : -1 * (toDay - 1);
+    const start = `${current.getMonth() + 1}/${current.getDate() + calc}`;
 
-    if (title && param && param.length > 0) {
-      console.log(param);
-      //엑셀 파일 데이터 필터링 및 바인딩
-      const list = param.map((oneDay: []) => {
-        //[date, day, ...menus]
-        return oneDay.slice(0, 2).concat(oneDay.slice(4));
-      });
-      setMenuHead(title);
-      setMenuList(list);
+    let menuJSON = []; //엑셀파일 데이터
+    let isDiffer = false; //다른 주를 올릴 경우
+    let title: string = "";
+
+    if (excelJson && excelJson.length > 0) {
+      let reg = new RegExp(
+        "더존ICT그룹([0-9]{1,2}월[0-9]{1}주차)주간메뉴표",
+        "g"
+      );
+      title = excelJson[0][0].replace(/ /gi, "");
+
+      if (reg.test(title)) {
+        //ex.9/17
+        reg = new RegExp("([0-9]{1,2}/[0-9]{1,2})", "g");
+        const sDate = excelJson[5][0];
+        if (sDate && reg.test(sDate) && start !== sDate) isDiffer = true;
+        menuJSON = excelJson.filter((item: any, idx: number) => {
+          return reg.test(item[0]) && item.length > 8;
+        });
+
+        const sIdx: number = title.indexOf("룹") + 1;
+        const eIdx: number = title.indexOf("주");
+
+        title = title.substr(sIdx, eIdx - sIdx + 1);
+      }
+
+      if (menuJSON.length > 0) {
+        const bool = isDiffer
+          ? window.confirm("다른 주간 메뉴입니다. 진행하시겠습니까?")
+          : true;
+        const param = bool ? menuJSON : undefined;
+        if (param) {
+          const list = param.map((oneDay: []) => {
+            //[date, day, ...menus]
+            return oneDay.slice(0, 2).concat(oneDay.slice(4));
+          });
+          setMenuHead(title);
+          setMenuList(list);
+        }
+      } else {
+        window.alert("메뉴 엑셀 파일이 아닙니다. \\ _ /");
+      }
     }
   };
   console.log(menuList);
@@ -194,7 +232,13 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
         {makeMenuList(menuList)}
       </Container>
       {/* 엑셀업로드 */}
-      {excel_show && <UploadXlsx ref={xlsx} onExcelClose={handleOnClose} />}
+      {excel_show && (
+        <UploadXlsx
+          ref={xlsx}
+          enterence={NAME.RICE}
+          onExcelClose={onExcelClose}
+        />
+      )}
     </MenuBase>
   );
 };

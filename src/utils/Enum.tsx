@@ -3,6 +3,7 @@ enum NAME {
   SETTING = "SETTING",
   CALENDAR = "CALENDAR",
   RICE = "RICE",
+  WRITE = "WRITE",
 }
 
 export default NAME;
