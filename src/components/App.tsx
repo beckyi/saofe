@@ -95,6 +95,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
       if (window.Notification) {
         Notification.requestPermission();
       }
+      //API 호출 영역
+      let xhr = new XMLHttpRequest();
     };
   }
 
