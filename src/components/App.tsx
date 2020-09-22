@@ -11,6 +11,8 @@ import Modal from "./Area/Modal";
 import WriteForm from "./Area/WriteForm";
 
 import NAME from "../utils/Enum";
+import { getThisMonday } from "../utils/utils";
+import BrowserStorage from "../utils/BrowserStorage";
 
 const BaseGround = styled.div`
   height: 100%;
@@ -78,6 +80,8 @@ export interface IAppState {
 }
 
 export default class App extends React.Component<IAppProps, IAppState> {
+  public storage: any;
+
   constructor(props: IAppProps) {
     super(props);
     this.state = {
@@ -87,17 +91,48 @@ export default class App extends React.Component<IAppProps, IAppState> {
     };
 
     // this.onhandleClick = this.onhandleClick.bind(this);
+    this.storage = new BrowserStorage("local");
   }
 
   componentDidMount() {
-    // window.addEventListener()
     window.onload = function () {
       if (window.Notification) {
         Notification.requestPermission();
       }
-      //API 호출 영역
-      let xhr = new XMLHttpRequest();
     };
+
+    const thisMonday = getThisMonday();
+    const sName = `D-Menu-${thisMonday}`;
+
+    if (!this.storage.getItem(sName)) {
+      axios
+        .get("https://my-json-server.typicode.com/beckyi/demo/menus")
+        .then((response) => {
+          console.log("response1", response, response.data);
+
+          if (
+            Object.prototype.toString.call(response.data.data).slice(8, -1) ===
+            "Array"
+          ) {
+            this.storage.setItem(sName, response.data.data);
+          }
+        });
+      //메뉴 데이터가 없을 경우 API 호출 영역
+      // let xhr = new XMLHttpRequest();
+      // xhr.open(
+      //   "GET",
+      //   "https://my-json-server.typicode.com/beckyi/demo/menus",
+      //   true
+      // ); //비동기
+      // xhr.onreadystatechange = function (responseData) {
+      //   console.log("responseData", responseData);
+      //   // if (xhr.readyState === XMLHttpRequest.DONE) {
+      //   if (xhr.status === 200) {
+      //     console.log(JSON.parse(xhr.responseText));
+      //   }
+      // };
+      // xhr.send(); //call api
+    }
   }
 
   //event: MouseEvent, React.MouseEventHandler<HTMLSpanElement>

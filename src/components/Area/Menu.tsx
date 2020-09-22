@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Container, Item } from "../Layout/Grid";
 import { UploadXlsx } from "../../utils/UploadXlsx";
 import NAME from "../../utils/Enum";
+import BrowserStorage from "../../utils/BrowserStorage";
+import { getThisMonday } from "../../utils/utils";
 
 const MenuBase = styled.div`
   width: 100%;
@@ -56,8 +58,14 @@ interface calenInterface {
   [key: number]: any;
 }
 
+type excelProps = {
+  title: string;
+  onExcelClose?: any;
+};
+
 const cols = ["15px", "25%", "25%", "25%", "25%"];
 const rows = ["15px", "20px", "20%", "20%", "20%", "20%", "20%"];
+const storage = new BrowserStorage("local");
 
 const makeMenuList = (menuList: calenInterface) => {
   let components = [];
@@ -82,11 +90,6 @@ const makeMenuList = (menuList: calenInterface) => {
   return components;
 };
 
-type excelProps = {
-  title: string;
-  onExcelClose?: any;
-};
-
 const Menu: React.FunctionComponent<IMenuProps> = (props) => {
   const DMenu = window.localStorage.getItem("D-Menu");
   const [menuHead, setMenuHead] = useState(DMenu ? "주간 메뉴" : "주간 메뉴");
@@ -106,30 +109,19 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
   }
 
   const handleOnClick = (): void => {
-    if (menuList.length === 0) {
-      // 엑셀 파일 업로드 시작!
-      if (excel_show && xlsx && xlsx.current !== null) {
-        xlsx.current.click();
-      } else {
-        asnySetExcelShow(true);
-      }
+    // 엑셀 파일 업로드 시작!
+    if (excel_show && xlsx && xlsx.current !== null) {
+      xlsx.current.click();
     } else {
-      let correct = "슬기로운 더존 생활인 김우동";
-      let text = prompt("메뉴를 변경하시겠습니까? 암호를 대세요!", "GUESS");
-      if (text === correct) {
-        asnySetExcelShow(true);
-      }
+      asnySetExcelShow(true);
     }
   };
 
   const onExcelClose = (excelJson: any): void => {
     // 엑셀 파일 업로드 끝!
     setExcelShow(false);
-    const current = new Date();
-    const toDay = current.getDay();
-    const calc =
-      toDay === 1 ? 0 : toDay === 0 ? 1 : toDay === 6 ? 2 : -1 * (toDay - 1);
-    const start = `${current.getMonth() + 1}/${current.getDate() + calc}`;
+
+    const start = getThisMonday();
 
     let menuJSON = []; //엑셀파일 데이터
     let isDiffer = false; //다른 주를 올릴 경우
@@ -169,6 +161,9 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
           });
           setMenuHead(title);
           setMenuList(list);
+
+          const sName = `D-Menu-${start}`;
+          storage.setItem(sName, list);
         }
       } else {
         window.alert("메뉴 엑셀 파일이 아닙니다. \\ _ /");

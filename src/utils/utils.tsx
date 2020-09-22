@@ -106,6 +106,15 @@ export const getCalendar = (yyyymm: string) => {
   return result;
 };
 
+export const getThisMonday = (): string => {
+  const current = new Date();
+  const toDay = current.getDay();
+  const calc =
+    toDay === 1 ? 0 : toDay === 0 ? 1 : toDay === 6 ? 2 : -1 * (toDay - 1);
+  const start = `${current.getMonth() + 1}/${current.getDate() + calc}`;
+  return start;
+};
+
 //FIXME : https://stackoverflow.com/questions/53603770/how-to-properly-use-fromcharcode-apply-with-uint8array-in-typescript-3
 export const fixdata = (data: ArrayBuffer) => {
   let binary: string = "",
