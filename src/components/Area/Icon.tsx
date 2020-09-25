@@ -138,8 +138,8 @@ const SVGIcon = ({ name, ...props }: Props) => {
         height={height}
       >
         <g>
-          {d_path.map((path) => {
-            return <path d={path} />;
+          {d_path.map((path, idx) => {
+            return <path key={`PK${idx}`} d={path} />;
           })}
         </g>
         {name === NAME.RICE && (
