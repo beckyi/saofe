@@ -52,7 +52,10 @@ const Content = styled.div`
   font-size: 10px;
 `;
 
-interface IMenuProps {}
+interface IMenuProps {
+  menuProp?: any;
+  setMenuProp: (monday: string, list: any) => void;
+}
 
 interface calenInterface {
   [key: number]: any;
@@ -90,8 +93,13 @@ const makeMenuList = (menuList: calenInterface) => {
   return components;
 };
 
-const Menu: React.FunctionComponent<IMenuProps> = (props) => {
-  const DMenu = window.localStorage.getItem("D-Menu");
+console.log(window);
+
+const Menu: React.FunctionComponent<IMenuProps> = ({
+  menuProp,
+  setMenuProp,
+}) => {
+  const DMenu = menuProp;
   const [menuHead, setMenuHead] = useState(DMenu ? "주간 메뉴" : "주간 메뉴");
   const [menuList, setMenuList] = useState(DMenu ? DMenu : []);
   const [excel_show, setExcelShow] = useState(false);
@@ -128,6 +136,7 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
     let title: string = "";
 
     if (excelJson && excelJson.length > 0) {
+      const sDate = excelJson[5][0];
       let reg = new RegExp(
         "더존ICT그룹([0-9]{1,2}월[0-9]{1}주차)주간메뉴표",
         "g"
@@ -137,7 +146,6 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
       if (reg.test(title)) {
         //ex.9/17
         reg = new RegExp("([0-9]{1,2}/[0-9]{1,2})", "g");
-        const sDate = excelJson[5][0];
         if (sDate && reg.test(sDate) && start !== sDate) isDiffer = true;
         menuJSON = excelJson.filter((item: any, idx: number) => {
           return reg.test(item[0]) && item.length > 8;
@@ -162,8 +170,7 @@ const Menu: React.FunctionComponent<IMenuProps> = (props) => {
           setMenuHead(title);
           setMenuList(list);
 
-          const sName = `D-Menu-${start}`;
-          storage.setItem(sName, list);
+          setMenuProp(sDate, list);
         }
       } else {
         window.alert("메뉴 엑셀 파일이 아닙니다. \\ _ /");

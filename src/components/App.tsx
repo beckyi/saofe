@@ -77,6 +77,7 @@ export interface IAppState {
   modal_show: string;
   subFunc_show: boolean;
   writeExcel: boolean;
+  menuList: any;
 }
 
 export default class App extends React.Component<IAppProps, IAppState> {
@@ -88,6 +89,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
       modal_show: "",
       subFunc_show: false,
       writeExcel: false,
+      menuList: [],
     };
 
     // this.onhandleClick = this.onhandleClick.bind(this);
@@ -101,10 +103,15 @@ export default class App extends React.Component<IAppProps, IAppState> {
       }
     };
 
+    this.loadMenuData();
+  }
+  //메뉴 정보 가져오기
+  loadMenuData() {
     const thisMonday = getThisMonday();
     const sName = `D-Menu-${thisMonday}`;
+    const menuData = this.storage.getItem(sName);
 
-    if (!this.storage.getItem(sName)) {
+    if (!menuData) {
       axios
         .get("https://my-json-server.typicode.com/beckyi/demo/menus")
         .then((response) => {
@@ -114,7 +121,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
             Object.prototype.toString.call(response.data.data).slice(8, -1) ===
             "Array"
           ) {
-            this.storage.setItem(sName, response.data.data);
+            this.setState({ menuList: response.data.data }, () => {
+              this.storage.setItem(sName, response.data.data);
+            });
           }
         });
       //메뉴 데이터가 없을 경우 API 호출 영역
@@ -132,6 +141,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
       //   }
       // };
       // xhr.send(); //call api
+    } else {
+      this.setState({ menuList: menuData });
     }
   }
 
@@ -154,9 +165,17 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.setState({ subFunc_show: !this.state.subFunc_show });
   };
 
+  setMenuProp = (monday: string, list: any) => {
+    console.log("!!!", list);
+    this.setState({ menuList: list }, () => {
+      const sName = `D-Menu-${monday}`;
+      this.storage.setItem(sName, list);
+    });
+  };
+
   render() {
     //: JSX.Element {
-    const { modal_show, subFunc_show, writeExcel } = this.state;
+    const { modal_show, subFunc_show, menuList, writeExcel } = this.state;
 
     return (
       <BaseGround id="SAOFE">
@@ -203,7 +222,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
             <Point onMouseOver={this.handleMouseHover} />
             <Icon name={NAME.SETTING} width={"20px"} />
             {modal_show && (
-              <Modal modal_show={modal_show} onClick={this.onhandleClick} />
+              <Modal
+                modal_show={modal_show}
+                menuList={menuList}
+                onClick={this.onhandleClick}
+                setMenuProp={this.setMenuProp}
+              />
             )}
             {subFunc_show && (
               <SubFunc>

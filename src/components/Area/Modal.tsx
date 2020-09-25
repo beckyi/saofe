@@ -47,16 +47,21 @@ const Dimm = styled.div`
 
 interface Props {
   modal_show: string;
+  monday?: string;
+  menuList?: any;
   onClick: (event: React.MouseEvent) => void;
+  setMenuProp: (monday: string, list: any) => void;
 }
 
-const Modal = ({ modal_show, onClick }: Props) => {
+const Modal = ({ modal_show, menuList, onClick, setMenuProp }: Props) => {
   return (
     <>
       <Dimm id="dimmed" onClick={onClick} />
       <Dialog id="Modal">
         {modal_show === NAME.CALENDAR && <Calendar modal_show={modal_show} />}
-        {modal_show === NAME.RICE && <Menu />}
+        {modal_show === NAME.RICE && (
+          <Menu menuProp={menuList} setMenuProp={setMenuProp} />
+        )}
       </Dialog>
     </>
   );
