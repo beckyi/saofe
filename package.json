@@ -12,6 +12,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/styled-components": "^5.1.2",
     "axios": "^0.19.2",
+    "json-server": "^0.16.2",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -21,10 +22,11 @@
     "xlsx": "^0.16.7"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start && npm run jsDB",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "jsDB": "npx json-server --watch src/server/db.json --port 3003"
   },
   "eslintConfig": {
     "extends": "react-app"
