@@ -11,6 +11,8 @@ enum NAME {
   Comm = "공통",
   DONE = "검수완료",
   TEXTAREA = "TEXTAREA",
+  BELL = "BELL",
+  BELLING = "BELLING"
 }
 
 export default NAME;

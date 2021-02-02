@@ -99,7 +99,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
   componentDidMount() {
     window.onload = function () {
       if (window.Notification) {
-        Notification.requestPermission();
+        Notification.requestPermission().then((result)=>{
+          console.log(result);
+        });
       }
     };
 
@@ -207,7 +209,16 @@ export default class App extends React.Component<IAppProps, IAppState> {
                     margin: "55px 25px",
                   }}
                 ></span>
+                {/* 더보기 */}
                 <Icon name={NAME.INFORM} onClick={this.onhandleClick} />
+                <SubFunc>
+                <FxContainer jContent={"space-around"}>
+                  <FxItem flex={"0 1 auto"}>
+                    <Icon name={NAME.BELL} onClick={this.onhandleClick} />
+                    <Icon name={NAME.BELLING} onClick={this.onhandleClick} />
+                  </FxItem>
+                </FxContainer>
+              </SubFunc>
               </FxItem>
             </FxContainer>
           </Item>
@@ -241,9 +252,13 @@ export default class App extends React.Component<IAppProps, IAppState> {
                   <FxItem flex={"0 1 auto"}>
                     <Icon name={NAME.WRITE} onClick={this.onhandleClick} />
                   </FxItem>
+                  <FxItem flex={"0 1 auto"}>
+                    <Icon name={NAME.BELL} onClick={this.onhandleClick} />
+                  </FxItem>
                 </FxContainer>
               </SubFunc>
             )}
+            {/* 엑셀파일작성 */}
             {writeExcel && <WriteForm onClick={this.onhandleClick} />}
           </Item>
         </Container>
