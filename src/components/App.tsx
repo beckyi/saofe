@@ -29,6 +29,15 @@ const BaseGround = styled.div`
   background-repeat: no-repeat;
 `;
 
+const MoreFunc = styled.div`
+  display: inline-block;
+  position: absolute;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background-color: rgba(0,0,0,0.3);
+  bottom: 35px;
+  left: 35px;
+`;
 /**
  * display: inline-block;
     width: 105px;
@@ -76,6 +85,7 @@ export interface IAppProps {}
 export interface IAppState {
   modal_show: string;
   subFunc_show: boolean;
+  moreFunc_show: boolean;
   writeExcel: boolean;
   menuList: any;
 }
@@ -88,6 +98,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.state = {
       modal_show: "",
       subFunc_show: false,
+      moreFunc_show: false,
       writeExcel: false,
       menuList: [],
     };
@@ -157,8 +168,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
     const { CALENDAR, RICE, SETTING, WRITE } = NAME;
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(id) ? id : "";
+    const moreFunc_show = id === "INFORM";
 
-    this.setState({ modal_show, writeExcel: id === WRITE });
+    this.setState({ modal_show, moreFunc_show, writeExcel: id === WRITE });
   };
 
   handleMouseHover = (event: MouseEvent): void => {
@@ -177,7 +189,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   render() {
     //: JSX.Element {
-    const { modal_show, subFunc_show, menuList, writeExcel } = this.state;
+    const { modal_show, subFunc_show, moreFunc_show, menuList, writeExcel } = this.state;
 
     return (
       <BaseGround id="SAOFE">
@@ -202,7 +214,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
               <FxItem flex={"1 0 50px"} alignSelf={"center"}>
                 <Clock />
               </FxItem>
-              <FxItem flex={"1 0 50px"} alignSelf={"center"}>
+              <FxItem flex={"1 0 50px"} alignSelf={"center"} style={{position: "relative"}}>
                 <span
                   style={{
                     textAlign: "center",
@@ -211,14 +223,16 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 ></span>
                 {/* 더보기 */}
                 <Icon name={NAME.INFORM} onClick={this.onhandleClick} />
-                <SubFunc>
-                <FxContainer jContent={"space-around"}>
-                  <FxItem flex={"0 1 auto"}>
-                    <Icon name={NAME.BELL} onClick={this.onhandleClick} />
-                    <Icon name={NAME.BELLING} onClick={this.onhandleClick} />
-                  </FxItem>
-                </FxContainer>
-              </SubFunc>
+                { moreFunc_show &&
+                  <MoreFunc>
+                  <FxContainer jContent={"space-around"}>
+                    <FxItem flex={"0 1 auto"}>
+                      <Icon name={NAME.BELL} onClick={this.onhandleClick} />
+                      {/* <Icon name={NAME.BELLING} onClick={this.onhandleClick} /> */}
+                    </FxItem>
+                  </FxContainer>
+                </MoreFunc>
+                }
               </FxItem>
             </FxContainer>
           </Item>
@@ -251,9 +265,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
                   </FxItem>
                   <FxItem flex={"0 1 auto"}>
                     <Icon name={NAME.WRITE} onClick={this.onhandleClick} />
-                  </FxItem>
-                  <FxItem flex={"0 1 auto"}>
-                    <Icon name={NAME.BELL} onClick={this.onhandleClick} />
                   </FxItem>
                 </FxContainer>
               </SubFunc>

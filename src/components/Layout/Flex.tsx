@@ -35,6 +35,7 @@ export interface IFlexProps {
   alignSelf?: string;
   order?: string;
   zIndex?: string;
+  style?: object;
 }
 
 export const FxContainer = (props: CFlexProps) => {
