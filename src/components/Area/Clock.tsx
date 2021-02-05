@@ -1,5 +1,7 @@
-import React, { useState } from "react"; //MouseEvent
+import React, { useState,useEffect } from "react"; //MouseEvent
 import styled from "styled-components";
+
+let tictokIV:any;
 
 const Timer = styled.div`
   cursor: wait;
@@ -25,23 +27,42 @@ const Dater = styled.div`
   color: #fff;
 `;
 
+const AMPM = styled.h3`
+  display: inline;
+  position: absolute;
+  margin: 0px;
+  top: -15px;
+  left: -10px;
+  color: white;
+`;
+
 let today = new Date();
 
 const fillChar = (item: number, num: number, ch: string) => {
   return item.toString().padStart(num, ch);
 };
 
-const ticktock = (time: string, _setState: any) => {
-  setInterval(() => {
-    today = new Date();
+const ticktock = (time: string, clockMode: string, _setState: any) => {
+  console.log(tictokIV, clockMode)
 
-    time =
-      fillChar(today.getHours(), 2, "0") +
-      ":" +
-      fillChar(today.getMinutes(), 2, "0");
-
-    _setState(time);
-  }, 1000); //0.1 second
+  if(tictokIV === undefined){
+    tictokIV = setInterval(() => {
+      today = new Date();
+      let hour:number = today.getHours();
+      let min:number = today.getMinutes();
+      console.log('2>',clockMode)
+      if(clockMode === "am/pm" && hour > 12){
+        hour = hour - 12;
+      }
+  
+      time =
+        fillChar(today.getHours(), 2, "0") +
+        ":" +
+        fillChar(today.getMinutes(), 2, "0");
+  
+      _setState(time);
+    }, 1000); //0.1 second
+  }
 };
 
 const setDate = (): string => {
@@ -65,7 +86,7 @@ const setDate = (): string => {
     today.getMonth() + 1,
     2,
     "0"
-  )}.${today.getDate()}.${dayChar(today.getDay())}`;
+  )}.${fillChar(today.getDate(),2,"0")}.${dayChar(today.getDay())}`;
 };
 
 // const handleMouseOver = (event: MouseEvent): void => {
@@ -73,18 +94,27 @@ const setDate = (): string => {
 //   //showDate(true);
 // };
 
-const Clock = () => {
+interface IAppProps {
+  clockMode: string;
+}
+
+const Clock = (props:IAppProps) => {
+  const {clockMode} = props;
   const date = setDate();
   const [time, setTime] = useState<string>("00:00");
   const [isShow, showDate] = useState<boolean>(false);
+  const apm = today.getHours() > 12 ? "PM" : "AM";
 
   const handleMouseOver = (): void => showDate(true);
   const handleMouseOut = (): void => showDate(false);
 
-  ticktock(time, setTime);
-
+  ticktock(time, clockMode, setTime);
+  console.log(time)
   return (
-    <div>
+    <div style={{position: "relative"}}>
+      {clockMode === "am/pm" && 
+        <AMPM>{apm}</AMPM>
+      }
       <Timer onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
         {time}
       </Timer>

@@ -32,11 +32,18 @@ const BaseGround = styled.div`
 const MoreFunc = styled.div`
   display: inline-block;
   position: absolute;
-  padding: 7px 10px;
+  padding: 12px ​10px;
   border-radius: 10px;
   background-color: rgba(0,0,0,0.3);
   bottom: 35px;
   left: 35px;
+`;
+
+const SH3 = styled.h3`
+  margin: 5px;
+  color: #fff;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 `;
 /**
  * display: inline-block;
@@ -88,6 +95,7 @@ export interface IAppState {
   moreFunc_show: boolean;
   writeExcel: boolean;
   menuList: any;
+  clockMode: string;
 }
 
 export default class App extends React.Component<IAppProps, IAppState> {
@@ -101,6 +109,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
       moreFunc_show: false,
       writeExcel: false,
       menuList: [],
+      clockMode: "default"
     };
 
     // this.onhandleClick = this.onhandleClick.bind(this);
@@ -163,14 +172,22 @@ export default class App extends React.Component<IAppProps, IAppState> {
   onhandleClick = (event: MouseEvent): void => {
     event.stopPropagation(); //stop bubbling and capturing
 
+    const {clockMode} = this.state;
     const target = event.target as HTMLElement;
     const { id } = target;
     const { CALENDAR, RICE, SETTING, WRITE } = NAME;
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(id) ? id : "";
     const moreFunc_show = id === "INFORM";
+    
+    let changeState:object = { modal_show, moreFunc_show, writeExcel: id === WRITE };
 
-    this.setState({ modal_show, moreFunc_show, writeExcel: id === WRITE });
+    if(id === "clock_switch"){
+      const _clockMode:string = clockMode === "default" ?  "am/pm" : "default";
+      changeState = Object.assign(clockMode, {clockMode: _clockMode})    
+    }
+
+    this.setState(changeState);
   };
 
   handleMouseHover = (event: MouseEvent): void => {
@@ -189,7 +206,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   render() {
     //: JSX.Element {
-    const { modal_show, subFunc_show, moreFunc_show, menuList, writeExcel } = this.state;
+    const { modal_show, subFunc_show, moreFunc_show, menuList, writeExcel, clockMode } = this.state;
 
     return (
       <BaseGround id="SAOFE">
@@ -200,7 +217,15 @@ export default class App extends React.Component<IAppProps, IAppState> {
               [1, 1],
             ]}
           >
-            <Jenkins name={"최재은"} />
+            <FxContainer>
+              <FxItem flex={"1 0 50px"} alignSelf={"center"}>
+                <Jenkins name={"최재은"} />
+              </FxItem>
+              <FxItem flex={"1 0 50px"}>
+              <Icon name={NAME.BELL} onClick={this.onhandleClick} />
+              {/* <Icon name={NAME.BELLING} onClick={this.onhandleClick} /> */}
+              </FxItem>
+            </FxContainer>
           </Item>
           <Item
             range={[
@@ -210,9 +235,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
             align={"center"}
           >
             <FxContainer>
-              <FxItem flex={"1 0 50px"} alignSelf={"center"} />
+              <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
               <FxItem flex={"1 0 50px"} alignSelf={"center"}>
-                <Clock />
+                <Clock clockMode={clockMode}/>
               </FxItem>
               <FxItem flex={"1 0 50px"} alignSelf={"center"} style={{position: "relative"}}>
                 <span
@@ -223,16 +248,15 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 ></span>
                 {/* 더보기 */}
                 <Icon name={NAME.INFORM} onClick={this.onhandleClick} />
-                { moreFunc_show &&
+                {/* { moreFunc_show && */}
                   <MoreFunc>
-                  <FxContainer jContent={"space-around"}>
-                    <FxItem flex={"0 1 auto"}>
-                      <Icon name={NAME.BELL} onClick={this.onhandleClick} />
-                      {/* <Icon name={NAME.BELLING} onClick={this.onhandleClick} /> */}
-                    </FxItem>
-                  </FxContainer>
-                </MoreFunc>
-                }
+                    <FxContainer jContent={"space-around"}>
+                      <FxItem flex={"0 1 auto"}>
+                      <SH3 id="clock_switch" onClick={this.onhandleClick}>{clockMode === "am/pm" ? "OFF" : "ON"}</SH3>
+                      </FxItem>
+                    </FxContainer>
+                  </MoreFunc>
+                {/* } */}
               </FxItem>
             </FxContainer>
           </Item>
