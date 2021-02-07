@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react"; //MouseEvent
+import React, { useState, useEffect } from "react"; //MouseEvent
 import styled from "styled-components";
 
 let tictokIV: number = 0;
@@ -89,29 +89,35 @@ const Clock = (props:IAppProps) => {
     console.log('tictokIV>',tictokIV, clockMode)
 
     if(tictokIV < 1){
-      tictokIV = setInterval(() => {
-        today = new Date();
-        let hour:number = today.getHours();
-        let min:number = today.getMinutes();
-    
-        if(clockMode === "am/pm" && hour > 12){
-          hour = hour - 12;
-        }
-    
-        let time2:string =
-          fillChar(today.getHours(), 2, "0") +
-          ":" +
-          fillChar(today.getMinutes(), 2, "0");
-console.log('2>',time,time2,clockMode)
-          if(time !== time2){
-            setTime(time2);
-          }
-      }, 1000); //0.1 second
+      clearInterval(tictokIV);
     }
-    
-  },[]);
+
+    tictokIV = setInterval(() => {
+      today = new Date();
+      let hour:number = today.getHours();
+      let min:number = today.getMinutes();
   
-  console.log(time,"time")
+      if(clockMode === "am/pm" && hour > 12){
+        hour = hour - 12;
+      }
+  
+      let time2:string =
+        fillChar(hour, 2, "0") +
+        ":" +
+        fillChar(today.getMinutes(), 2, "0");
+console.log('2>',time,time2,clockMode)
+        if(time !== time2){
+          setTime(time2);
+        }
+    }, 1000); //0.1 second
+    
+    return () => {
+      console.log('unmounted');
+      clearInterval(tictokIV);
+    };
+  },[clockMode]);
+  
+  console.log(time,"time",clockMode)
   return (
     <div style={{position: "relative"}}>
       {clockMode === "am/pm" && 
