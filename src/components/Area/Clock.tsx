@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react"; //MouseEvent
 import styled from "styled-components";
 
-let tictokIV:any;
+let tictokIV: number = 0;
 
 const Timer = styled.div`
   cursor: wait;
@@ -35,34 +35,14 @@ const AMPM = styled.h3`
   left: -10px;
   color: white;
 `;
+interface IAppProps {
+  clockMode: string;
+}
 
 let today = new Date();
 
 const fillChar = (item: number, num: number, ch: string) => {
   return item.toString().padStart(num, ch);
-};
-
-const ticktock = (time: string, clockMode: string, _setState: any) => {
-  console.log(tictokIV, clockMode)
-
-  if(tictokIV === undefined){
-    tictokIV = setInterval(() => {
-      today = new Date();
-      let hour:number = today.getHours();
-      let min:number = today.getMinutes();
-      console.log('2>',clockMode)
-      if(clockMode === "am/pm" && hour > 12){
-        hour = hour - 12;
-      }
-  
-      time =
-        fillChar(today.getHours(), 2, "0") +
-        ":" +
-        fillChar(today.getMinutes(), 2, "0");
-  
-      _setState(time);
-    }, 1000); //0.1 second
-  }
 };
 
 const setDate = (): string => {
@@ -94,10 +74,6 @@ const setDate = (): string => {
 //   //showDate(true);
 // };
 
-interface IAppProps {
-  clockMode: string;
-}
-
 const Clock = (props:IAppProps) => {
   const {clockMode} = props;
   const date = setDate();
@@ -107,9 +83,35 @@ const Clock = (props:IAppProps) => {
 
   const handleMouseOver = (): void => showDate(true);
   const handleMouseOut = (): void => showDate(false);
+  
+  useEffect(() => {
+  
+    console.log('tictokIV>',tictokIV, clockMode)
 
-  ticktock(time, clockMode, setTime);
-  console.log(time)
+    if(tictokIV < 1){
+      tictokIV = setInterval(() => {
+        today = new Date();
+        let hour:number = today.getHours();
+        let min:number = today.getMinutes();
+    
+        if(clockMode === "am/pm" && hour > 12){
+          hour = hour - 12;
+        }
+    
+        let time2:string =
+          fillChar(today.getHours(), 2, "0") +
+          ":" +
+          fillChar(today.getMinutes(), 2, "0");
+console.log('2>',time,time2,clockMode)
+          if(time !== time2){
+            setTime(time2);
+          }
+      }, 1000); //0.1 second
+    }
+    
+  },[]);
+  
+  console.log(time,"time")
   return (
     <div style={{position: "relative"}}>
       {clockMode === "am/pm" && 
