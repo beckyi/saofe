@@ -217,11 +217,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
               [1, 1],
             ]}
           >
-            <FxContainer>
-              <FxItem flex={"1 0 50px"} alignSelf={"center"}>
+            <FxContainer jContent={"space-between"}>
+              <FxItem flex={"1 0 80px"} alignSelf={"center"}>
                 <Jenkins name={"최재은"} />
               </FxItem>
-              <FxItem flex={"1 0 50px"}>
+              <FxItem flex={"1 0"}/>
+              <FxItem flex={"1 0 30px"}>
               <Icon name={NAME.BELL} onClick={this.onhandleClick} />
               {/* <Icon name={NAME.BELLING} onClick={this.onhandleClick} /> */}
               </FxItem>
