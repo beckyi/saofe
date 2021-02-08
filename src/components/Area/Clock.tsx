@@ -69,6 +69,25 @@ const setDate = (): string => {
   )}.${fillChar(today.getDate(),2,"0")}.${dayChar(today.getDay())}`;
 };
 
+const tiktockTime = (clockMode:string):string=> {
+
+  today = new Date();
+
+  let hour:number = today.getHours();
+  let min:number = today.getMinutes();
+
+  if(clockMode === "am/pm" && hour > 12){
+    hour = hour - 12;
+  }
+
+  let time:string =
+    fillChar(hour, 2, "0") +
+    ":" +
+    fillChar(today.getMinutes(), 2, "0");
+
+  return time;
+}
+
 // const handleMouseOver = (event: MouseEvent): void => {
 //   console.log("TOUCH", event);
 //   //showDate(true);
@@ -88,27 +107,21 @@ const Clock = (props:IAppProps) => {
   
     console.log('tictokIV>',tictokIV, clockMode)
 
-    if(tictokIV < 1){
+    if(tictokIV > 0){
       clearInterval(tictokIV);
+      
+      const ptime:string = tiktockTime(clockMode);
+      if(time !== ptime){
+        setTime(ptime);
+      }
     }
 
     tictokIV = setInterval(() => {
-      today = new Date();
-      let hour:number = today.getHours();
-      let min:number = today.getMinutes();
-  
-      if(clockMode === "am/pm" && hour > 12){
-        hour = hour - 12;
+      const ttime:string = tiktockTime(clockMode);
+
+      if(time !== ttime){
+        setTime(ttime);
       }
-  
-      let time2:string =
-        fillChar(hour, 2, "0") +
-        ":" +
-        fillChar(today.getMinutes(), 2, "0");
-console.log('2>',time,time2,clockMode)
-        if(time !== time2){
-          setTime(time2);
-        }
     }, 1000); //0.1 second
     
     return () => {
