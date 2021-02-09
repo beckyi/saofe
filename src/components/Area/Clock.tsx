@@ -37,6 +37,7 @@ const AMPM = styled.h3`
 `;
 interface IAppProps {
   clockMode: string;
+  secondMode: boolean;
 }
 
 let today = new Date();
@@ -94,7 +95,7 @@ const tiktockTime = (clockMode:string):string=> {
 // };
 
 const Clock = (props:IAppProps) => {
-  const {clockMode} = props;
+  const {clockMode, secondMode} = props;
   const date = setDate();
   const [time, setTime] = useState<string>("00:00");
   const [isShow, showDate] = useState<boolean>(false);
@@ -118,10 +119,7 @@ const Clock = (props:IAppProps) => {
 
     tictokIV = setInterval(() => {
       const ttime:string = tiktockTime(clockMode);
-
-      if(time !== ttime){
-        setTime(ttime);
-      }
+      setTime(ttime);
     }, 1000); //0.1 second
     
     return () => {
@@ -140,6 +138,9 @@ const Clock = (props:IAppProps) => {
         {time}
       </Timer>
       {isShow && <Dater>{date}</Dater>}
+      {secondMode && 
+        <div>TEST</div>
+      }
     </div>
   );
 };

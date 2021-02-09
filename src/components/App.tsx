@@ -97,6 +97,7 @@ export interface IAppState {
   writeExcel: boolean;
   menuList: any;
   clockMode: string;
+  secondMode: boolean;
 }
 
 export default class App extends React.Component<IAppProps, IAppState> {
@@ -110,7 +111,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
       moreFunc_show: false,
       writeExcel: false,
       menuList: [],
-      clockMode: "default"
+      clockMode: "default",
+      secondMode: false
     };
 
     // this.onhandleClick = this.onhandleClick.bind(this);
@@ -173,7 +175,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
   onhandleClick = (event: MouseEvent): void => {
     event.stopPropagation(); //stop bubbling and capturing
 
-    const {clockMode} = this.state;
+    const {clockMode, secondMode} = this.state;
     const target = event.target as HTMLElement;
     const { id } = target;
     const { CALENDAR, RICE, SETTING, WRITE } = NAME;
@@ -185,7 +187,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
     if(id === "clock_switch"){
       const _clockMode:string = clockMode === "default" ?  "am/pm" : "default";
-      changeState = Object.assign(clockMode, {clockMode: _clockMode})    
+      changeState = Object.assign(changeState, {clockMode: _clockMode})    
+    } else if ( id === "second_switch"){
+      changeState = Object.assign(changeState, {secondMode: !secondMode})
     }
 
     this.setState(changeState);
@@ -207,7 +211,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   render() {
     //: JSX.Element {
-    const { modal_show, subFunc_show, moreFunc_show, menuList, writeExcel, clockMode } = this.state;
+    const { modal_show, subFunc_show, moreFunc_show, menuList, writeExcel, clockMode, secondMode } = this.state;
 
     return (
       <BaseGround id="SAOFE">
@@ -239,7 +243,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
             <FxContainer>
               <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
               <FxItem flex={"1 0 50px"} alignSelf={"center"}>
-                <Clock clockMode={clockMode}/>
+                <Clock clockMode={clockMode} secondMode={secondMode}/>
               </FxItem>
               <FxItem flex={"1 0 50px"} alignSelf={"center"} style={{position: "relative"}}>
                 <span
@@ -250,9 +254,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 ></span>
                 {/* 더보기 */}
                 <Icon name={NAME.INFORM} onClick={this.onhandleClick} />
-                {/* { moreFunc_show && */}
+                { moreFunc_show &&
                   <MoreFunc>
-                    <FxContainer direction={"column"} >
+                    <FxContainer direction={"column"} alignItems={"center"} jContent={"center"}>
                       <FxItem flex={"0 0 auto"}>
                         <div style={{border: "0.5px solid white", width: "45px", textAlign: "center"}}>
                           <SH3 id="clock_switch" onClick={this.onhandleClick}>{clockMode === "am/pm" ? "12" : "24"}</SH3>
@@ -260,12 +264,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
                       </FxItem>
                       <FxItem flex={"0 0 auto"}>
                         <div style={{border: "0.5px solid white", width: "45px", textAlign: "center"}}>
-                          <SH3 id="clock_switch" onClick={this.onhandleClick}>{clockMode === "am/pm" ? "MIN" : "SEC"}</SH3>
+                          <SH3 id="second_switch" onClick={this.onhandleClick}>{secondMode ? "MIN" : "SEC"}</SH3>
                         </div>
                       </FxItem>
                     </FxContainer>
                   </MoreFunc>
-                {/* } */}
+                }
               </FxItem>
             </FxContainer>
           </Item>
