@@ -6,17 +6,17 @@ const SubBox = styled.div`
   width: 100%;
   height: 100%;
   flex-flow: ${(props: CFlexProps) => props.direction || "row"}
-    ${(props: CFlexProps) => props.flexWrap || "no-wrap"};
+    ${(props: CFlexProps) => props.flexWrap || "nowrap"};
   justify-content: ${(props: CFlexProps) =>
     props.jContent || "flex-start"}; /*수평축 방향 정렬*/
   align-items: ${(props: CFlexProps) =>
-    props.alignItems || "stretcht"}; /*수직축 방향 정렬 (전체설정)*/
+    props.alignItems || "stretch"}; /*수직축 방향 정렬 (전체설정)*/
 `;
 
 const Box = styled.div`
   flex: ${(props: IFlexProps) => props.flex};
   align-self: ${(props: IFlexProps) =>
-    props.alignSelf || "stretcht"}; /*수직축 방향 정렬 (개별설정)*/
+    props.alignSelf || "stretch"}; /*수직축 방향 정렬 (개별설정)*/
   ${(props: IFlexProps) => (props.order ? `order: ${props.order}` : "")};
   ${(props: IFlexProps) => (props.zIndex ? `z-index: ${props.zIndex}` : "")};
 `;
@@ -27,6 +27,7 @@ export interface CFlexProps {
   flexWrap?: string;
   jContent?: string;
   alignItems?: string;
+  alignContent? : string;
 }
 
 export interface IFlexProps {

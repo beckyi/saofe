@@ -32,11 +32,12 @@ const BaseGround = styled.div`
 const MoreFunc = styled.div`
   display: inline-block;
   position: absolute;
-  padding: 12px ​10px;
+  padding: 12px 10px;
   border-radius: 10px;
   background-color: rgba(0,0,0,0.3);
   bottom: 35px;
-  left: 35px;
+  left: 27px;
+  height: 80px;
 `;
 
 const SH3 = styled.h3`
@@ -218,11 +219,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
             ]}
           >
             <FxContainer jContent={"space-between"}>
-              <FxItem flex={"1 0 80px"} alignSelf={"center"}>
+              <FxItem flex={"0 0 550px"} alignSelf={"center"}>
                 <Jenkins name={"최재은"} />
               </FxItem>
-              <FxItem flex={"1 0"}/>
-              <FxItem flex={"1 0 30px"}>
+              <FxItem flex={"1 1 auto"}/>
+              <FxItem flex={"0 0 50px"}>
               <Icon name={NAME.BELL} onClick={this.onhandleClick} />
               {/* <Icon name={NAME.BELLING} onClick={this.onhandleClick} /> */}
               </FxItem>
@@ -251,9 +252,16 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 <Icon name={NAME.INFORM} onClick={this.onhandleClick} />
                 {/* { moreFunc_show && */}
                   <MoreFunc>
-                    <FxContainer jContent={"space-around"}>
-                      <FxItem flex={"0 1 auto"}>
-                      <SH3 id="clock_switch" onClick={this.onhandleClick}>{clockMode === "am/pm" ? "OFF" : "ON"}</SH3>
+                    <FxContainer direction={"column"} >
+                      <FxItem flex={"0 0 auto"}>
+                        <div style={{border: "0.5px solid white", width: "45px", textAlign: "center"}}>
+                          <SH3 id="clock_switch" onClick={this.onhandleClick}>{clockMode === "am/pm" ? "12" : "24"}</SH3>
+                        </div>
+                      </FxItem>
+                      <FxItem flex={"0 0 auto"}>
+                        <div style={{border: "0.5px solid white", width: "45px", textAlign: "center"}}>
+                          <SH3 id="clock_switch" onClick={this.onhandleClick}>{clockMode === "am/pm" ? "MIN" : "SEC"}</SH3>
+                        </div>
                       </FxItem>
                     </FxContainer>
                   </MoreFunc>
