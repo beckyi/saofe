@@ -41,10 +41,12 @@ const MoreFunc = styled.div`
 `;
 
 const SH3 = styled.h3`
-  margin: 5px;
+  position: absolute;
+  bottom: 20px;
+  right: -39px;
   color: #fff;
-  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  line-height: 1;
+  font-size: 30px;
 `;
 /**
  * display: inline-block;

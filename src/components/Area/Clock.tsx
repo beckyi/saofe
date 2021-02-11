@@ -35,6 +35,16 @@ const AMPM = styled.h3`
   left: -10px;
   color: white;
 `;
+
+const SEC = styled.div`
+  position: absolute;
+  top: 40px;
+  left: 15px;
+  color: #fff;
+  line-height: 1;
+  font-size: 30px;
+`;
+
 interface IAppProps {
   clockMode: string;
   secondMode: boolean;
@@ -128,7 +138,6 @@ const Clock = (props:IAppProps) => {
     };
   },[clockMode]);
   
-  console.log(time,"time",clockMode)
   return (
     <div style={{position: "relative"}}>
       {clockMode === "am/pm" && 
@@ -139,7 +148,7 @@ const Clock = (props:IAppProps) => {
       </Timer>
       {isShow && <Dater>{date}</Dater>}
       {secondMode && 
-        <div>TEST</div>
+        <SEC>TEST</SEC>
       }
     </div>
   );
