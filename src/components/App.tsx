@@ -180,7 +180,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     const {clockMode, secondMode} = this.state;
     const target = event.target as HTMLElement;
     const { id } = target;
-    const { CALENDAR, RICE, SETTING, WRITE } = NAME;
+    const { CALENDAR, RICE, SETTING, WRITE, BELL } = NAME;
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(id) ? id : "";
     const moreFunc_show = id === "INFORM";
@@ -192,6 +192,15 @@ export default class App extends React.Component<IAppProps, IAppState> {
       changeState = Object.assign(changeState, {clockMode: _clockMode})    
     } else if ( id === "second_switch"){
       changeState = Object.assign(changeState, {secondMode: !secondMode})
+    } else if ( id === BELL){
+      let notify = new Notification('알림이 왔습니다.', {
+        'body': '안녕하세요. \n알림을 성공적으로 수신했습니다.',
+        'icon': 'https://tistory3.daumcdn.net/tistory/2979840/attach/6e5d2d16ab6a49628dfe1f4c164e38a0',
+        'tag': '메시지'
+      })
+      notify.onclick = function(){
+        alert(this.tag)
+      }
     }
 
     this.setState(changeState);
@@ -210,7 +219,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
       this.storage.setItem(sName, list);
     });
   };
-
+//{/* <Icon name={NAME.BELLING} onClick={this.onhandleClick} /> */}
   render() {
     //: JSX.Element {
     const { modal_show, subFunc_show, moreFunc_show, menuList, writeExcel, clockMode, secondMode } = this.state;
@@ -229,9 +238,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 <Jenkins name={"최재은"} />
               </FxItem>
               <FxItem flex={"1 1 auto"}/>
-              <FxItem flex={"0 0 50px"}>
-              <Icon name={NAME.BELL} onClick={this.onhandleClick} />
-              {/* <Icon name={NAME.BELLING} onClick={this.onhandleClick} /> */}
+              <FxItem flex={"0 0 50px"} style={{margin: "32px auto"}}>
+                <Icon name={NAME.BELL} onClick={this.onhandleClick} />
               </FxItem>
             </FxContainer>
           </Item>
