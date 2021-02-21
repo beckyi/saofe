@@ -14,7 +14,6 @@ const Dialog = styled.div`
   width: 713px;
   max-width: none;
   padding: 0;
-  z-index: 1;
 
   max-height: 100vh;
   max-width: 100vw;

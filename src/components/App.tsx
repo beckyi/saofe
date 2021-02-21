@@ -292,7 +292,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
             extraStyle={"margin: 10px 10px 10px 12px;"}
           >
             <Point onMouseOver={this.handleMouseHover} />
-            <Icon name={NAME.SETTING} width={"20px"} />
+            <Icon name={NAME.SETTING} width={"20px"} onClick={this.onhandleClick}/>
             {modal_show && (
               <Modal
                 modal_show={modal_show}

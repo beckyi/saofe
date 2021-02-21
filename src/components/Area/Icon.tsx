@@ -20,6 +20,7 @@ interface optionsIFC {
 const IconArea = styled.div`
   display: inline-block;
   cursor: pointer;
+  z-index: 1000;
   ${(props: IconProps) =>
     props.name === "setting" ? "float:right; margin: 10px; opacity: 0.7;" : ""}
   ${(props: IconProps) => (props.margin ? `margin:${props.margin}` : "")}
@@ -144,9 +145,15 @@ interface Props {
 const SVGIcon = ({ name, ...props }: Props) => {
   const option = setOptions(name);
   const { viewBox, width, height, fill, d_path } = option;
+
+  const onIconClick = (event:React.MouseEvent) => {
+    // if(props.hasOwnProperty("onClick")){
+      // props.onClick(name, event);
+    // }
+  }
 console.log(name, "na?");
   return (
-    <IconArea name={name} {...props}>
+    <IconArea name={name} onClick={onIconClick} {...props}>
       <svg
         id={name}
         x="0px"
@@ -159,7 +166,7 @@ console.log(name, "na?");
       >
         <g>
           {d_path.map((path, idx) => {
-            return <path key={`PK${idx}`} d={path} />;
+            return <path key={`PK${idx}`} d={path} onClick={onIconClick}/>;
           })}
         </g>
         {name === NAME.RICE && (
