@@ -173,6 +173,29 @@ export default class App extends React.Component<IAppProps, IAppState> {
     }
   }
 
+  onIconClick=(name:string, event: React.MouseEvent)=> {
+    console.log(name, event);
+
+    const { CALENDAR, RICE, SETTING, WRITE, BELL } = NAME;
+    const array: string[] = [CALENDAR, RICE, SETTING];
+    const modal_show = array.includes(name) ? name : "";
+    const moreFunc_show = name === "INFORM";
+    let changeState:object = { modal_show, moreFunc_show, writeExcel: name === WRITE };
+
+    if ( name === BELL){
+      let notify = new Notification('알림이 왔습니다.', {
+        'body': '안녕하세요. \n알림을 성공적으로 수신했습니다.',
+        'icon': 'https://tistory3.daumcdn.net/tistory/2979840/attach/6e5d2d16ab6a49628dfe1f4c164e38a0',
+        'tag': '메시지'
+      })
+      notify.onclick = function(){
+        alert(this.tag)
+      }
+    }
+
+    this.setState(changeState);
+  }
+
   //event: MouseEvent, React.MouseEventHandler<HTMLSpanElement>
   onhandleClick = (event: MouseEvent): void => {
     event.stopPropagation(); //stop bubbling and capturing
@@ -184,7 +207,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(id) ? id : "";
     const moreFunc_show = id === "INFORM";
-    
+  debugger 
     let changeState:object = { modal_show, moreFunc_show, writeExcel: id === WRITE };
 
     if(id === "clock_switch"){
@@ -208,7 +231,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   handleMouseHover = (event: MouseEvent): void => {
     event.stopPropagation(); //stop bubbling and capturing
-
+console.log("handleMouseHover",event)
     this.setState({ subFunc_show: !this.state.subFunc_show });
   };
 
@@ -239,7 +262,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
               </FxItem>
               <FxItem flex={"1 1 auto"}/>
               <FxItem flex={"0 0 50px"} style={{margin: "32px auto"}}>
-                <Icon name={NAME.BELL} onClick={this.onhandleClick} />
+                <Icon name={NAME.BELL} onClick={this.onIconClick} />
               </FxItem>
             </FxContainer>
           </Item>
@@ -263,7 +286,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
                   }}
                 ></span>
                 {/* 더보기 */}
-                <Icon name={NAME.INFORM} onClick={this.onhandleClick} />
+                <Icon name={NAME.INFORM} onClick={this.onIconClick} />
                 { moreFunc_show &&
                   <MoreFunc>
                     <FxContainer direction={"column"} alignItems={"center"} jContent={"center"}>
@@ -292,7 +315,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
             extraStyle={"margin: 10px 10px 10px 12px;"}
           >
             <Point onMouseOver={this.handleMouseHover} />
-            <Icon name={NAME.SETTING} width={"20px"} onClick={this.onhandleClick}/>
+            <Icon name={NAME.SETTING} width={"20px"} onClick={this.onIconClick}/>
             {modal_show && (
               <Modal
                 modal_show={modal_show}
@@ -305,13 +328,13 @@ export default class App extends React.Component<IAppProps, IAppState> {
               <SubFunc>
                 <FxContainer jContent={"space-around"}>
                   <FxItem flex={"0 1 auto"}>
-                    <Icon name={NAME.CALENDAR} onClick={this.onhandleClick} />
+                    <Icon name={NAME.CALENDAR} onClick={this.onIconClick} />
                   </FxItem>
                   <FxItem flex={"0 1 auto"}>
-                    <Icon name={NAME.RICE} onClick={this.onhandleClick} />
+                    <Icon name={NAME.RICE} onClick={this.onIconClick} />
                   </FxItem>
                   <FxItem flex={"0 1 auto"}>
-                    <Icon name={NAME.WRITE} onClick={this.onhandleClick} />
+                    <Icon name={NAME.WRITE} onClick={this.onIconClick} />
                   </FxItem>
                 </FxContainer>
               </SubFunc>

@@ -20,7 +20,6 @@ interface optionsIFC {
 const IconArea = styled.div`
   display: inline-block;
   cursor: pointer;
-  z-index: 1000;
   ${(props: IconProps) =>
     props.name === "setting" ? "float:right; margin: 10px; opacity: 0.7;" : ""}
   ${(props: IconProps) => (props.margin ? `margin:${props.margin}` : "")}
@@ -134,7 +133,7 @@ interface Props {
   width?: string;
   height?: string;
   margin?: string;
-  onClick?: (event: React.MouseEvent) => void;
+  onClick: (name:string,event: React.MouseEvent) => void;
   onMouseOver?: (event: React.MouseEvent) => void;
 }
 
@@ -142,14 +141,14 @@ interface Props {
 // const SVGIcon:React.FC<Props> ({name, onClick}) => {
 // const SVGIcon = ({ name, onClick }: IconProps) => {
 */
-const SVGIcon = ({ name, ...props }: Props) => {
+const SVGIcon = ({ name, onClick, ...props }: Props) => {
   const option = setOptions(name);
   const { viewBox, width, height, fill, d_path } = option;
 
   const onIconClick = (event:React.MouseEvent) => {
-    // if(props.hasOwnProperty("onClick")){
-      // props.onClick(name, event);
-    // }
+    event.stopPropagation(); //stop bubbling and capturing
+    console.log(name,"onIconClick",event);
+    onClick(name, event);
   }
 console.log(name, "na?");
   return (
