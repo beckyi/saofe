@@ -37,16 +37,13 @@ const MoreFunc = styled.div`
   background-color: rgba(0,0,0,0.3);
   bottom: 35px;
   left: 27px;
-  height: 80px;
+  height:65px;
 `;
 
 const SH3 = styled.h3`
-  position: absolute;
-  bottom: 20px;
-  right: -39px;
   color: #fff;
   line-height: 1;
-  font-size: 30px;
+  margin: 5px 0px;
 `;
 /**
  * display: inline-block;
@@ -74,6 +71,13 @@ const Point = styled.span`
   width: 5px;
   height: 5px;
   margin: 6px;
+  cursor: pointer;
+`;
+
+const BtnBox = styled.div`
+  border: 0.5px solid white;
+  width: 45px;
+  text-align: center;
   cursor: pointer;
 `;
 
@@ -183,13 +187,19 @@ export default class App extends React.Component<IAppProps, IAppState> {
     let changeState:object = { modal_show, moreFunc_show, writeExcel: name === WRITE };
 
     if ( name === BELL){
-      let notify = new Notification('알림이 왔습니다.', {
-        'body': '안녕하세요. \n알림을 성공적으로 수신했습니다.',
-        'icon': 'https://tistory3.daumcdn.net/tistory/2979840/attach/6e5d2d16ab6a49628dfe1f4c164e38a0',
-        'tag': '메시지'
-      })
-      notify.onclick = function(){
-        alert(this.tag)
+debugger
+      if (Notification.permission ==='granted') {
+        let notify = new Notification('알림이 왔습니다.', {
+          'body': '안녕하세요. \n알림을 성공적으로 수신했습니다.',
+          'icon': 'https://tistory3.daumcdn.net/tistory/2979840/attach/6e5d2d16ab6a49628dfe1f4c164e38a0',
+          'tag': '메시지'
+        })
+        notify.onclick = function(){
+          alert(this.tag)
+        }
+      } else {
+        //denied, default
+        alert('알림을 허용해 주세요.');
       }
     }
 
@@ -289,16 +299,16 @@ console.log("handleMouseHover",event)
                 <Icon name={NAME.INFORM} onClick={this.onIconClick} />
                 { moreFunc_show &&
                   <MoreFunc>
-                    <FxContainer direction={"column"} alignItems={"center"} jContent={"center"}>
+                    <FxContainer direction={"column"} flexWrap={"wrap"} alignItems={"center"} jContent={"center"}>
                       <FxItem flex={"0 0 auto"}>
-                        <div style={{border: "0.5px solid white", width: "45px", textAlign: "center"}}>
+                        <BtnBox>
                           <SH3 id="clock_switch" onClick={this.onhandleClick}>{clockMode === "am/pm" ? "12" : "24"}</SH3>
-                        </div>
+                        </BtnBox>
                       </FxItem>
                       <FxItem flex={"0 0 auto"}>
-                        <div style={{border: "0.5px solid white", width: "45px", textAlign: "center"}}>
+                      <BtnBox>
                           <SH3 id="second_switch" onClick={this.onhandleClick}>{secondMode ? "MIN" : "SEC"}</SH3>
-                        </div>
+                        </BtnBox>
                       </FxItem>
                     </FxContainer>
                   </MoreFunc>

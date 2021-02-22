@@ -19,12 +19,12 @@ const Timer = styled.div`
 `;
 
 const Dater = styled.div`
-  cursor: wait;
   font-family: sans-serif;
   font-size: 1.3em;
   letter-spacing: 5px;
   text-align: center;
   color: #fff;
+  cursor: wait;
 `;
 
 const AMPM = styled.h3`
@@ -37,9 +37,10 @@ const AMPM = styled.h3`
 `;
 
 const SEC = styled.div`
+  display: inline-block;
   position: absolute;
-  top: 40px;
-  left: 15px;
+  bottom: 15px;
+  margin-left: 25px;
   color: #fff;
   line-height: 1;
   font-size: 30px;
@@ -94,7 +95,7 @@ const tiktockTime = (clockMode:string):string=> {
   let time:string =
     fillChar(hour, 2, "0") +
     ":" +
-    fillChar(today.getMinutes(), 2, "0");
+    fillChar(min, 2, "0");
 
   return time;
 }
@@ -143,10 +144,12 @@ const Clock = (props:IAppProps) => {
       {clockMode === "am/pm" && 
         <AMPM>{apm}</AMPM>
       }
-      <Timer onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-        {time}
-      </Timer>
-      {isShow && <Dater>{date}</Dater>}
+      <div style={{display: "inline-block"}}>
+        <Timer onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+          {time}
+        </Timer>
+        {isShow && <Dater>{date}</Dater>}
+      </div>
       {secondMode && 
         <SEC>TEST</SEC>
       }
