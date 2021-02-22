@@ -271,7 +271,7 @@ console.log("handleMouseHover",event)
                 <Jenkins name={"최재은"} />
               </FxItem>
               <FxItem flex={"1 1 auto"}/>
-              <FxItem flex={"0 0 50px"} style={{margin: "32px auto"}}>
+              <FxItem flex={"0 0 50px"} style={{margin: "20px auto", textAlign: "center"}}>
                 <Icon name={NAME.BELL} onClick={this.onIconClick} />
               </FxItem>
             </FxContainer>
@@ -302,7 +302,7 @@ console.log("handleMouseHover",event)
                     <FxContainer direction={"column"} flexWrap={"wrap"} alignItems={"center"} jContent={"center"}>
                       <FxItem flex={"0 0 auto"}>
                         <BtnBox>
-                          <SH3 id="clock_switch" onClick={this.onhandleClick}>{clockMode === "am/pm" ? "12" : "24"}</SH3>
+                          <SH3 id="clock_switch" onClick={this.onhandleClick}>{clockMode === "am/pm" ? "24" : "12"}</SH3>
                         </BtnBox>
                       </FxItem>
                       <FxItem flex={"0 0 auto"}>

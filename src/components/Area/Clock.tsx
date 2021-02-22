@@ -51,6 +51,11 @@ interface IAppProps {
   secondMode: boolean;
 }
 
+interface tObj {
+  homin: string;
+  sec: string;
+}
+
 let today = new Date();
 
 const fillChar = (item: number, num: number, ch: string) => {
@@ -81,12 +86,14 @@ const setDate = (): string => {
   )}.${fillChar(today.getDate(),2,"0")}.${dayChar(today.getDay())}`;
 };
 
-const tiktockTime = (clockMode:string):string=> {
+//시간 재는 함수
+const tiktockTime = (clockMode:string):tObj=> {
 
   today = new Date();
 
   let hour:number = today.getHours();
   let min:number = today.getMinutes();
+  let sec:number = today.getSeconds();
 
   if(clockMode === "am/pm" && hour > 12){
     hour = hour - 12;
@@ -97,7 +104,7 @@ const tiktockTime = (clockMode:string):string=> {
     ":" +
     fillChar(min, 2, "0");
 
-  return time;
+  return {homin: time, sec: fillChar(sec, 2, "0")};
 }
 
 // const handleMouseOver = (event: MouseEvent): void => {
@@ -109,6 +116,7 @@ const Clock = (props:IAppProps) => {
   const {clockMode, secondMode} = props;
   const date = setDate();
   const [time, setTime] = useState<string>("00:00");
+  const [seconds, setSec] = useState<string>("00");
   const [isShow, showDate] = useState<boolean>(false);
   const apm = today.getHours() > 12 ? "PM" : "AM";
 
@@ -117,27 +125,30 @@ const Clock = (props:IAppProps) => {
   
   useEffect(() => {
   
-    console.log('tictokIV>',tictokIV, clockMode)
+    console.log('tictokIV>',tictokIV, clockMode, secondMode)
 
     if(tictokIV > 0){
       clearInterval(tictokIV);
       
-      const ptime:string = tiktockTime(clockMode);
-      if(time !== ptime){
-        setTime(ptime);
+      const ptime:tObj = tiktockTime(clockMode);
+
+      if(time !== ptime.homin){
+        setTime(ptime.homin);
       }
+      if(secondMode)  setSec(ptime.sec);
     }
 
     tictokIV = setInterval(() => {
-      const ttime:string = tiktockTime(clockMode);
-      setTime(ttime);
+      const ttime:tObj = tiktockTime(clockMode);
+      setTime(ttime.homin);
+      if(secondMode)  setSec(ttime.sec);
     }, 1000); //0.1 second
     
     return () => {
-      console.log('unmounted');
+      console.log('unmounted',tictokIV);
       clearInterval(tictokIV);
     };
-  },[clockMode]);
+  },[clockMode, secondMode]);
   
   return (
     <div style={{position: "relative"}}>
@@ -151,7 +162,7 @@ const Clock = (props:IAppProps) => {
         {isShow && <Dater>{date}</Dater>}
       </div>
       {secondMode && 
-        <SEC>TEST</SEC>
+        <SEC>{seconds}</SEC>
       }
     </div>
   );
