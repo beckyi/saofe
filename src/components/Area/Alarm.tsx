@@ -48,9 +48,70 @@ const AlItem = styled.div`
     margin-bottom: 2px;
   }
 `
+
+const SwitchWrap = styled.div`
+  position: relative;
+`;
+// `
+//   position: relative;
+//   display: inline-block;
+//   width: 60px;
+//   height: 34px;
+// `;
+
+const Slider = styled.label`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 42px;
+  height: 26px;
+  border-radius: 15px;
+  background: #bebebe;
+  cursor: pointer;
+  &::after {
+    content: "";
+    display: block;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    margin: 3px;
+    background: #ffffff;
+    box-shadow: 1px 3px 3px 1px rgba(0, 0, 0, 0.2);
+    transition: 0.2s;
+  } 
+`;
+
+const CheckInput = styled.input`
+  opacity: 0;
+  z-index: 1;
+  border-radius: 15px;
+  width: 42px;
+  height: 26px;
+  &:checked + ${Slider} {
+    background: #4fbe79;
+    &::after {
+      content: "";
+      display: block;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      margin-left: 21px;
+      transition: 0.2s;
+    }
+  }
+`;
  
 interface IWFProps{
   onClick: (event: React.MouseEvent) => void;
+}
+
+const SwitchBtn = () => {
+  return (
+    <SwitchWrap>
+      <CheckInput type="checkbox" checked/>
+      <Slider></Slider>
+    </SwitchWrap>
+  );
 }
 
 const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
@@ -60,7 +121,7 @@ const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
       <AlarmModal>
         <AlWrap>
         {[1,2,3].map((item)=>{
-          return <AlItem><input type="time"/> <input type="checkbox"/></AlItem>
+          return <AlItem><input type="time"/> <SwitchBtn /></AlItem>
         })}
         </AlWrap>
       </AlarmModal>
