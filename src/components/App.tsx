@@ -9,6 +9,7 @@ import Clock from "./Area/Clock";
 import Icon from "./Area/Icon";
 import Modal from "./Area/Modal";
 import WriteForm from "./Area/WriteForm";
+import Alarm from "./Area/Alarm";
 
 import NAME from "../utils/Enum";
 import { getThisMonday } from "../utils/utils";
@@ -187,7 +188,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
     let changeState:object = { modal_show, moreFunc_show, writeExcel: name === WRITE };
 
     if ( name === BELL){
-debugger
       if (Notification.permission ==='granted') {
         let notify = new Notification('알림이 왔습니다.', {
           'body': '안녕하세요. \n알림을 성공적으로 수신했습니다.',
@@ -197,6 +197,11 @@ debugger
         notify.onclick = function(){
           alert(this.tag)
         }
+        notify.onerror = function(){
+          alert(this.tag)
+        }
+        notify.onshow = function() { setTimeout(notify.close, 5000) }
+
       } else {
         //denied, default
         alert('알림을 허용해 주세요.');
@@ -273,6 +278,7 @@ console.log("handleMouseHover",event)
               <FxItem flex={"1 1 auto"}/>
               <FxItem flex={"0 0 50px"} style={{margin: "20px auto", textAlign: "center"}}>
                 <Icon name={NAME.BELL} onClick={this.onIconClick} />
+                <Alarm onClick={this.onhandleClick}/>
               </FxItem>
             </FxContainer>
           </Item>
