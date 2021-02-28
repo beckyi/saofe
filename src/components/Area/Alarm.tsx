@@ -107,12 +107,16 @@ const CheckInput = styled.input`
 interface IWFProps{
   onClick: (event: React.MouseEvent) => void;
 }
+interface SWBProps{
+  idx: number;
+}
 
-const SwitchBtn = () => {
+const SwitchBtn = (props:SWBProps) => {
+  const {idx} = props;
   return (
     <SwitchWrap>
-      <CheckInput type="checkbox" />
-      <Slider htmlFor="checkbox" />
+      <CheckInput id={`checkbox${idx}`} type="checkbox" />
+      <Slider htmlFor={`checkbox${idx}`} />
     </SwitchWrap>
   );
 }
@@ -123,8 +127,8 @@ const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
       <Dimm id="dimmed" onClick={onClick} />
       <AlarmModal>
         <AlWrap>
-        {[1,2,3].map((item)=>{
-          return <AlItem><input type="time" style={{width:"88px"}}/> <SwitchBtn /></AlItem>
+        {[1,2,3].map((item, idx:number) =>{
+          return <AlItem><input type="time" style={{width:"88px"}}/> <SwitchBtn idx={idx}/></AlItem>
         })}
         </AlWrap>
       </AlarmModal>
