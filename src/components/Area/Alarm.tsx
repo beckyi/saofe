@@ -9,7 +9,7 @@ const Dimm = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  zindex: 1100;
+  z-index: 1100;
   background: #000;
   opacity: 0.3;
   filter: alpha(opacity=30);
@@ -26,6 +26,7 @@ const AlarmModal = styled.div`
   opacity: 0.7;
   border-radius: 10px;
   cursor: default;
+  z-index: 1101;
 `;
 
 const AlWrap = styled.div`
@@ -51,6 +52,8 @@ const AlItem = styled.div`
 
 const SwitchWrap = styled.div`
   position: relative;
+  display: inline-block;
+  z-index: 1102;
 `;
 // `
 //   position: relative;
@@ -83,8 +86,8 @@ const Slider = styled.label`
 
 const CheckInput = styled.input`
   opacity: 0;
-  z-index: 1;
-  border-radius: 15px;
+  z-index: 1103;
+  margin: 0px;
   width: 42px;
   height: 26px;
   &:checked + ${Slider} {
@@ -108,8 +111,8 @@ interface IWFProps{
 const SwitchBtn = () => {
   return (
     <SwitchWrap>
-      <CheckInput type="checkbox" checked/>
-      <Slider></Slider>
+      <CheckInput type="checkbox" />
+      <Slider htmlFor="checkbox" />
     </SwitchWrap>
   );
 }
@@ -121,7 +124,7 @@ const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
       <AlarmModal>
         <AlWrap>
         {[1,2,3].map((item)=>{
-          return <AlItem><input type="time"/> <SwitchBtn /></AlItem>
+          return <AlItem><input type="time" style={{width:"88px"}}/> <SwitchBtn /></AlItem>
         })}
         </AlWrap>
       </AlarmModal>

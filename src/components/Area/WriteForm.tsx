@@ -11,7 +11,7 @@ const Dimm = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  zindex: 1100;
+  z-index: 1100;
   background: #000;
   opacity: 0.3;
   filter: alpha(opacity=30);
