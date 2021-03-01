@@ -41,7 +41,7 @@ class BrowserStorage {
       } catch (e) {
         console.warn("STORAGE ERR", e);
         //용량 초과로 인한 오류 발생시.
-        if (e.name !== undefined && e.name === "QuotaExceededError") {
+        if (e.name && e.name === "QuotaExceededError") {
           let storageData = Object.assign({}, this.STORAGE);
           for (var key in storageData) {
             if (key.indexOf("_ACCTIT") > -1) {

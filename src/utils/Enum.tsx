@@ -1,4 +1,5 @@
 enum NAME {
+  GROUP = "DZ-",
   INFORM = "INFORM",
   SETTING = "SETTING",
   CALENDAR = "CALENDAR",

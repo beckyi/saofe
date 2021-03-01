@@ -1,6 +1,9 @@
 
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
+import BrowserStorage from "../../utils/BrowserStorage";
+import NAME from "../../utils/Enum";
+import {getTodayYMD} from "../../utils/utils";
 
 const Dimm = styled.div`
   overflow: hidden;
@@ -38,7 +41,7 @@ const AlWrap = styled.div`
 `;
 
 const AlItem = styled.div`
-  padding: 15px;
+  padding: 15px 0px;
   border: 0.5px solid white;
   border-radius: 10px;
   margin: 4px 0px;
@@ -54,6 +57,9 @@ const SwitchWrap = styled.div`
   position: relative;
   display: inline-block;
   z-index: 1102;
+  float: right;
+  right: 6px;
+  bottom: 2px;
 `;
 // `
 //   position: relative;
@@ -111,6 +117,8 @@ interface SWBProps{
   idx: number;
 }
 
+const storage = new BrowserStorage("local");
+
 const SwitchBtn = (props:SWBProps) => {
   const {idx} = props;
   return (
@@ -122,13 +130,27 @@ const SwitchBtn = (props:SWBProps) => {
 }
 
 const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
+  const [alTimes, setAlTime] = useState([]);
+  useEffect(() => {
+    const {GROUP} = NAME;
+    const save_alarm = storage.getItem(`${GROUP}ALARM-${getTodayYMD()}`);
+console.log("ALRAM! >>> ",alTimes,save_alarm);
+    if(save_alarm){
+      setAlTime(save_alarm);
+    }
+  },[]);
+
+  const saveAlramDatas = (param:Array<string>):void => {
+    
+  }
+
   return (
     <>
       <Dimm id="dimmed" onClick={onClick} />
       <AlarmModal>
         <AlWrap>
         {[1,2,3].map((item, idx:number) =>{
-          return <AlItem><input type="time" style={{width:"88px"}}/> <SwitchBtn idx={idx}/></AlItem>
+          return <AlItem><input type="time"/> <SwitchBtn idx={idx}/></AlItem>
         })}
         </AlWrap>
       </AlarmModal>

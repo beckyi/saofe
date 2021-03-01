@@ -2,21 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import NAME from "../../utils/Enum";
 
-interface IconProps {
-  name: string;
-  width?: string;
-  height?: string;
-  margin?: string;
-}
-
-interface optionsIFC {
-  viewBox: string;
-  width: number;
-  height: number;
-  fill: string;
-  d_path: string[];
-}
-
 const IconArea = styled.div`
   display: inline-block;
   cursor: pointer;
@@ -24,6 +9,29 @@ const IconArea = styled.div`
     props.name === "setting" ? "float:right; margin: 10px; opacity: 0.7;" : ""}
   ${(props: IconProps) => (props.margin ? `margin:${props.margin}` : "")}
 `;
+interface IconProps {
+  name: string;
+  width?: string;
+  height?: string;
+  margin?: string;
+}
+interface optionsIFC {
+  viewBox: string;
+  width: number;
+  height: number;
+  fill: string;
+  d_path: string[];
+}
+//(event: React.MouseEvent) => void, ()=> void;
+interface Props {
+  id?: string;
+  name: string;
+  width?: string;
+  height?: string;
+  margin?: string;
+  onClick: (name:string,event: React.MouseEvent) => void;
+  onMouseOver?: (event: React.MouseEvent) => void;
+}
 
 const setOptions = (name: string): optionsIFC => {
   let viewBox = "",
@@ -126,17 +134,6 @@ const setOptions = (name: string): optionsIFC => {
   return { viewBox, fill, width, height, d_path };
 };
 
-//(event: React.MouseEvent) => void, ()=> void;
-interface Props {
-  id?: string;
-  name: string;
-  width?: string;
-  height?: string;
-  margin?: string;
-  onClick: (name:string,event: React.MouseEvent) => void;
-  onMouseOver?: (event: React.MouseEvent) => void;
-}
-
 /** 
 // const SVGIcon:React.FC<Props> ({name, onClick}) => {
 // const SVGIcon = ({ name, onClick }: IconProps) => {
@@ -150,7 +147,7 @@ const SVGIcon = ({ name, onClick, ...props }: Props) => {
     console.log(name,"onIconClick",event);
     onClick(name, event);
   }
-console.log(name, "na?");
+  
   return (
     <IconArea name={name} onClick={onIconClick} {...props}>
       <svg

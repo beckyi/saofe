@@ -139,8 +139,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
   }
   //메뉴 정보 가져오기
   loadMenuData() {
+    const {GROUP} = NAME;
     const thisMonday = getThisMonday();
-    const sName = `D-Menu-${thisMonday}`;
+    const sName = `${GROUP}Menu-${thisMonday}`;
     const menuData = this.storage.getItem(sName);
 
     if (!menuData) {
@@ -222,7 +223,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(id) ? id : "";
     const moreFunc_show = id === "INFORM";
-  debugger 
+  
     let changeState:object = { modal_show, moreFunc_show, writeExcel: id === WRITE };
 
     if(id === "clock_switch"){
@@ -246,14 +247,14 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   handleMouseHover = (event: MouseEvent): void => {
     event.stopPropagation(); //stop bubbling and capturing
-console.log("handleMouseHover",event)
     this.setState({ subFunc_show: !this.state.subFunc_show });
   };
 
   setMenuProp = (monday: string, list: any) => {
-    console.log("!!!", list);
     this.setState({ menuList: list }, () => {
-      const sName = `D-Menu-${monday}`;
+      const {GROUP} = NAME;
+      //DZ-Menu-NwNd
+      const sName = `${GROUP}Menu-${monday}`;
       this.storage.setItem(sName, list);
     });
   };
