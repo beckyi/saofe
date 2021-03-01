@@ -142,6 +142,7 @@ const Clock = (props:IAppProps) => {
       const ttime:tObj = tiktockTime(clockMode);
       setTime(ttime.homin);
       if(secondMode)  setSec(ttime.sec);
+console.log(window.localStorage.getItem("alarm"))
     }, 1000); //0.1 second
     
     return () => {
@@ -156,7 +157,7 @@ const Clock = (props:IAppProps) => {
         <AMPM>{apm}</AMPM>
       }
       <div style={{display: "inline-block"}}>
-        <Timer onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+        <Timer id={"TIMER"} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
           {time}
         </Timer>
         {isShow && <Dater>{date}</Dater>}

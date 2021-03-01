@@ -113,35 +113,77 @@ const CheckInput = styled.input`
 interface IWFProps{
   onClick: (event: React.MouseEvent) => void;
 }
-interface SWBProps{
+interface alObj {
+  time: string;
+  check: boolean;
+}
+interface childProps{
   idx: number;
+  time: string;
+  check: boolean;
+  updateCallback: (idx: number, param:alObj) => void;
 }
 
 const storage = new BrowserStorage("local");
+const {GROUP} = NAME;
+const storage_id = `${GROUP}ALARM-${getTodayYMD()}`;
 
-const SwitchBtn = (props:SWBProps) => {
-  const {idx} = props;
+const checkTime = () => {
+  console.log(new Date().getHours())
+  console.log(document.getElementById("TIMER"), document.getElementById("TIMER")?.innerText)
+}
+
+const TimePicker = (props:childProps) => {
+  const {idx, time, check, updateCallback} = props;
+  const handleOnChange = (event:React.ChangeEvent<HTMLInputElement>):void => {
+    const target = event.target as HTMLInputElement;
+    const value:string = target.value;
+    const bool:boolean = !value && check ? false : check;
+    checkTime();
+    updateCallback(idx, {time: value, check: bool});
+  };
+  const handleTest = (event:React.FocusEvent<HTMLInputElement>):void => {
+    const target = event.target as HTMLInputElement;
+    console.log(event, target, target.id, target.value)
+  };
+  return (<input type="time" id={`timepick${idx}`} onChange={handleOnChange} onBlur={handleTest}/>);
+};
+
+const SwitchBtn = (props:childProps) => {
+  const {idx, time, check, updateCallback} = props;
+  const handleOnClick = (event:React.MouseEvent):void => {
+    const target = event.target as HTMLInputElement;
+    if(!time && target.checked){
+      event.preventDefault();
+    } else {
+      updateCallback(idx, {time: time, check: target.checked});
+    }
+    console.log(event, target, target.id, target.checked)
+  };
   return (
     <SwitchWrap>
-      <CheckInput id={`checkbox${idx}`} type="checkbox" />
+      <CheckInput id={`checkbox${idx}`} type="checkbox" checked={check} onClick={handleOnClick}/>
       <Slider htmlFor={`checkbox${idx}`} />
     </SwitchWrap>
   );
 }
 
 const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
-  const [alTimes, setAlTime] = useState([]);
+  const [alTimes, setAlramTime] = useState([{time:"", check: false}, {time:"", check: false}, {time:"", check: false}]);
   useEffect(() => {
-    const {GROUP} = NAME;
-    const save_alarm = storage.getItem(`${GROUP}ALARM-${getTodayYMD()}`);
-console.log("ALRAM! >>> ",alTimes,save_alarm);
-    if(save_alarm){
-      setAlTime(save_alarm);
+    const save_alarm = storage.getItem(storage_id);
+
+    if(save_alarm && save_alarm.length > 3){
+      setAlramTime(save_alarm);
     }
   },[]);
 
-  const saveAlramDatas = (param:Array<string>):void => {
-    
+  const saveAlramDatas = (idx:number, param:alObj):void => {
+    let result = alTimes.slice(0)
+    result[idx] = param;
+console.log(idx,param,result);
+    setAlramTime(result);
+    // storage.setItem(storage_id,JSON.stringify(result));
   }
 
   return (
@@ -149,8 +191,14 @@ console.log("ALRAM! >>> ",alTimes,save_alarm);
       <Dimm id="dimmed" onClick={onClick} />
       <AlarmModal>
         <AlWrap>
-        {[1,2,3].map((item, idx:number) =>{
-          return <AlItem><input type="time"/> <SwitchBtn idx={idx}/></AlItem>
+        {alTimes.map((item:alObj, idx:number) =>{
+          const {time, check} = item;
+          return (
+            <AlItem>
+              <TimePicker idx={idx} time={time} check={check} updateCallback={saveAlramDatas}/> 
+              <SwitchBtn idx={idx} time={time} check={check} updateCallback={saveAlramDatas}/>
+            </AlItem>
+          );
         })}
         </AlWrap>
       </AlarmModal>
