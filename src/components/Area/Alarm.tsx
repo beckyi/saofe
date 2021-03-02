@@ -1,4 +1,5 @@
 
+import { time } from "console";
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
 import BrowserStorage from "../../utils/BrowserStorage";
@@ -128,9 +129,19 @@ const storage = new BrowserStorage("local");
 const {GROUP} = NAME;
 const storage_id = `${GROUP}ALARM-${getTodayYMD()}`;
 
-const checkTime = () => {
-  console.log(new Date().getHours())
-  console.log(document.getElementById("TIMER"), document.getElementById("TIMER")?.innerText)
+const checkTime = (ptime:string):boolean => {
+  let bool:boolean = true;
+  const now = new Date();
+  let now_str = `${now.getHours().toString().padStart(2, "0")}${now.getMinutes()}`;   //hhmm
+  const now_num = parseInt(now_str);
+  const time_num = parseInt(ptime);
+  if(now_num >= time_num){
+    bool = false;
+  } else if (Math.abs(time_num - now_num) < 6){
+    bool = false;
+  }
+  
+  return bool;
 }
 
 const TimePicker = (props:childProps) => {
@@ -139,14 +150,18 @@ const TimePicker = (props:childProps) => {
     const target = event.target as HTMLInputElement;
     const value:string = target.value;
     const bool:boolean = !value && check ? false : check;
-    checkTime();
-    updateCallback(idx, {time: value, check: bool});
+    if(checkTime(value.replace(":",""))){
+      //현재시간보다 빠르지 않을 경우 적용
+      updateCallback(idx, {time: value, check: bool});
+    } else {
+      alert("시간을 다시 입력해주세요.")
+    }
   };
   const handleTest = (event:React.FocusEvent<HTMLInputElement>):void => {
     const target = event.target as HTMLInputElement;
     console.log(event, target, target.id, target.value)
   };
-  return (<input type="time" id={`timepick${idx}`} onChange={handleOnChange} onBlur={handleTest}/>);
+  return (<input type="time" id={`timepick${idx}`} value={time} onChange={handleOnChange} onBlur={handleTest}/>);
 };
 
 const SwitchBtn = (props:childProps) => {
@@ -154,11 +169,13 @@ const SwitchBtn = (props:childProps) => {
   const handleOnClick = (event:React.MouseEvent):void => {
     const target = event.target as HTMLInputElement;
     if(!time && target.checked){
+      //시간이 없을 경우 사용 불가능
       event.preventDefault();
     } else {
-      updateCallback(idx, {time: time, check: target.checked});
+      //끌 경우 시간 초기화
+      const val = !target.checked ? "" : time;
+      updateCallback(idx, {time: val, check: target.checked});
     }
-    console.log(event, target, target.id, target.checked)
   };
   return (
     <SwitchWrap>
@@ -172,8 +189,8 @@ const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
   const [alTimes, setAlramTime] = useState([{time:"", check: false}, {time:"", check: false}, {time:"", check: false}]);
   useEffect(() => {
     const save_alarm = storage.getItem(storage_id);
-
-    if(save_alarm && save_alarm.length > 3){
+debugger
+    if(save_alarm && save_alarm.length === 3){
       setAlramTime(save_alarm);
     }
   },[]);
@@ -181,9 +198,9 @@ const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
   const saveAlramDatas = (idx:number, param:alObj):void => {
     let result = alTimes.slice(0)
     result[idx] = param;
-console.log(idx,param,result);
     setAlramTime(result);
-    // storage.setItem(storage_id,JSON.stringify(result));
+debugger;
+    storage.setItem(storage_id,JSON.stringify(result));
   }
 
   return (
