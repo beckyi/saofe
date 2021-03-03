@@ -1,3 +1,4 @@
+import NAME from "./Enum"
 class BrowserStorage {
   public STORAGE: any;
 
@@ -40,15 +41,20 @@ class BrowserStorage {
         this.STORAGE.setItem(name, data);
       } catch (e) {
         console.warn("STORAGE ERR", e);
-        //용량 초과로 인한 오류 발생시.
-        if (e.name && e.name === "QuotaExceededError") {
-          let storageData = Object.assign({}, this.STORAGE);
-          for (var key in storageData) {
-            if (key.indexOf("_ACCTIT") > -1) {
-              this.removeItem(key);
-            }
-          }
+        //용량 초과로 인한 오류 발생 시 DZ 일괄 삭제
+        if (e.name === "QuotaExceededError") {
+          this.cleanItems();
         }
+      }
+    }
+  }
+
+  cleanItems(pname?:string, pexcept?:string){
+    const _name:string = pname || NAME.GROUP;
+    let storageData = Object.assign({}, this.STORAGE);
+    for (let key in storageData) {
+      if (key.includes(_name) && key !== pexcept) {
+        this.removeItem(key);
       }
     }
   }
