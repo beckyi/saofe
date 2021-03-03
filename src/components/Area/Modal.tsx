@@ -20,7 +20,6 @@ const Dialog = styled.div`
   min-width: 200px;
   padding: 10px;
   position: absolute;
-  z-index: 2;
   background: white;
   border-radius: 10px;
   overflow-x: hidden;
@@ -38,7 +37,6 @@ const Dimm = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1100;
   background: #000;
   opacity: 0.3;
   filter: alpha(opacity=30);

@@ -75,7 +75,7 @@ export const UploadXlsx = forwardRef<HTMLInputElement, FileProps>(
         const url =
           enterence === NAME.WRITE
             ? "http://wiki.duzon.com:8080/pages/viewpage.action?pageId=64457546"
-            : "https://gwa.douzone.com/gw/uat/uia/egovLoginUsr.do";
+            : "https://gwa.douzone.com/";
         onExcelClose(); //init
         //확인 클릭 시 페이지 띄우기 (편의)
         window.open(

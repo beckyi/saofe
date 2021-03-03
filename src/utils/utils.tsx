@@ -118,7 +118,7 @@ export const getThisMonday = (): string => {
 export const getTodayYMD = ():string => {
   const current = new Date();
   const today = current.getDay();
-  return `${current.getFullYear()}${current.getMonth().toString().padStart(2, "0")}${current.getDate().toString().padStart(2, "0")}`;
+  return `${current.getFullYear()}${(current.getMonth()+1).toString().padStart(2, "0")}${current.getDate().toString().padStart(2, "0")}`;
 };
 
 //FIXME : https://stackoverflow.com/questions/53603770/how-to-properly-use-fromcharcode-apply-with-uint8array-in-typescript-3

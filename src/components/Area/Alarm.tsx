@@ -13,7 +13,6 @@ const Dimm = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1100;
   background: #000;
   opacity: 0.3;
   filter: alpha(opacity=30);
@@ -30,7 +29,6 @@ const AlarmModal = styled.div`
   opacity: 0.7;
   border-radius: 10px;
   cursor: default;
-  z-index: 1101;
 `;
 
 const AlWrap = styled.div`
@@ -57,7 +55,6 @@ const AlItem = styled.div`
 const SwitchWrap = styled.div`
   position: relative;
   display: inline-block;
-  z-index: 1102;
   float: right;
   right: 6px;
   bottom: 2px;
@@ -93,7 +90,6 @@ const Slider = styled.label`
 
 const CheckInput = styled.input`
   opacity: 0;
-  z-index: 1103;
   margin: 0px;
   width: 42px;
   height: 26px;
@@ -136,8 +132,10 @@ const checkTime = (ptime:string):boolean => {
   const now_num = parseInt(now_str);
   const time_num = parseInt(ptime);
   if(now_num >= time_num){
+    //현재 시간보다 빠를 경우
     bool = false;
   } else if (Math.abs(time_num - now_num) < 6){
+    //5분 차이 필요
     bool = false;
   }
   
@@ -151,7 +149,7 @@ const TimePicker = (props:childProps) => {
     const value:string = target.value;
     const bool:boolean = !value && check ? false : check;
     if(checkTime(value.replace(":",""))){
-      //현재시간보다 빠르지 않을 경우 적용
+      //현재 시간보다 늦을 경우 적용
       updateCallback(idx, {time: value, check: bool});
     } else {
       alert("시간을 다시 입력해주세요.")
@@ -187,20 +185,28 @@ const SwitchBtn = (props:childProps) => {
 
 const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
   const [alTimes, setAlramTime] = useState([{time:"", check: false}, {time:"", check: false}, {time:"", check: false}]);
+  
   useEffect(() => {
+    //스토리지에 저장된 알람정보가 있을 경우 세팅
     const save_alarm = storage.getItem(storage_id);
-debugger
     if(save_alarm && save_alarm.length === 3){
-      setAlramTime(save_alarm);
+      let result = save_alarm.map((item:alObj) => {
+        //현재 시간과 비교
+        const bool = checkTime(item.time.replace(":",""));
+        const _tm = bool ? item.time : "";
+        const _ck = bool ? item.check : false;
+        return {time: _tm, check: _ck};
+      });
+      setAlramTime(result);
     }
   },[]);
 
+  //알라정보 저장용
   const saveAlramDatas = (idx:number, param:alObj):void => {
     let result = alTimes.slice(0)
     result[idx] = param;
     setAlramTime(result);
-debugger;
-    storage.setItem(storage_id,JSON.stringify(result));
+    storage.setItem(storage_id,JSON.stringify(result)); 
   }
 
   return (

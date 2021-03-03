@@ -101,6 +101,7 @@ export interface IAppState {
   modal_show: string;
   subFunc_show: boolean;
   moreFunc_show: boolean;
+  alramFunc_show: boolean;
   writeExcel: boolean;
   menuList: any;
   clockMode: string;
@@ -116,6 +117,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
       modal_show: "",
       subFunc_show: false,
       moreFunc_show: false,
+      alramFunc_show: false,
       writeExcel: false,
       menuList: [],
       clockMode: "default",
@@ -182,11 +184,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
   onIconClick=(name:string, event: React.MouseEvent)=> {
     console.log(name, event);
 
-    const { CALENDAR, RICE, SETTING, WRITE, BELL } = NAME;
+    const { CALENDAR, RICE, SETTING, WRITE, BELL, INFORM } = NAME;
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(name) ? name : "";
-    const moreFunc_show = name === "INFORM";
-    let changeState:object = { modal_show, moreFunc_show, writeExcel: name === WRITE };
+    const moreFunc_show = name === INFORM;
+    const alramFunc_show = name === BELL;
+    let changeState:object = { modal_show, moreFunc_show, alramFunc_show, writeExcel: name === WRITE };
 
     if ( name === BELL){
       if (Notification.permission ==='granted') {
@@ -219,12 +222,13 @@ export default class App extends React.Component<IAppProps, IAppState> {
     const {clockMode, secondMode} = this.state;
     const target = event.target as HTMLElement;
     const { id } = target;
-    const { CALENDAR, RICE, SETTING, WRITE, BELL } = NAME;
+    const { CALENDAR, RICE, SETTING, WRITE, BELL, INFORM } = NAME;
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(id) ? id : "";
-    const moreFunc_show = id === "INFORM";
+    const moreFunc_show = id === INFORM;
+    const alramFunc_show = id === BELL;
   
-    let changeState:object = { modal_show, moreFunc_show, writeExcel: id === WRITE };
+    let changeState:object = { modal_show, moreFunc_show, alramFunc_show, writeExcel: id === WRITE };
 
     if(id === "clock_switch"){
       const _clockMode:string = clockMode === "default" ?  "am/pm" : "default";
@@ -261,7 +265,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 //{/* <Icon name={NAME.BELLING} onClick={this.onhandleClick} /> */}
   render() {
     //: JSX.Element {
-    const { modal_show, subFunc_show, moreFunc_show, menuList, writeExcel, clockMode, secondMode } = this.state;
+    const { modal_show, subFunc_show, moreFunc_show, alramFunc_show, menuList, writeExcel, clockMode, secondMode } = this.state;
 
     return (
       <BaseGround id="SAOFE">
@@ -279,7 +283,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
               <FxItem flex={"1 1 auto"}/>
               <FxItem flex={"0 0 50px"} style={{margin: "20px auto", textAlign: "center"}}>
                 <Icon name={NAME.BELL} onClick={this.onIconClick} />
-                <Alarm onClick={this.onhandleClick}/>
+                {alramFunc_show &&
+                  <Alarm onClick={this.onhandleClick}/>
+                }
               </FxItem>
             </FxContainer>
           </Item>
@@ -313,7 +319,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
                         </BtnBox>
                       </FxItem>
                       <FxItem flex={"0 0 auto"}>
-                      <BtnBox>
+                        <BtnBox>
                           <SH3 id="second_switch" onClick={this.onhandleClick}>{secondMode ? "MIN" : "SEC"}</SH3>
                         </BtnBox>
                       </FxItem>
