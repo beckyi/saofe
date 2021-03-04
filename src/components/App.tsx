@@ -182,35 +182,24 @@ export default class App extends React.Component<IAppProps, IAppState> {
   }
 
   onIconClick=(name:string, event: React.MouseEvent)=> {
-    console.log(name, event);
+    event.stopPropagation(); //stop bubbling and capturing
 
     const { CALENDAR, RICE, SETTING, WRITE, BELL, INFORM } = NAME;
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(name) ? name : "";
     const moreFunc_show = name === INFORM;
-    const alramFunc_show = name === BELL;
-    let changeState:object = { modal_show, moreFunc_show, alramFunc_show, writeExcel: name === WRITE };
-
+    let alramFunc_show:boolean = false;
+    
     if ( name === BELL){
       if (Notification.permission ==='granted') {
-        let notify = new Notification('알림이 왔습니다.', {
-          'body': '안녕하세요. \n알림을 성공적으로 수신했습니다.',
-          'icon': 'https://tistory3.daumcdn.net/tistory/2979840/attach/6e5d2d16ab6a49628dfe1f4c164e38a0',
-          'tag': '메시지'
-        })
-        notify.onclick = function(){
-          alert(this.tag)
-        }
-        notify.onerror = function(){
-          alert(this.tag)
-        }
-        notify.onshow = function() { setTimeout(notify.close, 5000) }
-
+        alramFunc_show = true;
       } else {
         //denied, default
         alert('알림을 허용해 주세요.');
       }
     }
+
+    const changeState:object = { modal_show, moreFunc_show, alramFunc_show, writeExcel: name === WRITE };
 
     this.setState(changeState);
   }

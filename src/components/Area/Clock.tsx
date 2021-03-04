@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react"; //MouseEvent
 import styled from "styled-components";
+import {getTodayYMD} from "../../utils/utils";
+import NAME from "../../utils/Enum";
+import BrowserStorage from "../../utils/BrowserStorage";
 
 let tictokIV: number = 0;
 
@@ -54,6 +57,11 @@ interface IAppProps {
 interface tObj {
   homin: string;
   sec: string;
+}
+
+interface alObj {
+  time: string;
+  check: boolean;
 }
 
 let today = new Date();
@@ -112,6 +120,39 @@ const tiktockTime = (clockMode:string):tObj=> {
 //   //showDate(true);
 // };
 
+const checkAlramTime = (pTime:string):void => {
+  const {GROUP} = NAME;
+  const storage = new BrowserStorage("local");
+  const storage_id = `${GROUP}ALARM-${getTodayYMD()}`;
+  const data = storage.getItem(storage_id)
+
+  if(pTime && data){
+    let times:Array<string> = [];
+    data.forEach((item:alObj)=>{
+      if(item.check && item.time){
+        times.push(item.time);
+      }
+    });
+    const idx:number = times.indexOf(pTime.replace(":",""));
+    if(idx > -1){
+      let notify = new Notification('알림이 왔습니다.', {
+      'body': '안녕하세요. \n알림을 성공적으로 수신했습니다.',
+      'icon': 'https://tistory3.daumcdn.net/tistory/2979840/attach/6e5d2d16ab6a49628dfe1f4c164e38a0',
+      'tag': '메시지'
+      });
+      notify.onclick = function(){
+        alert(this.tag)
+      }
+      notify.onerror = function(){
+        alert(this.tag)
+      }
+      notify.onshow = function() { setTimeout(notify.close, 5000) }
+
+      storage.setItem(storage_id, data.splice(idx,1));
+    }
+  }
+};
+
 const Clock = (props:IAppProps) => {
   const {clockMode, secondMode} = props;
   const date = setDate();
@@ -139,10 +180,11 @@ const Clock = (props:IAppProps) => {
     }
 
     tictokIV = setInterval(() => {
+      //FIXME: 실시간 카운트
       const ttime:tObj = tiktockTime(clockMode);
+      checkAlramTime(ttime.homin);
       setTime(ttime.homin);
       if(secondMode)  setSec(ttime.sec);
-console.log(window.localStorage.getItem("alarm"))
     }, 1000); //0.1 second
     
     return () => {
