@@ -272,9 +272,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
               <FxItem flex={"1 1 auto"}/>
               <FxItem flex={"0 0 50px"} style={{margin: "20px auto", textAlign: "center"}}>
                 <Icon name={NAME.BELL} onClick={this.onIconClick} />
-                {alramFunc_show &&
-                  <Alarm onClick={this.onhandleClick}/>
-                }
               </FxItem>
             </FxContainer>
           </Item>
@@ -328,14 +325,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
           >
             <Point onMouseOver={this.handleMouseHover} />
             <Icon name={NAME.SETTING} width={"20px"} onClick={this.onIconClick}/>
-            {modal_show && (
-              <Modal
-                modal_show={modal_show}
-                menuList={menuList}
-                onClick={this.onhandleClick}
-                setMenuProp={this.setMenuProp}
-              />
-            )}
             {subFunc_show && (
               <SubFunc>
                 <FxContainer jContent={"space-around"}>
@@ -351,6 +340,19 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 </FxContainer>
               </SubFunc>
             )}
+            {/* 좌하측 모달창 */}
+            {modal_show && (
+              <Modal
+                modal_show={modal_show}
+                menuList={menuList}
+                onClick={this.onhandleClick}
+                setMenuProp={this.setMenuProp}
+              />
+            )}
+            {/* 우상측 알람*/}
+            {alramFunc_show &&
+              <Alarm onClick={this.onhandleClick}/>
+            }
             {/* 엑셀파일작성 */}
             {writeExcel && <WriteForm onClick={this.onhandleClick} />}
           </Item>

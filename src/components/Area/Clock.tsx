@@ -133,10 +133,10 @@ const checkAlramTime = (pTime:string):void => {
         times.push(item.time);
       }
     });
-    const idx:number = times.indexOf(pTime.replace(":",""));
+    const idx:number = times.indexOf(pTime);
     if(idx > -1){
       let notify = new Notification('알림이 왔습니다.', {
-      'body': '안녕하세요. \n알림을 성공적으로 수신했습니다.',
+      'body': "날아라 헬리곱터!\n 알람 띠링띠링",
       'icon': 'https://tistory3.daumcdn.net/tistory/2979840/attach/6e5d2d16ab6a49628dfe1f4c164e38a0',
       'tag': '메시지'
       });

@@ -2,21 +2,10 @@
 import { time } from "console";
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
+import Dimm from "./Dimm";
 import BrowserStorage from "../../utils/BrowserStorage";
 import NAME from "../../utils/Enum";
 import {getTodayYMD} from "../../utils/utils";
-
-const Dimm = styled.div`
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #000;
-  opacity: 0.3;
-  filter: alpha(opacity=30);
-`;
 
 const AlarmModal = styled.div`
   position: absolute;
@@ -211,7 +200,7 @@ const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
 
   return (
     <>
-      <Dimm id="dimmed" onClick={onClick} />
+      <Dimm onClick={onClick}/>
       <AlarmModal>
         <AlWrap>
         {alTimes.map((item:alObj, idx:number) =>{

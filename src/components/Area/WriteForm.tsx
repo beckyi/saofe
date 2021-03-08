@@ -1,20 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { UploadXlsx } from "../../utils/UploadXlsx";
+import Dimm from "./Dimm";
 import NAME from "../../utils/Enum";
 import Icon from "../Area/Icon";
-
-const Dimm = styled.div`
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #000;
-  opacity: 0.3;
-  filter: alpha(opacity=30);
-`;
 
 const FormModal = styled.div`
   position: absolute;
@@ -197,7 +186,7 @@ const WriteForm: React.FunctionComponent<IWFProps> = ({
 
   return (
     <>
-      <Dimm id="dimmed" onClick={onClick} />
+      <Dimm onClick={onClick}/>
       <FormModal>
         <InnerForm>
           {contentList.length === 0 ? (

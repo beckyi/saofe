@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Dimm from "./Dimm";
 
 import NAME from "../../utils/Enum";
 import Calendar from "./Calendar";
@@ -29,19 +30,6 @@ const Dialog = styled.div`
 
   transition: var(--a-default);
 `;
-
-const Dimm = styled.div`
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #000;
-  opacity: 0.3;
-  filter: alpha(opacity=30);
-`;
-
 interface Props {
   modal_show: string;
   monday?: string;
@@ -53,7 +41,7 @@ interface Props {
 const Modal = ({ modal_show, menuList, onClick, setMenuProp }: Props) => {
   return (
     <>
-      <Dimm id="dimmed" onClick={onClick} />
+      <Dimm onClick={onClick} />
       <Dialog id="Modal">
         {modal_show === NAME.CALENDAR && <Calendar modal_show={modal_show} />}
         {modal_show === NAME.RICE && (
