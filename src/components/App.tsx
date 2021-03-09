@@ -14,6 +14,7 @@ import Alarm from "./Area/Alarm";
 import NAME from "../utils/Enum";
 import { getThisMonday } from "../utils/utils";
 import BrowserStorage from "../utils/BrowserStorage";
+import Messages from "../utils/Messages";
 
 const BaseGround = styled.div`
   height: 100%;
@@ -183,8 +184,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   onIconClick=(name:string, event: React.MouseEvent)=> {
     event.stopPropagation(); //stop bubbling and capturing
+console.log(name,'onIconClick >', event);
 
-    const { CALENDAR, RICE, SETTING, WRITE, BELL, INFORM } = NAME;
+    const { CALENDAR, RICE, SETTING, WRITE, BELL, INFORM, RESET } = NAME;
     const array: string[] = [CALENDAR, RICE, SETTING];
     const modal_show = array.includes(name) ? name : "";
     const moreFunc_show = name === INFORM;
@@ -195,7 +197,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
         alramFunc_show = true;
       } else {
         //denied, default
-        alert('알림을 허용해 주세요.');
+        alert(Messages.allowNotifications);
+      }
+    } else if (name === RESET){
+      const isReset = window.confirm(Messages.askReset);
+      if(isReset){
+        alert("RESET!!!!")
       }
     }
 
@@ -207,7 +214,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
   //event: MouseEvent, React.MouseEventHandler<HTMLSpanElement>
   onhandleClick = (event: MouseEvent): void => {
     event.stopPropagation(); //stop bubbling and capturing
-
+console.log('onhandleClick >', event);
     const {clockMode, secondMode} = this.state;
     const target = event.target as HTMLElement;
     const { id } = target;
@@ -224,15 +231,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
       changeState = Object.assign(changeState, {clockMode: _clockMode})    
     } else if ( id === "second_switch"){
       changeState = Object.assign(changeState, {secondMode: !secondMode})
-    } else if ( id === BELL){
-      let notify = new Notification('알림이 왔습니다.', {
-        'body': '안녕하세요. \n알림을 성공적으로 수신했습니다.',
-        'icon': 'https://tistory3.daumcdn.net/tistory/2979840/attach/6e5d2d16ab6a49628dfe1f4c164e38a0',
-        'tag': '메시지'
-      })
-      notify.onclick = function(){
-        alert(this.tag)
-      }
     }
 
     this.setState(changeState);
@@ -346,6 +344,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
                 modal_show={modal_show}
                 menuList={menuList}
                 onClick={this.onhandleClick}
+                onIconClick={this.onIconClick}
                 setMenuProp={this.setMenuProp}
               />
             )}

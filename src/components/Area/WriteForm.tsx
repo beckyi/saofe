@@ -4,6 +4,7 @@ import { UploadXlsx } from "../../utils/UploadXlsx";
 import Dimm from "./Dimm";
 import NAME from "../../utils/Enum";
 import Icon from "../Area/Icon";
+import Messages from "../../utils/Messages";
 
 const FormModal = styled.div`
   position: absolute;
@@ -90,7 +91,7 @@ const onhandleClick = () => {
     document.execCommand("copy");
     window.getSelection()!.removeAllRanges();
 
-    alert("복사 했습니다!");
+    alert(Messages.copyDone);
   }
 };
 
@@ -165,7 +166,7 @@ const WriteForm: React.FunctionComponent<IWFProps> = ({
 
       setContentList(result);
 
-      if (!isDone) alert("[주의] 검수 미완료된 리스트가 있습니다.");
+      if (!isDone) alert(Messages.warnUnfinished);
     }
   };
 

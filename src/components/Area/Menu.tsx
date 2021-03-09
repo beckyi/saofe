@@ -5,6 +5,7 @@ import { UploadXlsx } from "../../utils/UploadXlsx";
 import NAME from "../../utils/Enum";
 import BrowserStorage from "../../utils/BrowserStorage";
 import { getThisMonday } from "../../utils/utils";
+import Messages from "../../utils/Messages";
 
 const MenuBase = styled.div`
   width: 100%;
@@ -159,7 +160,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
 
       if (menuJSON.length > 0) {
         const bool = isDiffer
-          ? window.confirm("다른 주간 메뉴입니다. 진행하시겠습니까?")
+          ? window.confirm(Messages.askOtherMenu)
           : true;
         const param = bool ? menuJSON : undefined;
         if (param) {
@@ -173,7 +174,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
           setMenuProp(sDate, list);
         }
       } else {
-        window.alert("메뉴 엑셀 파일이 아닙니다. \\ _ /");
+        window.alert(Messages.warnErrMenuExcel);
       }
     }
   };

@@ -13,7 +13,8 @@ enum NAME {
   DONE = "검수완료",
   TEXTAREA = "TEXTAREA",
   BELL = "BELL",
-  BELLING = "BELLING"
+  BELLING = "BELLING",
+  RESET = "RESET"
 }
 
 export default NAME;
