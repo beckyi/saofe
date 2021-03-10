@@ -206,7 +206,7 @@ const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
         {alTimes.map((item:alObj, idx:number) =>{
           const {time, check} = item;
           return (
-            <AlItem>
+            <AlItem key={`Al${idx}`}>
               <TimePicker idx={idx} time={time} check={check} updateCallback={saveAlramDatas}/> 
               <SwitchBtn idx={idx} time={time} check={check} updateCallback={saveAlramDatas}/>
             </AlItem>
