@@ -13,7 +13,7 @@ interface MainBoxProps {
 //string[]
 
 type BoxProps = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   range: number[][];
   align?: string;
   extraStyle?: string;
@@ -77,7 +77,6 @@ const setGridTemplate = (pArr: Array<string | number>) => {
 };
 
 export const Container = (props: MainBoxProps) => {
-  console.log(props, props.children);
   const { children, cols, rows, ...other } = props;
   return (
     <MainBox
@@ -91,7 +90,7 @@ export const Container = (props: MainBoxProps) => {
 };
 
 export const Item = (props: BoxProps) => {
-  return <Box {...props}>{props.children}</Box>;
+  return <Box {...props}>{props.children ? props.children : null}</Box>;
 };
 
 //study link :: https://studiomeal.com/archives/533

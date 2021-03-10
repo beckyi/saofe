@@ -1,6 +1,23 @@
 import * as React from "react";
 import styled from "styled-components";
 
+interface CFlexProps {
+  children: React.ReactNode;
+  direction?: string;
+  flexWrap?: string;
+  jContent?: string;
+  alignItems?: string;
+  alignContent? : string;
+}
+interface IFlexProps {
+  children?: React.ReactNode;
+  flex: string;
+  alignSelf?: string;
+  order?: string;
+  zIndex?: string;
+  style?: object;
+}
+
 const SubBox = styled.div`
   display: flex;
   width: 100%;
@@ -21,24 +38,6 @@ const Box = styled.div`
   ${(props: IFlexProps) => (props.zIndex ? `z-index: ${props.zIndex}` : "")};
 `;
 
-export interface CFlexProps {
-  children: React.ReactNode;
-  direction?: string;
-  flexWrap?: string;
-  jContent?: string;
-  alignItems?: string;
-  alignContent? : string;
-}
-
-export interface IFlexProps {
-  children?: React.ReactNode;
-  flex: string;
-  alignSelf?: string;
-  order?: string;
-  zIndex?: string;
-  style?: object;
-}
-
 export const FxContainer = (props: CFlexProps) => {
   const { children, ...other } = props;
   return <SubBox {...other}>{children}</SubBox>;
@@ -46,5 +45,5 @@ export const FxContainer = (props: CFlexProps) => {
 
 export const FxItem = (props: IFlexProps) => {
   const { children, ...other } = props;
-  return <Box {...other}>{children}</Box>;
+  return <Box {...other}>{children ? children : null}</Box>;
 };
