@@ -1,6 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
+interface Props { 
+  brightness? : number;
+  onClick?: (event: React.MouseEvent) => void;
+}
+
 const Dimmed = styled.div`
   position: fixed;
   top: 0;
@@ -9,17 +14,13 @@ const Dimmed = styled.div`
   bottom: 0;
   overflow: hidden;
   background: #000;
-  opacity: 0.3;
+  opacity: ${(props:Props) => props.brightness ? props.brightness : 0.3};
   filter: alpha(opacity=30);
 `;
 
-interface Props { 
-  onClick?: (event: React.MouseEvent) => void;
-}
-
-const Dimm = ({ onClick }: Props) => {
+const Dimm = ({ brightness, onClick }: Props) => {
   return (
-    <Dimmed id="dimmed" onClick={onClick}/>
+    <Dimmed id="dimmed" brightness={brightness} onClick={onClick}/>
   );
 };
 
