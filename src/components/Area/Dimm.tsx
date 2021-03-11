@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 interface Props { 
+  children?: React.ReactNode;
   brightness? : number;
   onClick?: (event: React.MouseEvent) => void;
 }
@@ -18,9 +19,12 @@ const Dimmed = styled.div`
   filter: alpha(opacity=30);
 `;
 
-const Dimm = ({ brightness, onClick }: Props) => {
+const Dimm = (props: Props) => {
+  const { children, brightness, onClick } = props;
   return (
-    <Dimmed id="dimmed" brightness={brightness} onClick={onClick}/>
+    <Dimmed id="dimmed" brightness={brightness} onClick={onClick}>
+      {children ? children : null}
+    </Dimmed>
   );
 };
 

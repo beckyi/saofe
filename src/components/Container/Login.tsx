@@ -11,6 +11,36 @@ export interface ILogProps {}
 
 export interface ILogState {}
 
+
+const Title = styled.div`
+  padding: 10px 20px;
+`;
+
+const SH1 = styled.h1`
+  color: white;
+  background: black;
+`;
+
+const SH5 = styled.h5`
+  color: white;
+  background: black;
+`;
+
+const UserInput = styled.div`
+  width: 100%;
+  padding-top: 4px;
+  background: 0;
+  border: 0;
+  border-bottom: 2px solid #fff;
+  color: #fff;
+  font-size: 2.25em;
+  line-height: 1.2;
+  font-weight: 500;
+  text-align: center;
+  outline: none;
+  transition: #fff .2s ease;
+`;
+
 export default class Login extends React.Component<ILogProps, ILogState> {
   public storage: any;
 
@@ -30,16 +60,19 @@ export default class Login extends React.Component<ILogProps, ILogState> {
     // const { } = this.state;
 
     return (
-    <>
-      <Dimm brightness={0.7}/>
-      <Container cols={["100%"]} rows={["100px", "100%", "100px"]}>
+    <Dimm brightness={0.7}>
+      <Container cols={["100%"]} rows={["100px", "60%", "40%", "100px"]}>
         <Item
           range={[
             [1, 1],
             [1, 1],
           ]}
         >
-          <h1 style={{color: "white"}}>WELCOME</h1>
+          <Title>
+            <SH1>
+              HELLO JENKINS WORLD :)
+            </SH1>
+          </Title>
         </Item>
         <Item
           range={[
@@ -51,10 +84,9 @@ export default class Login extends React.Component<ILogProps, ILogState> {
           <FxContainer>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}>
-              <div>
+              <SH5>
                 이름을 되시오! 
-                <input />
-              </div>
+              </SH5>
             </FxItem>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
           </FxContainer>
@@ -64,10 +96,24 @@ export default class Login extends React.Component<ILogProps, ILogState> {
             [3, 1],
             [3, 1],
           ]}
+        >
+          <FxContainer>
+            <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
+            <FxItem flex={"1 0 50px"} alignSelf={"center"}>
+              <UserInput />
+            </FxItem>
+            <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
+          </FxContainer>
+        </Item>
+        <Item
+          range={[
+            [4, 1],
+            [4, 1],
+          ]}
           align={"end"}
         />
       </Container>
-    </>
+    </Dimm>
     );
   }
 }
