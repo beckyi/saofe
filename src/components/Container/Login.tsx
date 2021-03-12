@@ -90,6 +90,10 @@ export default class Login extends React.Component<ILogProps, ILogState> {
           <SH5>
             {questions[0]}
           </SH5>
+          {/* action */}
+          <form >
+            <input type="submit"/>
+          </form>
         </Item>
         <Item
           range={[
