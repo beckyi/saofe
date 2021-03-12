@@ -21,9 +21,12 @@ const SH1 = styled.h1`
   background: black;
 `;
 
-const SH5 = styled.h5`
+const SH5 = styled.h2`
+  font: italic 1.2em "Fira Sans", serif;
+  font-size: 3em;
   color: white;
   background: black;
+  text-align: center;
 `;
 
 const UserInput = styled.div`
@@ -40,6 +43,9 @@ const UserInput = styled.div`
   outline: none;
   transition: #fff .2s ease;
 `;
+
+//이름, 생일, joke
+const questions = [Messages.askName, Messages.askBirthday, Messages.askJoke];
 
 export default class Login extends React.Component<ILogProps, ILogState> {
   public storage: any;
@@ -81,15 +87,9 @@ export default class Login extends React.Component<ILogProps, ILogState> {
           ]}
           align={"center"}
         >
-          <FxContainer>
-            <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
-            <FxItem flex={"1 0 50px"} alignSelf={"center"}>
-              <SH5>
-                이름을 되시오! 
-              </SH5>
-            </FxItem>
-            <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
-          </FxContainer>
+          <SH5>
+            {questions[0]}
+          </SH5>
         </Item>
         <Item
           range={[
