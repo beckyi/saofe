@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
 import Dimm from "../Area/Dimm";
@@ -7,10 +7,16 @@ import NAME from "../../utils/Enum";
 import BrowserStorage from "../../utils/BrowserStorage";
 import Messages from "../../utils/Messages";
 
-export interface ILogProps {}
+interface ILogProps {
+  saveUserInfo: () => void;
+}
 
-export interface ILogState {}
+interface ILogState {}
 
+interface IUserInfo {
+  name: string;
+  birth: string;
+}
 
 const Title = styled.div`
   padding: 10px 20px;
@@ -29,7 +35,7 @@ const SH5 = styled.h2`
   text-align: center;
 `;
 
-const UserInput = styled.div`
+const UserInput = styled.input`
   width: 100%;
   padding-top: 4px;
   background: 0;
@@ -46,26 +52,40 @@ const UserInput = styled.div`
 
 //이름, 생일, joke
 const questions = [Messages.askName, Messages.askBirthday, Messages.askJoke];
+const storage = new BrowserStorage("local");
+let seq = 0;//answer order
+let userInfo:IUserInfo = {
+  name: "",
+  birth: "",
+}
 
-export default class Login extends React.Component<ILogProps, ILogState> {
-  public storage: any;
+const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
+  const [answer, setAnswer] = useState("");
+  const {saveUserInfo} = props;
 
-  constructor(props: ILogProps) {
-    super(props);
+  useEffect(() => {
+    seq = 0; //init
+  }, []);
 
-    this.storage = new BrowserStorage("local");
-    
-    this.state = {};
+  const getID = ():string => {
+    return seq === 1 ? "birth" : "name";
+  }
+  
+  const submitAnswer = (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("submitAnswer",answer)
+    const id:string = getID();
+    // userInfo[id] = answer;
+    setAnswer("");
+    seq++;
   }
 
-  componentDidMount() {
-    console.log("DZ-componentDidMount",this.storage.getItem("DZ-user"))
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setAnswer(value);
   }
 
-  render() {
-    // const { } = this.state;
-
-    return (
+  return(
     <Dimm brightness={0.7}>
       <Container cols={["100%"]} rows={["100px", "60%", "40%", "100px"]}>
         <Item
@@ -76,7 +96,7 @@ export default class Login extends React.Component<ILogProps, ILogState> {
         >
           <Title>
             <SH1>
-              HELLO JENKINS WORLD :)
+              HELLO {userInfo.name ? userInfo.name : "JENKINS WORLD"} :)
             </SH1>
           </Title>
         </Item>
@@ -88,12 +108,8 @@ export default class Login extends React.Component<ILogProps, ILogState> {
           align={"center"}
         >
           <SH5>
-            {questions[0]}
+            {questions[seq]}
           </SH5>
-          {/* action */}
-          <form >
-            <input type="submit"/>
-          </form>
         </Item>
         <Item
           range={[
@@ -104,7 +120,9 @@ export default class Login extends React.Component<ILogProps, ILogState> {
           <FxContainer>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}>
-              <UserInput />
+              <form onSubmit={submitAnswer}>
+                <UserInput type="text" value={answer} onChange={handleOnChange}/>
+              </form>
             </FxItem>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
           </FxContainer>
@@ -118,6 +136,8 @@ export default class Login extends React.Component<ILogProps, ILogState> {
         />
       </Container>
     </Dimm>
-    );
-  }
-}
+  )
+
+};
+
+export default Login;

@@ -3,6 +3,12 @@ import styled from "styled-components";
 import { Login, Moment } from "../components/Container"
 import BrowserStorage from "../utils/BrowserStorage";
 
+export interface IAppProps {}
+
+export interface IAppState {
+  isUser: boolean;
+}
+
 const BaseGround = styled.div`
   height: 100%;
   min-width: 700px;
@@ -18,12 +24,6 @@ const BaseGround = styled.div`
   background-repeat: no-repeat;
 `;
 
-export interface IAppProps {}
-
-export interface IAppState {
-  isUser: boolean;
-}
-
 export default class App extends React.Component<IAppProps, IAppState> {
   public storage: any;
 
@@ -34,7 +34,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.storage = new BrowserStorage("local");
     
     this.state = {
-      isUser: true//this.storage.getItem("DZ-user") ? true: false
+      isUser: false//this.storage.getItem("DZ-user") ? true: false
     };
 
     console.log("DZ-user",this.storage.getItem("DZ-user"))
@@ -42,6 +42,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   componentDidMount() {
     console.log("DZ-componentDidMount",this.storage.getItem("DZ-user"))
+    
     window.onload = function () {
       //알람 기능용
       if (window.Notification) {
@@ -52,6 +53,10 @@ export default class App extends React.Component<IAppProps, IAppState> {
     };
   }
 
+  saveUserInfo = (): void=> {
+    this.setState({isUser: true});
+  };
+
   render() {
     const { isUser } = this.state;
 
@@ -60,7 +65,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
         {isUser ?
           <Moment/> 
         :
-          <Login/>
+          <Login saveUserInfo={this.saveUserInfo}/>
         }
       </BaseGround>
     );
