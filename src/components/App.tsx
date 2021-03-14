@@ -7,7 +7,7 @@ import NAME from "../utils/Enum";
 export interface IAppProps {}
 
 export interface IAppState {
-  isUser: object;
+  isUser: IUserInfo;
 }
 
 interface IUserInfo {
@@ -32,7 +32,11 @@ const BaseGround = styled.div`
 `;
 
 const storageUser = `${NAME.GROUP}USER`;
-
+const userForm = {
+  [NAME.USERNAME]: "",
+  [NAME.BIRTH]: "",
+  [NAME.COMMENT]: "",
+};
 export default class App extends React.Component<IAppProps, IAppState> {
   public storage: any;
 
@@ -43,7 +47,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.storage = new BrowserStorage("local");
     
     this.state = {
-      isUser: this.storage.getItem(storageUser)
+      isUser: this.storage.getItem(storageUser) || userForm
     };
   }
 
@@ -70,8 +74,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
     return (
       <BaseGround id="SAOFE">
-        {isUser ?
-          <Moment isUser={isUser}/> 
+        {isUser.name ?
+          <Moment isUser={isUser} saveUserInfo={this.saveUserInfo}/> 
         :
           <Login saveUserInfo={this.saveUserInfo}/>
         }

@@ -7,6 +7,15 @@ import Calendar from "./Calendar";
 import Icon from "./Icon";
 import Menu from "./Menu";
 
+interface Props {
+  modal_show: string;
+  monday?: string;
+  menuList?: any;
+  onClick: (event: React.MouseEvent) => void;
+  onIconClick: (name:string,event: React.MouseEvent) => void;
+  setMenuProp: (monday: string, list: any) => void;
+}
+
 const Dialog = styled.div`
   bottom: 55px;
   left: 7px;
@@ -31,14 +40,6 @@ const Dialog = styled.div`
 
   transition: var(--a-default);
 `;
-interface Props {
-  modal_show: string;
-  monday?: string;
-  menuList?: any;
-  onClick: (event: React.MouseEvent) => void;
-  onIconClick: (name:string,event: React.MouseEvent) => void;
-  setMenuProp: (monday: string, list: any) => void;
-}
 
 const Modal = ({ modal_show, menuList, onClick, onIconClick, setMenuProp }: Props) => {
   return (

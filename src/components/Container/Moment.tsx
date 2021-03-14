@@ -23,7 +23,8 @@ interface IUserInfo {
 }
 
 export interface IMoProps {
-  isUser: object<IUserInfo>
+  isUser: IUserInfo;
+  saveUserInfo: (param:IUserInfo) => void;
 }
 
 export interface IMoState {
@@ -188,6 +189,11 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
       const isReset = window.confirm(Messages.askReset);
       if(isReset){
         //위 서비스 관련 모든 정보 삭제 (사용자, 알람 등)
+        this.props.saveUserInfo({
+          [NAME.USERNAME]: "",
+          [NAME.BIRTH]: "",
+          [NAME.COMMENT]: "",
+        });
         this.storage.cleanItems(GROUP);
       }
     }

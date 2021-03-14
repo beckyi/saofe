@@ -30,7 +30,7 @@ const Jenkins: React.FC<JenkinsProps> = ({ name }) => {
 
   const MSG = who_show
     ? ["오늘의 젠킨스씨는 ", <Name key={"NK"}>{name}</Name>, "입니다."]
-    : ["TITLE"];
+    : [<Name key={"NK"}>{name}</Name>,`님 오하요~`];
 
   return (
     <header>

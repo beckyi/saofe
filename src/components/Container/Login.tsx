@@ -12,7 +12,7 @@ interface ILogProps {
 interface ILogState {}
 
 interface IUserInfo {
-  [key:string]:string;
+  [key:string]:string;  //Index Signatures(Indexable types) - 출처: https://itmining.tistory.com/87 [IT 마이닝]
   [NAME.USERNAME]: string;
   [NAME.BIRTH]: string;
   [NAME.COMMENT]: string;
@@ -74,6 +74,12 @@ const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
 
   useEffect(() => {
     seq = 0; //init
+    userInfo = {
+      [NAME.USERNAME]: "",
+      [NAME.BIRTH]: "",
+      [NAME.COMMENT]: "",
+    }
+    console.log(userInfo,"DIDMOUNT")
   }, []);
   
   const submitAnswer = (e:React.FormEvent<HTMLFormElement>) => {
