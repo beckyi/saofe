@@ -16,6 +16,27 @@ import { getThisMonday } from "../../utils/utils";
 import BrowserStorage from "../../utils/BrowserStorage";
 import Messages from "../../utils/Messages";
 
+interface IUserInfo {
+  [NAME.USERNAME]: string;
+  [NAME.BIRTH]: string;
+  [NAME.COMMENT]: string;
+}
+
+export interface IMoProps {
+  isUser: object<IUserInfo>
+}
+
+export interface IMoState {
+  modal_show: string;
+  subFunc_show: boolean;
+  moreFunc_show: boolean;
+  alramFunc_show: boolean;
+  writeExcel: boolean;
+  menuList: any;
+  clockMode: string;
+  secondMode: boolean;
+}
+
 const MoreFunc = styled.div`
   display: inline-block;
   position: absolute;
@@ -81,19 +102,6 @@ function getRandomImg() {
     });
 }
 
-export interface IMoProps {}
-
-export interface IMoState {
-  modal_show: string;
-  subFunc_show: boolean;
-  moreFunc_show: boolean;
-  alramFunc_show: boolean;
-  writeExcel: boolean;
-  menuList: any;
-  clockMode: string;
-  secondMode: boolean;
-}
-
 export default class Moment extends React.Component<IMoProps, IMoState> {
   public storage: any;
 
@@ -115,8 +123,7 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
   }
 
   componentDidMount() {
-    console.log("DZ-componentDidMount",this.storage.getItem("DZ-user"))
-  
+    console.log(this.props)
     this.loadMenuData();
   }
   //메뉴 정보 가져오기
@@ -163,7 +170,6 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
 
   onIconClick=(name:string, event: React.MouseEvent)=> {
     event.stopPropagation(); //stop bubbling and capturing
-console.log(name,'onIconClick >', event);
 
     const { CALENDAR, RICE, SETTING, WRITE, BELL, INFORM, RESET, GROUP } = NAME;
     const array: string[] = [CALENDAR, RICE, SETTING];
@@ -194,7 +200,7 @@ console.log(name,'onIconClick >', event);
   //event: MouseEvent, React.MouseEventHandler<HTMLSpanElement>
   onhandleClick = (event: MouseEvent): void => {
     event.stopPropagation(); //stop bubbling and capturing
-console.log('onhandleClick >', event);
+
     const {clockMode, secondMode} = this.state;
     const target = event.target as HTMLElement;
     const { id } = target;
@@ -231,6 +237,7 @@ console.log('onhandleClick >', event);
   };
 
   render() {
+    const {isUser} = this.props;
     const { modal_show, subFunc_show, moreFunc_show, alramFunc_show, menuList, writeExcel, clockMode, secondMode } = this.state;
 
     return (
@@ -243,7 +250,7 @@ console.log('onhandleClick >', event);
         >
           <FxContainer jContent={"space-between"}>
             <FxItem flex={"0 0 550px"} alignSelf={"center"}>
-              <Jenkins name={"최재은"} />
+              <Jenkins name={isUser.name} />
             </FxItem>
             <FxItem flex={"1 1 auto"}/>
             <FxItem flex={"0 0 50px"} style={{margin: "20px auto", textAlign: "center"}}>

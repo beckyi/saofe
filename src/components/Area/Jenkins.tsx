@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+type JenkinsProps = {
+  name: string;
+};
+
 const Logo = styled.img`
   display: inline-block;
   margin: 10px;
@@ -17,10 +21,6 @@ const Name = styled.em`
   letter-spacing: 7px;
   color: #403b3b;
 `;
-
-type JenkinsProps = {
-  name: string;
-};
 
 const Jenkins: React.FC<JenkinsProps> = ({ name }) => {
   const [who_show, setWhoShow] = useState(false);

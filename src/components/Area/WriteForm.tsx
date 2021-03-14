@@ -6,6 +6,14 @@ import NAME from "../../utils/Enum";
 import Icon from "../Area/Icon";
 import Messages from "../../utils/Messages";
 
+interface IWFProps {
+  onClick: (event: React.MouseEvent) => void;
+}
+
+interface ITAStyleProps {
+  textAlign?: string;
+}
+
 const FormModal = styled.div`
   position: absolute;
   display: inline-block;
@@ -55,14 +63,6 @@ const DropArea = styled.div`
   height: 420px;
   border: 4px dashed #94bf62;
 `;
-
-interface IWFProps {
-  onClick: (event: React.MouseEvent) => void;
-}
-
-interface ITAStyleProps {
-  textAlign?: string;
-}
 
 const today = new Date();
 const form: string[] = [

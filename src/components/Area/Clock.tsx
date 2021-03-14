@@ -3,8 +3,20 @@ import styled from "styled-components";
 import {getTodayYMD} from "../../utils/utils";
 import NAME from "../../utils/Enum";
 import BrowserStorage from "../../utils/BrowserStorage";
+interface IAppProps {
+  clockMode: string;
+  secondMode: boolean;
+}
 
-let tictokIV: number = 0;
+interface tObj {
+  homin: string;
+  sec: string;
+}
+
+interface alObj {
+  time: string;
+  check: boolean;
+}
 
 const Timer = styled.div`
   cursor: wait;
@@ -49,21 +61,7 @@ const SEC = styled.div`
   font-size: 30px;
 `;
 
-interface IAppProps {
-  clockMode: string;
-  secondMode: boolean;
-}
-
-interface tObj {
-  homin: string;
-  sec: string;
-}
-
-interface alObj {
-  time: string;
-  check: boolean;
-}
-
+let tictokIV: number = 0;
 let today = new Date();
 
 const fillChar = (item: number, num: number, ch: string) => {

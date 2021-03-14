@@ -7,7 +7,7 @@ import NAME from "../utils/Enum";
 export interface IAppProps {}
 
 export interface IAppState {
-  isUser: boolean;
+  isUser: object;
 }
 
 interface IUserInfo {
@@ -43,15 +43,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.storage = new BrowserStorage("local");
     
     this.state = {
-      isUser: this.storage.getItem(storageUser) ? true: false
+      isUser: this.storage.getItem(storageUser)
     };
-
-    console.log("DZ-user",this.storage.getItem(storageUser))
   }
 
-  componentDidMount() {
-    console.log("DZ-componentDidMount",this.storage.getItem(storageUser))
-    
+  componentDidMount() {    
     window.onload = function () {
       //알람 기능용
       if (window.Notification) {
@@ -63,7 +59,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
   }
 
   saveUserInfo = (pUserInfo:IUserInfo): void=> {
-    this.setState({isUser: true},()=>{
+    this.setState({isUser: pUserInfo},()=>{
       //save data in local storage
       this.storage.setItem(storageUser, pUserInfo);
     });
@@ -75,7 +71,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     return (
       <BaseGround id="SAOFE">
         {isUser ?
-          <Moment/> 
+          <Moment isUser={isUser}/> 
         :
           <Login saveUserInfo={this.saveUserInfo}/>
         }
