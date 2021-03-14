@@ -3,19 +3,19 @@ import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
 import Dimm from "../Area/Dimm";
 import NAME from "../../utils/Enum";
-// import { getThisMonday } from "../../utils/utils";
-import BrowserStorage from "../../utils/BrowserStorage";
 import Messages from "../../utils/Messages";
 
 interface ILogProps {
-  saveUserInfo: () => void;
+  saveUserInfo: (param:IUserInfo) => void;
 }
 
 interface ILogState {}
 
 interface IUserInfo {
-  name: string;
-  birth: string;
+  [key:string]:string;
+  [NAME.USERNAME]: string;
+  [NAME.BIRTH]: string;
+  [NAME.COMMENT]: string;
 }
 
 const Title = styled.div`
@@ -52,12 +52,21 @@ const UserInput = styled.input`
 
 //이름, 생일, joke
 const questions = [Messages.askName, Messages.askBirthday, Messages.askJoke];
-const storage = new BrowserStorage("local");
+
 let seq = 0;//answer order
 let userInfo:IUserInfo = {
-  name: "",
-  birth: "",
+  [NAME.USERNAME]: "",
+  [NAME.BIRTH]: "",
+  [NAME.COMMENT]: "",
 }
+const getID = ():string => {
+  return seq === 1 ? NAME.BIRTH : seq === 2 ? NAME.COMMENT : NAME.USERNAME;
+};
+
+const getMaxLength = ():number => {
+  const id:string = getID();
+  return id === NAME.BIRTH ? 4 : id === NAME.USERNAME ? 10 : 20;
+};
 
 const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
   const [answer, setAnswer] = useState("");
@@ -66,22 +75,33 @@ const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
   useEffect(() => {
     seq = 0; //init
   }, []);
-
-  const getID = ():string => {
-    return seq === 1 ? "birth" : "name";
-  }
   
   const submitAnswer = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submitAnswer",answer)
+
     const id:string = getID();
-    // userInfo[id] = answer;
-    setAnswer("");
-    seq++;
+    const maxLength:number = getMaxLength();
+
+    if((id === NAME.BIRTH && answer.length === maxLength) || (id !== NAME.BIRTH && answer.length <= maxLength)){
+      userInfo[id] = answer;
+    
+      setAnswer("");
+      seq++;
+    }
+
+    if(seq === 3 && id === NAME.COMMENT){
+      saveUserInfo(userInfo);
+    }
   }
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const id:string = getID();
     const value = e.target.value;
+
+    if(id === NAME.BIRTH && isNaN(Number(value))){
+      return; //숫자로만 구성
+    }
+    
     setAnswer(value);
   }
 
@@ -121,7 +141,7 @@ const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
             <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}>
               <form onSubmit={submitAnswer}>
-                <UserInput type="text" value={answer} onChange={handleOnChange}/>
+                <UserInput type="text"value={answer} maxLength={getMaxLength()} onChange={handleOnChange}/>
               </form>
             </FxItem>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}/>

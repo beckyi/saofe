@@ -14,7 +14,10 @@ enum NAME {
   TEXTAREA = "TEXTAREA",
   BELL = "BELL",
   BELLING = "BELLING",
-  RESET = "RESET"
+  RESET = "RESET",
+  USERNAME = "name",
+  BIRTH = "birth",
+  COMMENT = "comment",
 }
 
 export default NAME;

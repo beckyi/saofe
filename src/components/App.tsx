@@ -2,11 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { Login, Moment } from "../components/Container"
 import BrowserStorage from "../utils/BrowserStorage";
+import NAME from "../utils/Enum";
 
 export interface IAppProps {}
 
 export interface IAppState {
   isUser: boolean;
+}
+
+interface IUserInfo {
+  [NAME.USERNAME]: string;
+  [NAME.BIRTH]: string;
+  [NAME.COMMENT]: string;
 }
 
 const BaseGround = styled.div`
@@ -24,6 +31,8 @@ const BaseGround = styled.div`
   background-repeat: no-repeat;
 `;
 
+const storageUser = `${NAME.GROUP}USER`;
+
 export default class App extends React.Component<IAppProps, IAppState> {
   public storage: any;
 
@@ -34,14 +43,14 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.storage = new BrowserStorage("local");
     
     this.state = {
-      isUser: false//this.storage.getItem("DZ-user") ? true: false
+      isUser: this.storage.getItem(storageUser) ? true: false
     };
 
-    console.log("DZ-user",this.storage.getItem("DZ-user"))
+    console.log("DZ-user",this.storage.getItem(storageUser))
   }
 
   componentDidMount() {
-    console.log("DZ-componentDidMount",this.storage.getItem("DZ-user"))
+    console.log("DZ-componentDidMount",this.storage.getItem(storageUser))
     
     window.onload = function () {
       //알람 기능용
@@ -53,8 +62,11 @@ export default class App extends React.Component<IAppProps, IAppState> {
     };
   }
 
-  saveUserInfo = (): void=> {
-    this.setState({isUser: true});
+  saveUserInfo = (pUserInfo:IUserInfo): void=> {
+    this.setState({isUser: true},()=>{
+      //save data in local storage
+      this.storage.setItem(storageUser, pUserInfo);
+    });
   };
 
   render() {
