@@ -255,7 +255,7 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
           ]}
         >
           <FxContainer jContent={"space-between"}>
-            <FxItem flex={"0 0 550px"} alignSelf={"center"}>
+            <FxItem flex={"0 0 700px"} alignSelf={"center"}>
               <Jenkins name={isUser.name} />
             </FxItem>
             <FxItem flex={"1 1 auto"}/>
