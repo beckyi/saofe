@@ -1,3 +1,5 @@
+import NAME from "./Enum";
+
 // region >>> 달력 관련 함수
 //휴일 정보 가져오기
 function getFixHoliday(pYear: string) {
@@ -61,6 +63,17 @@ export const addDays = (pDate: string | Date, days: number): string => {
 
   return result;
 };
+
+export const addMonths = (pDate: string | Date, month: number): string => {
+  let result_month = "";
+  if (typeof pDate === "string") {
+    pDate = new Date(makeDateSlash(pDate));
+  }
+
+  result_month = makeYMD(new Date(pDate.setMonth(pDate.getMonth() + month)));
+
+  return result_month;
+};
 //날짜 형식 > '/' 붙여서 문자 반환
 export const makeDateSlash = (ymd: string) => {
   return ymd.substr(0, 4) + "/" + ymd.substr(4, 2) + "/" + ymd.substr(6, 2);
@@ -93,12 +106,12 @@ export const getCalendar = (yyyymm: string) => {
     // 0("일") ~  6 ("토")
     const color =
       current === ymdSlash
-        ? "#afd9ec"
+        ? NAME.CURCOL
         : fixHolidays.includes(model) || today === 0
-        ? "#DC143C"
+        ? NAME.REDCOL
         : today === 6
-        ? "#1E90FF"
-        : "black";
+        ? NAME.BLUECOL
+        : NAME.DARKCOL;
     // form: [요일,색상(휴일여부)] : red - #00BFFF
     result.push([today, color]); //2d Array
   }

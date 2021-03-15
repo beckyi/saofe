@@ -18,6 +18,13 @@ enum NAME {
   USERNAME = "name",
   BIRTH = "birth",
   COMMENT = "comment",
+  CURCOL = "#afd9ec",
+  REDCOL = "#DC143C",
+  BLUECOL = "#1E90FF",
+  DARKRED = "#c78c98",
+  DARKBLUE = "#abc4dc",
+  DARKCOL = "black",
+  GRAYCOL = "#b1b0b0",
 }
 
 export default NAME;
