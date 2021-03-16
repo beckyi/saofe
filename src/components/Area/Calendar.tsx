@@ -82,7 +82,6 @@ const setCalendar = (monthInfo: calenInterface, beforeMonth: Array<(string | num
         </Item>
       );
     } else {
-console.log(start_day, idx,"Calendar",maxLength, diff)
       const etcDate = diff < 0 ? beforeMonth.length + diff : diff - maxLength - 1;
       const etcItem =  diff < 0 ? beforeMonth[etcDate] : nextMonth[etcDate];
       const etcColor = etcItem[1] === NAME.BLUECOL ? NAME.DARKBLUE : etcItem[1] === NAME.REDCOL ? NAME.DARKRED : NAME.GRAYCOL;
@@ -107,6 +106,7 @@ console.log(start_day, idx,"Calendar",maxLength, diff)
 
 const cols = ["98px", "98px", "98px", "98px", "98px", "98px", "98px"];
 const rows = ["15px", "40px", "20%", "20%", "20%", "20%", "20%"];
+const weekArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const Calendar = ({ modal_show }: Props) => {
   const [current, setCurrent] = useState(makeYMD(TODAY));
@@ -164,7 +164,7 @@ const Calendar = ({ modal_show }: Props) => {
           </ArrowBtn>
         </Item>
         {/* weekdays */}
-        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day, idx) => {
+        {weekArr.map((day, idx) => {
           return (
             <Item
               key={`IP${idx}`}
@@ -176,9 +176,9 @@ const Calendar = ({ modal_show }: Props) => {
               <p
                 style={
                   day === "Sun"
-                    ? { color: "#DC143C" }
+                    ? { color: NAME.REDCOL }
                     : day === "Sat"
-                    ? { color: "#1E90FF" }
+                    ? { color: NAME.BLUECOL }
                     : {}
                 }
               >
