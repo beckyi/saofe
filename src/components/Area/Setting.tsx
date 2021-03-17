@@ -29,7 +29,8 @@ const Motto = styled.p`
 `;
 
 const TagArea = styled.div`
-  border: 2px ​solid #a2a2a;
+  border: 2px solid #a2a2a2;
+  width: 95%;
 `;
 
 const customStyle:styleType = {
