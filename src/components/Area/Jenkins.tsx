@@ -15,6 +15,7 @@ const Logo = styled.img`
 const Hone = styled.h1`
   display: inline-block;
   margin-left: 10px;
+  padding: 7px 15px;
 `;
 
 const Name = styled.em`

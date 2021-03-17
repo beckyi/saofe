@@ -18,6 +18,10 @@ interface IUserInfo {
   [NAME.COMMENT]: string;
 }
 
+interface sh2Style {
+  fontSize: string;
+}
+
 const Title = styled.div`
   padding: 10px 20px;
 `;
@@ -29,7 +33,7 @@ const SH1 = styled.h1`
 
 const SH5 = styled.h2`
   font: italic 1.2em "Fira Sans", serif;
-  font-size: 3em;
+  font-size: ${(props:sh2Style) => props.fontSize};
   color: white;
   background: black;
   text-align: center;
@@ -133,7 +137,7 @@ const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
           ]}
           align={"center"}
         >
-          <SH5>
+          <SH5 fontSize={seq === (questions.length - 1) ? "1.7em" : "3em"}>
             {questions[seq]}
           </SH5>
         </Item>
