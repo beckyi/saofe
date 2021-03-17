@@ -13,6 +13,7 @@ interface ISetState {}
 interface styleType {
   Heads: object;
   Bubble: object;
+  Wall: object;
 }
 
 const GreetUser = styled.p`
@@ -27,6 +28,9 @@ const Motto = styled.p`
   color: #b1b3b2;
 `;
 
+const TagArea = styled.div`
+  border: 2px ​solid #a2a2a;
+`;
 
 const customStyle:styleType = {
   Heads: {
@@ -38,9 +42,13 @@ const customStyle:styleType = {
     padding: "10px",
     background: "#d9edff",
     borderRadius: "10px"
+  },
+  Wall: {
+    borderRight: "1px solid",
+    marginRight: "15px"
   }
 };
-const {Heads, Bubble} = customStyle;
+const {Heads, Bubble, Wall} = customStyle;
 
 class Setting extends Component<ISetProps, ISetState>{
 
@@ -80,12 +88,15 @@ class Setting extends Component<ISetProps, ISetState>{
         <Item range={[[2,4],[2,4]]}>
           IMAGE subject
         </Item>
-        <Item range={[[3,1],[3,2]]}>
-          HELLO MY AREA
-          <hr/>
+        <Item range={[[3,1],[3,2]]} style={Wall}>
+          <p># Backgroud Image TAG</p>
+          <TagArea/>
+          WARNING AREA
         </Item>
         <Item range={[[3,3],[3,4]]}>
-          MEMO
+          <div className="rgyPostIt">
+            MEMO
+          </div>
         </Item>
       </Container>
     );
