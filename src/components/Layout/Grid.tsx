@@ -8,7 +8,7 @@ interface MainBoxProps {
   width?: string;
   height?: string;
   gap?: string | number;
-  extraStyle?: string;
+  style?: object;
 }
 //string[]
 
@@ -16,7 +16,7 @@ type BoxProps = {
   children?: React.ReactNode;
   range: number[][];
   align?: string;
-  extraStyle?: string;
+  style?: object;
 };
 
 interface mainStyles {
@@ -25,7 +25,7 @@ interface mainStyles {
   width?: string;
   height?: string;
   gap?: string | number;
-  extraStyle?: string;
+  style?: object;
 }
 
 //position: absolute;
@@ -39,7 +39,6 @@ const MainBox = styled.div`
   -ms-grid-columns: ${(props: mainStyles) => props.cols};
   ${(props: mainStyles) =>
     props.gap !== undefined ? `gap: ${props.gap};` : ""}
-  ${(props: mainStyles) => props.extraStyle || ""}
 `;
 
 const Box = styled.div`
@@ -49,7 +48,6 @@ const Box = styled.div`
     ${(props: BoxProps) => props.range[1][0] - props.range[0][0] + 1};
   grid-column: ${(props: BoxProps) => props.range[0][1]} / span
     ${(props: BoxProps) => props.range[1][1] - props.range[0][1] + 1};
-  ${(props: BoxProps) => props.extraStyle || ""}
 `;
 
 const setGridTemplate = (pArr: Array<string | number>) => {

@@ -312,7 +312,7 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
             [3, 1],
           ]}
           align={"end"}
-          extraStyle={"margin: 10px 10px 10px 12px;"}
+          style={{margin: "10px 10px 10px 12px"}}
         >
           <Point onMouseOver={this.handleMouseHover} />
           <Icon name={NAME.SETTING} width={"20px"} onClick={this.onIconClick}/>
