@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Dimm from "./Dimm";
-
-import NAME from "../../utils/Enum";
 import Calendar from "./Calendar";
 import Icon from "./Icon";
 import Menu from "./Menu";
-
+import Setting from "./Setting";
+import NAME from "../../utils/Enum";
 interface Props {
   modal_show: string;
   monday?: string;
@@ -42,6 +41,7 @@ const Dialog = styled.div`
 `;
 
 const Modal = ({ modal_show, menuList, onClick, onIconClick, setMenuProp }: Props) => {
+  console.log("Modal", modal_show)
   return (
     <>
       <Dimm onClick={onClick} />
@@ -51,13 +51,7 @@ const Modal = ({ modal_show, menuList, onClick, onIconClick, setMenuProp }: Prop
         : modal_show === NAME.RICE ?
           <Menu menuProp={menuList} setMenuProp={setMenuProp} />
         :
-          <div>
-            <Icon name={NAME.RESET} onClick={onIconClick} style={{display: "inline-block", float: "right"}}/>
-            SETTING 🛠
-            <hr/>
-            What's your mood?
-            IMAGE subject
-          </div>
+          <Setting onIconClick={onIconClick} />
         }
       </Dialog>
     </>

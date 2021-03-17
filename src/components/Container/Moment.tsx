@@ -195,6 +195,8 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
           [NAME.COMMENT]: "",
         });
         this.storage.cleanItems(GROUP);
+      } else {
+        return; //stop
       }
     }
 

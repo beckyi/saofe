@@ -15,6 +15,7 @@ enum NAME {
   BELL = "BELL",
   BELLING = "BELLING",
   RESET = "RESET",
+  SMILE = "SMILE",
   USERNAME = "name",
   BIRTH = "birth",
   COMMENT = "comment",
