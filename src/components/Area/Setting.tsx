@@ -106,9 +106,9 @@ const CloseBtn = styled.button`
 
 const TagInput = styled.div`
   position: relative;
-  width: 1px;
+  width: ${(props:ISetState)=> props.text ? "100px" : "1px"};
   display: inline-block;
-  opacity: 1;
+  opacity: ${(props:ISetState)=> props.text ? "1" : "0"};
   vertical-align: top;
 `;
 
@@ -213,11 +213,16 @@ class Setting extends Component<ISetProps, ISetState>{
             <TagList>
               <TagLi>
                 <Tag>
-                  <TagItem>TEST<CloseBtn/></TagItem>
+                  <TagItem>
+                    TEST
+                    <CloseBtn>
+                      <Icon name={NAME.CLOSE} onClick={onIconClick} />
+                    </CloseBtn>
+                  </TagItem>
                 </Tag>
               </TagLi>
               <TagLi>
-                <TagInput>
+                <TagInput text={this.state.text}>
                   <WrapInput>
                     <EditInput ref={this.editIp} type="text" value={this.state.text} onChange={this.handleOnChange}/>
                   </WrapInput>
