@@ -1,4 +1,4 @@
-import React, { Component, createRef, ChangeEvent } from 'react';
+import React, { Component, createRef, ChangeEvent, FocusEvent } from 'react';
 import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
 import Icon from "./Icon";
@@ -108,7 +108,7 @@ const TagInput = styled.div`
   position: relative;
   width: 1px;
   display: inline-block;
-  opacity: 0;
+  opacity: 1;
   vertical-align: top;
 `;
 
@@ -165,7 +165,7 @@ class Setting extends Component<ISetProps, ISetState>{
     this.editIp = createRef();
   }
 
-  handleOnFocus = (event:ChangeEvent<HTMLInputElement>) => {
+  handleOnFocus = (event:FocusEvent<HTMLInputElement>) => {
     console.log(event, event.target.value)
 
   };
