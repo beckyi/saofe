@@ -2,13 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import NAME from "../../utils/Enum";
 
-const IconArea = styled.div`
-  display: inline-block;
-  cursor: pointer;
-  ${(props: IconProps) =>
-    props.name === "setting" ? "float:right; margin: 10px; opacity: 0.7;" : ""}
-  ${(props: IconProps) => (props.margin ? `margin:${props.margin}` : "")}
-`;
+//(event: React.MouseEvent) => void, ()=> void;
+interface Props {
+  id?: string;
+  name: string;
+  width?: string;
+  height?: string;
+  margin?: string;
+  onClick: (name:string,event: React.MouseEvent) => void;
+  onMouseOver?: (event: React.MouseEvent) => void;
+  style?: object;
+}
 interface IconProps {
   name: string;
   width?: string;
@@ -22,17 +26,13 @@ interface optionsIFC {
   fill: string;
   d_path: string[];
 }
-//(event: React.MouseEvent) => void, ()=> void;
-interface Props {
-  id?: string;
-  name: string;
-  width?: string;
-  height?: string;
-  margin?: string;
-  onClick: (name:string,event: React.MouseEvent) => void;
-  onMouseOver?: (event: React.MouseEvent) => void;
-  style?: object;
-}
+const IconArea = styled.div`
+  display: inline-block;
+  cursor: pointer;
+  ${(props: IconProps) =>
+    props.name === "setting" ? "float:right; margin: 10px; opacity: 0.7;" : ""}
+  ${(props: IconProps) => (props.margin ? `margin:${props.margin}` : "")}
+`;
 
 const setOptions = (name: string): optionsIFC => {
   let viewBox = "",

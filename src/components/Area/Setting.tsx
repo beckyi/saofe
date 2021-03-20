@@ -1,6 +1,7 @@
 import React, { Component, createRef, ChangeEvent, FocusEvent } from 'react';
 import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
+import TagField from "./TagField";
 import Icon from "./Icon";
 import NAME from "../../utils/Enum";
 
@@ -34,108 +35,6 @@ const Motto = styled.p`
   color: #b1b3b2;
 `;
 
-const TagArea = styled.div`
-  width: 350px;
-  padding: 10px 10px 8px;
-  background: transparent;
-  border: 2px solid #a2a2a2;
-  outline: none;
-  border-radius: 0px;
-`;
-
-const TagList = styled.ul`
-  clear: both;
-  margin: 0px;
-  padding-top: 0px;
-  padding-right: initial;
-  padding-bottom: 0px;
-  padding-left: 0px;
-`;
-
-const TagLi = styled.li`
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: inline-block;
-  position: relative;
-  vertical-align: top;
-`;
-
-const Tag = styled.div`
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
-  vertical-align: top;
-  cursor: default;
-  user-select: none;
-  margin: 0px 4px 2px 0px;
-`;
-
-const TagItem = styled.span`
-  display: inline-block;
-  padding: 5px 25px 3px 10px;
-  background: rgb(245, 245, 245);
-  border-radius: 2px;
-  font-size: 15px;
-  font-weight: 200;
-  font-family: "Nanum Square", 돋움, Dotum, Helvetica, "Apple SD Gothic Neo", sans-serif;
-  color: black;
-`;
-
-const CloseBtn = styled.button`
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  outline: none;
-  position: absolute;
-  text-align: center;
-  vertical-align: top;
-  border-radius: 0px;
-  border: 0px none;
-  background: transparent;
-  color: rgb(74, 74, 74);
-  text-decoration: none;
-  height: 28px;
-  line-height: initial;
-  padding: 0px;
-  width: 24px;
-  top: 50%;
-  right: 2px;
-  margin-top: -14px;
-`;
-
-const TagInput = styled.div`
-  position: relative;
-  width: ${(props:ISetState)=> props.text ? "100px" : "1px"};
-  display: inline-block;
-  opacity: ${(props:ISetState)=> props.text ? "1" : "0"};
-  vertical-align: top;
-`;
-
-const WrapInput = styled.div`
-  display: block;
-  height: 21px;
-  padding: 0px;
-  border: none;
-  background: rgb(255, 255, 255);
-  line-height: 19px;
-`;
-
-const EditInput = styled.input`
-  margin: 0px;
-  padding: 0px;
-  display: block;
-  width: 100%;
-  height: 100%;
-  border: 0px;
-  outline: none;
-  font-size: 12px;
-  font-family: 돋움, Dotum, Helvetica, "Apple SD Gothic Neo", sans-serif;
-  cursor: auto;
-  background: transparent;
-  color: rgb(26, 26, 26);
-`;
-
 const customStyle:styleType = {
   Heads: {
     borderBottom: "1px solid", 
@@ -155,20 +54,12 @@ const customStyle:styleType = {
 const {Heads, Bubble, Wall} = customStyle;
 
 class Setting extends Component<ISetProps, ISetState>{
-  private editIp: React.RefObject<HTMLInputElement>;
-
   constructor(props: ISetProps) {
     super(props);
     this.state = {
       text: ''
     };
-    this.editIp = createRef();
   }
-
-  handleOnFocus = (event:FocusEvent<HTMLInputElement>) => {
-    console.log(event, event.target.value)
-
-  };
 
   handleOnChange = (event:ChangeEvent<HTMLInputElement>) => {
     console.log(event, event.target.value)
@@ -209,27 +100,7 @@ class Setting extends Component<ISetProps, ISetState>{
         </Item>
         <Item range={[[3,1],[3,2]]} style={Wall}>
           <p># Backgroud Image TAG</p>
-          <TagArea onFocus={this.handleOnFocus}>
-            <TagList>
-              <TagLi>
-                <Tag>
-                  <TagItem>
-                    TEST
-                    <CloseBtn>
-                      <Icon name={NAME.CLOSE} onClick={onIconClick} />
-                    </CloseBtn>
-                  </TagItem>
-                </Tag>
-              </TagLi>
-              <TagLi>
-                <TagInput text={this.state.text}>
-                  <WrapInput>
-                    <EditInput ref={this.editIp} type="text" value={this.state.text} onChange={this.handleOnChange}/>
-                  </WrapInput>
-                </TagInput>
-              </TagLi>
-            </TagList>
-          </TagArea>
+          <TagField maxCnt={3}/>
           WARNING AREA
         </Item>
         <Item range={[[3,3],[3,4]]}>
