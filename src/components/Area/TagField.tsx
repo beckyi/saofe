@@ -157,13 +157,20 @@ class TagField extends Component<ITagProps, ITagState> {
     this.setState({text: event.target.value})
   }
 
+  //insert event
   handleOnKeyDown = (event: KeyboardEvent) => {
 console.log("KeyboardEvent", event);
     if(insertKeyCode.includes(event.keyCode) && this.state.text){
-      this.setState((prevState) => ({
-        tags: prevState.tags.concat(prevState.text),
-        text: "",
-      }));
+      if(this.state.tags.includes(this.state.text)){
+        this.setState({
+          text: ""
+        });
+      } else if(this.props.maxCnt >= this.state.tags.length + 1){
+        this.setState((prevState) => ({
+          tags: prevState.tags.concat(prevState.text),
+          text: "",
+        }));
+      }
     }
   }
 

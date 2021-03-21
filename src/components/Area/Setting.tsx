@@ -35,6 +35,22 @@ const Motto = styled.p`
   color: #b1b3b2;
 `;
 
+const DDay = styled.span`
+  font-size: 60px;
+  top: 30px;
+  position: absolute;
+  left: 17px;
+  font-weight: 800;
+`;
+
+const DNum = styled.span`
+  font-size: 75px;
+  font-weight: 900;
+  right: 15px;
+  position: absolute;
+  bottom: 10px;
+`;
+
 const customStyle:styleType = {
   Heads: {
     borderBottom: "1px solid", 
@@ -89,19 +105,30 @@ class Setting extends Component<ISetProps, ISetState>{
         </Item>
         <Item range={[[2,2],[2,3]]}>
           <FxContainer jContent={"center"} alignItems={"center"}>
-              <FxItem flex={"1 1 auto"} alignSelf={"center"} style={Bubble}>
-                <GreetUser>Hello JAEN</GreetUser>
-                <Motto>Be Brave, Be Happy, Be yourself</Motto>
-              </FxItem>
-            </FxContainer>
+            <FxItem flex={"1 1 auto"} alignSelf={"center"} style={Bubble}>
+              <GreetUser>Hello JAEN</GreetUser>
+              <Motto>Be Brave, Be Happy, Be yourself</Motto>
+            </FxItem>
+          </FxContainer>
         </Item>
         <Item range={[[2,4],[2,4]]}>
-          IMAGE subject
+          <div style={{position: "relative"}}>
+            <DDay>D-</DDay>
+            <DNum>27</DNum>
+          </div>
         </Item>
         <Item range={[[3,1],[3,2]]} style={Wall}>
-          <p># Backgroud Image TAG</p>
-          <TagField maxCnt={3}/>
-          WARNING AREA
+          <FxContainer direction={"column"} flexWrap={"wrap"} alignItems={"stretch"} jContent={"flex-start"}>
+            <FxItem flex={"0 0 auto"}>  
+              <p># Backgroud Image TAG</p>
+            </FxItem>
+            <FxItem flex={"1 0 auto"}>  
+              <TagField maxCnt={3}/>
+            </FxItem>
+            <FxItem flex={"0 0 auto"}>  
+              WARNING AREA
+            </FxItem>
+          </FxContainer>
         </Item>
         <Item range={[[3,3],[3,4]]}>
           <div className="rgyPostIt">
