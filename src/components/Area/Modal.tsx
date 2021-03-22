@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Dimm from "./Dimm";
 import Calendar from "./Calendar";
-import Icon from "./Icon";
 import Menu from "./Menu";
 import Setting from "./Setting";
 import NAME from "../../utils/Enum";
@@ -41,7 +40,6 @@ const Dialog = styled.div`
 `;
 
 const Modal = ({ modal_show, menuList, onClick, onIconClick, setMenuProp }: Props) => {
-  console.log("Modal", modal_show)
   return (
     <>
       <Dimm onClick={onClick} />

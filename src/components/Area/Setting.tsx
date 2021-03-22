@@ -2,6 +2,7 @@ import React, { Component, createRef, ChangeEvent, FocusEvent } from 'react';
 import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
 import TagField from "./TagField";
+import Memo from "./Memo";
 import Icon from "./Icon";
 import NAME from "../../utils/Enum";
 
@@ -36,19 +37,22 @@ const Motto = styled.p`
 `;
 
 const DDay = styled.span`
-  font-size: 60px;
+  color: #a7a7a7;
+  font-size: 80px;
   top: 30px;
   position: absolute;
   left: 17px;
   font-weight: 800;
+  user-select: none;
 `;
 
 const DNum = styled.span`
   font-size: 75px;
   font-weight: 900;
-  right: 15px;
+  right: 8px;
   position: absolute;
-  bottom: 10px;
+  bottom: 13px;
+  user-select: none;
 `;
 
 const customStyle:styleType = {
@@ -93,7 +97,10 @@ class Setting extends Component<ISetProps, ISetState>{
           <HeadLine>SETTING 🛠</HeadLine>
         </Item>
         <Item range={[[1,4],[1,4]]} style={{...Heads, textAlign: "right"}}>
-          <Icon name={NAME.RESET} onClick={onIconClick} style={{marginRight: "10px"}}/>
+          <span>
+            <Icon name={NAME.PENCIL} onClick={onIconClick} style={{marginRight: "10px"}}/>
+            <Icon name={NAME.RESET} onClick={onIconClick} style={{marginRight: "10px"}}/>
+          </span>
         </Item>
         {/* style={{ textAlign: "center", padding: "33px 0px"}} */}
         <Item range={[[2,1],[2,1]]}>
@@ -131,9 +138,7 @@ class Setting extends Component<ISetProps, ISetState>{
           </FxContainer>
         </Item>
         <Item range={[[3,3],[3,4]]}>
-          <div className="rgyPostIt">
-            MEMO
-          </div>
+          <Memo />
         </Item>
       </Container>
     );

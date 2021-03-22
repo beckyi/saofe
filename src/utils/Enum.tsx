@@ -17,6 +17,7 @@ enum NAME {
   RESET = "RESET",
   SMILE = "SMILE",
   CLOSE = "CLOSE",
+  PENCIL = "PENCIL",
   USERNAME = "name",
   BIRTH = "birth",
   COMMENT = "comment",
