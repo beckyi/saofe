@@ -77,13 +77,18 @@ class Setting extends Component<ISetProps, ISetState>{
   constructor(props: ISetProps) {
     super(props);
     this.state = {
-      text: ''
+      text: '',
+      editMode: false,
     };
   }
 
   handleOnChange = (event:ChangeEvent<HTMLInputElement>) => {
     console.log(event, event.target.value)
     this.setState({text: event.target.value})
+  }
+
+  handleOnClick = (event: MouseEvent) => {
+    this.setState((prevState)=> ({ editMode: !prevState.editMode }))
   }
 
   render(){
@@ -98,7 +103,7 @@ class Setting extends Component<ISetProps, ISetState>{
         </Item>
         <Item range={[[1,4],[1,4]]} style={{...Heads, textAlign: "right"}}>
           <span>
-            <Icon name={NAME.PENCIL} onClick={onIconClick} style={{marginRight: "10px"}}/>
+            <Icon name={NAME.PENCIL} onClick={this.handleOnClick} style={{marginRight: "10px"}}/>
             <Icon name={NAME.RESET} onClick={onIconClick} style={{marginRight: "10px"}}/>
           </span>
         </Item>
