@@ -1,4 +1,4 @@
-import React, { Component, createRef, ChangeEvent, FocusEvent } from 'react';
+import React, { Component, MouseEvent, ChangeEvent } from 'react';
 import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
 import TagField from "./TagField";
@@ -12,6 +12,7 @@ interface ISetProps {
 
 interface ISetState {
   text: string;
+  editMode: boolean;
 }
 
 interface styleType {
@@ -87,7 +88,7 @@ class Setting extends Component<ISetProps, ISetState>{
     this.setState({text: event.target.value})
   }
 
-  handleOnClick = (event: MouseEvent) => {
+  handleOnClick = (name: string, event: MouseEvent):void => {
     this.setState((prevState)=> ({ editMode: !prevState.editMode }))
   }
 
