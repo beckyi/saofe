@@ -8,6 +8,7 @@ export interface IAppProps {}
 
 export interface IAppState {
   isUser: IUserInfo;
+  keywords: Array<string>;
 }
 
 interface IUserInfo {
@@ -32,6 +33,7 @@ const BaseGround = styled.div`
 `;
 
 const storageUser = `${NAME.GROUP}USER`;
+const storageBackground = `${NAME.GROUP}BACKGROUND`;
 const userForm = {
   [NAME.USERNAME]: "",
   [NAME.BIRTH]: "",
@@ -47,7 +49,8 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.storage = new BrowserStorage("local");
     
     this.state = {
-      isUser: this.storage.getItem(storageUser) || userForm
+      isUser: this.storage.getItem(storageUser) || userForm,
+      keywords: this.storage.getItem(storageBackground) || [],
     };
   }
 
@@ -70,12 +73,12 @@ export default class App extends React.Component<IAppProps, IAppState> {
   };
 
   render() {
-    const { isUser } = this.state;
+    const { isUser, keywords } = this.state;
 
     return (
       <BaseGround id="SAOFE">
         {isUser.name ?
-          <Moment isUser={isUser} saveUserInfo={this.saveUserInfo}/> 
+          <Moment isUser={isUser} keywords={keywords} saveUserInfo={this.saveUserInfo}/> 
         :
           <Login saveUserInfo={this.saveUserInfo}/>
         }

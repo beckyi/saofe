@@ -5,6 +5,7 @@ import NAME from "../../utils/Enum";
 
 interface ITagProps {
   maxCnt: number;
+  keywords: Array<string>;
 }
 
 interface ITagState {
@@ -131,14 +132,13 @@ class TagField extends Component<ITagProps, ITagState> {
     this.state = {
       mode: "view",
       text: "",
-      tags: ["TEST"]
+      tags: props.keywords || []
     };
     this.tagArea = createRef();
     this.editIp = createRef();
   }
 
   handleOnFocus = (event:FocusEvent<HTMLDivElement>) => {
-    console.log("handleOnFocus",event, event.target)
     if(this.state.mode === "view"){
       this.setState({mode: "edit"});
     }

@@ -24,6 +24,7 @@ interface IUserInfo {
 
 export interface IMoProps {
   isUser: IUserInfo;
+  keywords: Array<string>;
   saveUserInfo: (param:IUserInfo) => void;
 }
 
@@ -124,7 +125,6 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
   }
 
   componentDidMount() {
-    console.log(this.props)
     this.loadMenuData();
   }
   //메뉴 정보 가져오기
@@ -245,7 +245,7 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
   };
 
   render() {
-    const {isUser} = this.props;
+    const {isUser, keywords} = this.props;
     const { modal_show, subFunc_show, moreFunc_show, alramFunc_show, menuList, writeExcel, clockMode, secondMode } = this.state;
 
     return (
@@ -336,6 +336,7 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
             <Modal
               modal_show={modal_show}
               menuList={menuList}
+              keywords={keywords}
               onClick={this.onhandleClick}
               onIconClick={this.onIconClick}
               setMenuProp={this.setMenuProp}
