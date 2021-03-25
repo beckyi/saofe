@@ -20,7 +20,7 @@ class BrowserStorage {
           data = undefined;
         } else if (!isNaN(this.STORAGE.getItem(name))) {
           data = Number(data);
-        } else if (/[.*]|{.*}/.test(this.STORAGE.getItem(name))) {
+        } else if (/\[.*\]|\{.*\}/.test(this.STORAGE.getItem(name))) {
           data = JSON.parse(data);
         }
       }
