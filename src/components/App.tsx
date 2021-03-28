@@ -1,14 +1,16 @@
-import React from "react";
+import React, {createContext} from "react";
 import styled from "styled-components";
 import { Login, Moment } from "../components/Container"
 import BrowserStorage from "../utils/BrowserStorage";
 import NAME from "../utils/Enum";
 
-export interface IAppProps {}
+interface IAppProps {}
 
-export interface IAppState {
-  isUser: IUserInfo;
+interface kwType {
   keywords: Array<string>;
+}
+interface IAppState extends kwType {
+  isUser: IUserInfo;
 }
 
 interface IUserInfo {
@@ -32,6 +34,7 @@ const BaseGround = styled.div`
   background-repeat: no-repeat;
 `;
 
+const MyContext = createContext([]);
 const storageUser = `${NAME.GROUP}USER`;
 const storageBackground = `${NAME.GROUP}BACKGROUND`;
 const userForm = {
@@ -78,7 +81,9 @@ export default class App extends React.Component<IAppProps, IAppState> {
     return (
       <BaseGround id="SAOFE">
         {isUser.name ?
-          <Moment isUser={isUser} keywords={keywords} saveUserInfo={this.saveUserInfo}/> 
+          // <MyContext.Provider>
+            <Moment isUser={isUser} keywords={keywords} saveUserInfo={this.saveUserInfo}/> 
+          // </MyContext.Provider>
         :
           <Login saveUserInfo={this.saveUserInfo}/>
         }
