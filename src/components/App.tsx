@@ -1,6 +1,7 @@
-import React, {createContext} from "react";
+import React from "react";
 import styled from "styled-components";
 import { Login, Moment } from "../components/Container"
+import ContextComp from "./Container/Context"
 import BrowserStorage from "../utils/BrowserStorage";
 import NAME from "../utils/Enum";
 
@@ -34,7 +35,6 @@ const BaseGround = styled.div`
   background-repeat: no-repeat;
 `;
 
-const MyContext = createContext([]);
 const storageUser = `${NAME.GROUP}USER`;
 const storageBackground = `${NAME.GROUP}BACKGROUND`;
 const userForm = {
@@ -77,17 +77,20 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   render() {
     const { isUser, keywords } = this.state;
+    const { BackProvider } = ContextComp;
 
     return (
-      <BaseGround id="SAOFE">
-        {isUser.name ?
-          // <MyContext.Provider>
-            <Moment isUser={isUser} keywords={keywords} saveUserInfo={this.saveUserInfo}/> 
-          // </MyContext.Provider>
-        :
-          <Login saveUserInfo={this.saveUserInfo}/>
-        }
-      </BaseGround>
+      <BackProvider>
+        <BaseGround id="SAOFE">
+          {isUser.name ?
+            // <MyContext.Provider>
+              <Moment isUser={isUser} keywords={keywords} saveUserInfo={this.saveUserInfo}/> 
+            // </MyContext.Provider>
+          :
+            <Login saveUserInfo={this.saveUserInfo}/>
+          }
+        </BaseGround>
+      </BackProvider>
     );
   }
 }
