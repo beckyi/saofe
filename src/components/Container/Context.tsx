@@ -23,7 +23,7 @@ interface Props {
 }
 
 interface IconText {
-  state : IState;
+  value : IState;
   actions: Props;
 }
 
@@ -37,7 +37,7 @@ const userForm = {
 };
 
 const BackContext = createContext<IconText>({
-  state: {
+  value: {
     userInfo: {},
     keywords: []
   },
@@ -54,8 +54,8 @@ const BackProvider:React.FunctionComponent<IProps> = (props:IProps) => {
   const [userInfo, setUserInfo] = useState(storage.getItem(storageUser) || userForm);
   const [keywords, setKeywords] = useState(storage.getItem(storageBackground) || []);
 
-  const val: {state:IState, actions: Props} = {
-    state:{userInfo, keywords}, 
+  const val: {value:IState, actions: Props} = {
+    value:{userInfo, keywords}, 
     actions: {setUserInfo, setKeywords}
   }
 

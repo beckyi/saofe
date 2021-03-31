@@ -1,5 +1,6 @@
 import React, { Component, createRef, FocusEvent, ChangeEvent, MouseEvent, KeyboardEvent} from "react";
 import styled from "styled-components";
+import ContextComp from "../Container/Context";
 import Icon from "./Icon";
 import NAME from "../../utils/Enum";
 
@@ -122,6 +123,7 @@ const EditInput = styled.input`
 
 //enter, ",", ";"
 const insertKeyCode = [13, 186, 188];
+const {BackConsumer} = ContextComp;
 
 class TagField extends Component<ITagProps, ITagState> {
   private tagArea: React.RefObject<HTMLDivElement>;
@@ -185,21 +187,30 @@ console.log("KeyboardEvent", event);
 
   render(){
     const {mode, text, tags} = this.state;
-
+console.log(BackConsumer)
     return (
       <TagArea ref={this.tagArea} tabIndex={0} onFocus={this.handleOnFocus} onBlur={this.handleOnBlur}>
         <TagList>
           <TagLi>
-            {tags.map((item, idx)=>{
-              return (<Tag>
-                <TagItem>
-                  {item}
-                  <CloseBtn>
-                    <Icon name={NAME.CLOSE} onClick={this.handleOnClick.bind(this, idx)} />
-                  </CloseBtn>
-                </TagItem>
-              </Tag>);
-            })}
+            <BackConsumer>
+              {({ value, actions }) => (
+                  <>
+                    {value.keywords.map((item, idx)=>{
+                        return (
+                          <Tag>
+                            <TagItem>
+                              {item}
+                              <CloseBtn>
+                                <Icon name={NAME.CLOSE} onClick={this.handleOnClick.bind(this, idx)} />
+                              </CloseBtn>
+                            </TagItem>
+                          </Tag>
+                        );
+                      })
+                    }
+                  </>
+              )};
+            </BackConsumer>
           </TagLi>
           <TagLi>
             <TagInput mode={mode}>
