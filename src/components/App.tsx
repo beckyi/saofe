@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Login, Moment } from "../components/Container"
-import ContextComp from "./Container/Context"
+import ContextComp, {BackProvider} from "./Container/Context"
 import BrowserStorage from "../utils/BrowserStorage";
 import NAME from "../utils/Enum";
 
@@ -77,7 +77,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
   render() {
     const { isUser, keywords } = this.state;
-    const { BackProvider } = ContextComp;
 
     return (
       <BackProvider>

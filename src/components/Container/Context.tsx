@@ -25,6 +25,7 @@ interface Props {
 interface IconText {
   value : IState;
   actions: Props;
+  children?:JSX.Element|[JSX.Element];
 }
 
 const storage = new BrowserStorage("local");
@@ -49,7 +50,7 @@ const BackContext = createContext<IconText>({
 
 const {Provider, Consumer: BackConsumer} = BackContext;
 
-const BackProvider:React.FunctionComponent<IProps> = (props:IProps) => {
+export const BackProvider:React.FunctionComponent<IProps> = (props:IProps) => {
   const {children} = props;
   const [userInfo, setUserInfo] = useState(storage.getItem(storageUser) || userForm);
   const [keywords, setKeywords] = useState(storage.getItem(storageBackground) || []);
@@ -66,4 +67,4 @@ const BackProvider:React.FunctionComponent<IProps> = (props:IProps) => {
   );
 }
 
-export default {BackProvider, BackConsumer};
+export default BackContext

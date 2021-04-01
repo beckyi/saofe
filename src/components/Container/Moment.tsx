@@ -3,18 +3,16 @@ import axios from "axios";
 import styled from "styled-components";
 
 import { Container, Item, FxContainer, FxItem } from "../Layout";
-
 import Jenkins from "../Area/Jenkins";
 import Clock from "../Area/Clock";
 import Icon from "../Area/Icon";
 import Modal from "../Area/Modal";
 import WriteForm from "../Area/WriteForm";
 import Alarm from "../Area/Alarm";
-
-import NAME from "../../utils/Enum";
-import { getThisMonday } from "../../utils/utils";
 import BrowserStorage from "../../utils/BrowserStorage";
+import { getThisMonday } from "../../utils/utils";
 import Messages from "../../utils/Messages";
+import NAME from "../../utils/Enum";
 
 interface IUserInfo {
   [NAME.USERNAME]: string;

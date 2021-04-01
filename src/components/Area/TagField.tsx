@@ -1,4 +1,4 @@
-import React, { Component, createRef, FocusEvent, ChangeEvent, MouseEvent, KeyboardEvent} from "react";
+import React, { Component, createRef, FocusEvent, ChangeEvent, MouseEvent, KeyboardEvent,} from "react";
 import styled from "styled-components";
 import ContextComp from "../Container/Context";
 import Icon from "./Icon";
@@ -17,6 +17,25 @@ interface ITagState {
 
 interface ItagStyle {
   mode: string;
+}
+
+interface IUserInfo {
+  [NAME.USERNAME]: string;
+  [NAME.BIRTH]: string;
+  [NAME.COMMENT]: string;
+}
+interface Props {
+  setUserInfo: (userInfo:object) => void;
+  setKeywords: (keywords:any) => void;
+}
+interface IState {
+  userInfo: IUserInfo | object;
+  keywords: Array<string>;
+};
+
+interface IconText {
+  value : IState;
+  actions: Props;
 }
 
 const TagArea = styled.div`
@@ -123,8 +142,6 @@ const EditInput = styled.input`
 
 //enter, ",", ";"
 const insertKeyCode = [13, 186, 188];
-const {BackConsumer} = ContextComp;
-
 class TagField extends Component<ITagProps, ITagState> {
   private tagArea: React.RefObject<HTMLDivElement>;
   private editIp: React.RefObject<HTMLInputElement>;
@@ -161,7 +178,6 @@ class TagField extends Component<ITagProps, ITagState> {
 
   //insert event
   handleOnKeyDown = (event: KeyboardEvent) => {
-console.log("KeyboardEvent", event);
     if(insertKeyCode.includes(event.keyCode) && this.state.text){
       if(this.state.tags.includes(this.state.text)){
         this.setState({
@@ -187,42 +203,38 @@ console.log("KeyboardEvent", event);
 
   render(){
     const {mode, text, tags} = this.state;
-console.log(BackConsumer)
+    const {userInfo, keywords} = this.context.value;
+
     return (
-      <TagArea ref={this.tagArea} tabIndex={0} onFocus={this.handleOnFocus} onBlur={this.handleOnBlur}>
-        <TagList>
-          <TagLi>
-            <BackConsumer>
-              {({ value, actions }) => (
-                  <>
-                    {value.keywords.map((item, idx)=>{
-                        return (
-                          <Tag>
-                            <TagItem>
-                              {item}
-                              <CloseBtn>
-                                <Icon name={NAME.CLOSE} onClick={this.handleOnClick.bind(this, idx)} />
-                              </CloseBtn>
-                            </TagItem>
-                          </Tag>
-                        );
-                      })
-                    }
-                  </>
-              )};
-            </BackConsumer>
-          </TagLi>
-          <TagLi>
-            <TagInput mode={mode}>
-              <WrapInput>
-                <EditInput ref={this.editIp} type="text" value={text} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown}/>
-              </WrapInput>
-            </TagInput>
-          </TagLi>
-        </TagList>
-      </TagArea>
+        <TagArea ref={this.tagArea} tabIndex={0} onFocus={this.handleOnFocus} onBlur={this.handleOnBlur}>
+          <TagList>
+            <TagLi>            
+              {keywords.map((item:string, idx:number)=>{
+                  return (
+                    <Tag>
+                      <TagItem>
+                        {item}
+                        <CloseBtn>
+                          <Icon name={NAME.CLOSE} onClick={this.handleOnClick.bind(this, idx)} />
+                        </CloseBtn>
+                      </TagItem>
+                    </Tag>
+                  );
+                })
+              }
+            </TagLi>
+            <TagLi>
+              <TagInput mode={mode}>
+                <WrapInput>
+                  <EditInput ref={this.editIp} type="text" value={text} onChange={this.handleOnChange} onKeyDown={this.handleOnKeyDown}/>
+                </WrapInput>
+              </TagInput>
+            </TagLi>
+          </TagList>
+        </TagArea>
     );
   }
 }
+TagField.contextType = ContextComp;
 
 export default TagField;
