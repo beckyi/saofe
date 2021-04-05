@@ -6,13 +6,11 @@ import NAME from "../../utils/Enum";
 
 interface ITagProps {
   maxCnt: number;
-  keywords: Array<string>;
 }
 
 interface ITagState {
   mode: string;
   text: string;
-  tags: Array<string>;
 }
 
 interface ItagStyle {
@@ -30,7 +28,6 @@ interface Props {
 }
 interface IState {
   userInfo: IUserInfo | object;
-  keywords: Array<string>;
 };
 
 interface IconText {
@@ -151,7 +148,6 @@ class TagField extends Component<ITagProps, ITagState> {
     this.state = {
       mode: "view",
       text: "",
-      tags: props.keywords || []
     };
     this.tagArea = createRef();
     this.editIp = createRef();
@@ -172,38 +168,42 @@ class TagField extends Component<ITagProps, ITagState> {
   }
 
   handleOnChange = (event:ChangeEvent<HTMLInputElement>) => {
-    console.log(event, event.target.value)
     this.setState({text: event.target.value})
   }
 
   //insert event
   handleOnKeyDown = (event: KeyboardEvent) => {
+    const {keywords} = this.context.value;
+
     if(insertKeyCode.includes(event.keyCode) && this.state.text){
-      if(this.state.tags.includes(this.state.text)){
+      if(keywords.includes(this.state.text)){
         this.setState({
           text: ""
         });
-      } else if(this.props.maxCnt >= this.state.tags.length + 1){
-        this.setState((prevState) => ({
-          tags: prevState.tags.concat(prevState.text),
+      } else if(this.props.maxCnt >= keywords.length + 1){
+        const {setKeywords} = this.context.actions;
+
+        setKeywords(keywords.concat(this.state.text));
+        
+        this.setState({
           text: "",
-        }));
+        });
       }
     }
   }
 
   handleOnClick = (pIdx:number, name:string, event:MouseEvent) => {
-    console.log("ONCLICK", pIdx, name, event);
-    this.setState((prevState)=> ({
-      tags: prevState.tags.filter((item, idx)=>{
-        return idx !== pIdx;
-      })
+    const {keywords} = this.context.value;
+    const {setKeywords} = this.context.actions;
+
+    setKeywords(keywords.filter((item:string, idx:number)=>{
+      return idx !== pIdx;
     }));
   };
 
   render(){
-    const {mode, text, tags} = this.state;
-    const {userInfo, keywords} = this.context.value;
+    const {mode, text} = this.state;
+    const {keywords} = this.context.value;
 
     return (
         <TagArea ref={this.tagArea} tabIndex={0} onFocus={this.handleOnFocus} onBlur={this.handleOnBlur}>

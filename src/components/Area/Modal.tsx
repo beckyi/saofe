@@ -9,7 +9,6 @@ interface Props {
   modal_show: string;
   monday?: string;
   menuList?: any;
-  keywords: Array<string>;
   onClick: (event: React.MouseEvent) => void;
   onIconClick: (name:string,event: React.MouseEvent) => void;
   setMenuProp: (monday: string, list: any) => void;
@@ -40,7 +39,7 @@ const Dialog = styled.div`
   transition: var(--a-default);
 `;
 
-const Modal = ({ modal_show, menuList, keywords, onClick, onIconClick, setMenuProp }: Props) => {
+const Modal = ({ modal_show, menuList, onClick, onIconClick, setMenuProp }: Props) => {
   return (
     <>
       <Dimm onClick={onClick} />
@@ -50,7 +49,7 @@ const Modal = ({ modal_show, menuList, keywords, onClick, onIconClick, setMenuPr
         : modal_show === NAME.RICE ?
           <Menu menuProp={menuList} setMenuProp={setMenuProp} />
         :
-          <Setting keywords={keywords} onIconClick={onIconClick} />
+          <Setting onIconClick={onIconClick} />
         }
       </Dialog>
     </>

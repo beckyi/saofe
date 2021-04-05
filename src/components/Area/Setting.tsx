@@ -7,7 +7,6 @@ import Icon from "./Icon";
 import NAME from "../../utils/Enum";
 
 interface ISetProps {
-  keywords: Array<string>;
   onIconClick: (name:string,event: React.MouseEvent) => void;
 }
 
@@ -95,7 +94,6 @@ class Setting extends Component<ISetProps, ISetState>{
 
   render(){
     const {
-      keywords,
       onIconClick
     } = this.props;
 
@@ -138,7 +136,7 @@ class Setting extends Component<ISetProps, ISetState>{
               <p># Backgroud Image TAG</p>
             </FxItem>
             <FxItem flex={"1 0 auto"}>  
-              <TagField maxCnt={5} keywords={keywords}/>
+              <TagField maxCnt={5} />
             </FxItem>
             <FxItem flex={"0 0 auto"}>  
               WARNING AREA

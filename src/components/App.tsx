@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Login, Moment } from "../components/Container"
-import ContextComp, {BackProvider} from "./Container/Context"
+import ContextComp from "./Container/Context"
 import BrowserStorage from "../utils/BrowserStorage";
 import NAME from "../utils/Enum";
 
@@ -29,7 +29,9 @@ const BaseGround = styled.div`
   left: 0;
   bottom: 0;
   animation: fadeIn 2s;
-  background-image: url(https://source.unsplash.com/category/nature/1600x900);
+  background-image: url(${(props:kwType)=>{
+    return props.keywords && props.keywords.length > 0 ? `https://source.unsplash.com/1600x900/?${props.keywords.join(",")}` : "https://source.unsplash.com/category/nature/1600x900"
+  }});
   background-size: cover; /*크기 비율을 유지한 상태에서 부모 요소의 width, height 중 큰값에 배경이미지를 맞춘다*/
   background-position: center;
   background-repeat: no-repeat;
@@ -76,21 +78,20 @@ export default class App extends React.Component<IAppProps, IAppState> {
   };
 
   render() {
-    const { isUser, keywords } = this.state;
+    const { isUser } = this.state;
 
     return (
-      <BackProvider>
-        <BaseGround id="SAOFE">
+        <BaseGround id="SAOFE" keywords={this.context.value.keywords}>
           {isUser.name ?
             // <MyContext.Provider>
-              <Moment isUser={isUser} keywords={keywords} saveUserInfo={this.saveUserInfo}/> 
+              <Moment isUser={isUser} saveUserInfo={this.saveUserInfo}/> 
             // </MyContext.Provider>
           :
             <Login saveUserInfo={this.saveUserInfo}/>
           }
         </BaseGround>
-      </BackProvider>
     );
   }
 }
+App.contextType = ContextComp;
 //nodeJS는 타입스크립트를 이해하지 못하므로 자바스크립트 컴파일 과정 필요
