@@ -11,6 +11,7 @@ interface ITagProps {
 interface ITagState {
   mode: string;
   text: string;
+  tags: Array<string>;
 }
 
 interface ItagStyle {
@@ -23,7 +24,7 @@ interface IUserInfo {
   [NAME.COMMENT]: string;
 }
 interface Props {
-  setUserInfo: (userInfo:object) => void;
+  setUserInfo: (userInfo:IUserInfo) => void;
   setKeywords: (keywords:any) => void;
 }
 interface IState {
@@ -148,10 +149,24 @@ class TagField extends Component<ITagProps, ITagState> {
     this.state = {
       mode: "view",
       text: "",
+      tags: []
     };
     this.tagArea = createRef();
     this.editIp = createRef();
   }
+
+  componentDidMount(){
+    //storage data
+    const {keywords} = this.context.value;
+    this.setState({tags: keywords})
+  }
+
+  componentWillUnmount(){
+    //storage data
+    const {setKeywords} = this.context.actions;
+    setKeywords(this.state.tags);
+  }
+
 
   handleOnFocus = (event:FocusEvent<HTMLDivElement>) => {
     if(this.state.mode === "view"){
@@ -181,35 +196,30 @@ class TagField extends Component<ITagProps, ITagState> {
           text: ""
         });
       } else if(this.props.maxCnt >= keywords.length + 1){
-        const {setKeywords} = this.context.actions;
-
-        setKeywords(keywords.concat(this.state.text));
-        
-        this.setState({
+        this.setState((prevState)=>({
           text: "",
-        });
+          tags: prevState.tags.concat(this.state.text)
+        }))
       }
     }
   }
 
   handleOnClick = (pIdx:number, name:string, event:MouseEvent) => {
-    const {keywords} = this.context.value;
-    const {setKeywords} = this.context.actions;
-
-    setKeywords(keywords.filter((item:string, idx:number)=>{
-      return idx !== pIdx;
+    this.setState((prevState)=>({
+      tags: prevState.tags.filter((item:string, idx:number)=>{
+        return idx !== pIdx;
+      })
     }));
   };
 
   render(){
-    const {mode, text} = this.state;
-    const {keywords} = this.context.value;
+    const {mode, text, tags} = this.state;
 
     return (
         <TagArea ref={this.tagArea} tabIndex={0} onFocus={this.handleOnFocus} onBlur={this.handleOnBlur}>
           <TagList>
             <TagLi>            
-              {keywords.map((item:string, idx:number)=>{
+              {tags.map((item:string, idx:number)=>{
                   return (
                     <Tag>
                       <TagItem>

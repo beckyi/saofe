@@ -13,7 +13,7 @@ interface IUserInfo {
 }
 
 interface IState {
-  userInfo: IUserInfo | object;
+  userInfo: IUserInfo;
   keywords: Array<string>;
 };
 
@@ -39,7 +39,7 @@ const userForm = {
 
 const BackContext = createContext<IconText>({
   value: {
-    userInfo: {},
+    userInfo: userForm,
     keywords: []
   },
   actions: {
@@ -48,23 +48,31 @@ const BackContext = createContext<IconText>({
   }
 });
 
-const {Provider, Consumer: BackConsumer} = BackContext;
-
 export const BackProvider:React.FunctionComponent<IProps> = (props:IProps) => {
   const {children} = props;
   const [userInfo, setUserInfo] = useState(storage.getItem(storageUser) || userForm);
   const [keywords, setKeywords] = useState(storage.getItem(storageBackground) || []);
 
+  const saveUserInfo = (pUserInfo: IUserInfo | object): void=> {
+    setUserInfo(pUserInfo);
+    storage.setItem(storageUser, pUserInfo);
+  };
+  const saveKeywords = (pArr:[]): void=> {
+    setKeywords(pArr);
+    storage.setItem(storageBackground, pArr);
+  };
+
   const val: {value:IState, actions: Props} = {
     value:{userInfo, keywords}, 
-    actions: {setUserInfo, setKeywords}
+    actions: {setUserInfo: saveUserInfo, setKeywords: saveKeywords}
   }
 
   return(
-    <Provider value={val}>
+    <BackContext.Provider value={val}>
       {children}
-    </Provider>
+    </BackContext.Provider>
   );
 }
+
 
 export default BackContext

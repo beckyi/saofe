@@ -14,17 +14,8 @@ import { getThisMonday } from "../../utils/utils";
 import Messages from "../../utils/Messages";
 import NAME from "../../utils/Enum";
 
-interface IUserInfo {
-  [NAME.USERNAME]: string;
-  [NAME.BIRTH]: string;
-  [NAME.COMMENT]: string;
-}
 
-export interface IMoProps {
-  isUser: IUserInfo;
-  saveUserInfo: (param:IUserInfo) => void;
-}
-
+export interface IMoProps {}
 export interface IMoState {
   modal_show: string;
   subFunc_show: boolean;
@@ -186,11 +177,11 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
       const isReset = window.confirm(Messages.askReset);
       if(isReset){
         //위 서비스 관련 모든 정보 삭제 (사용자, 알람 등)
-        this.props.saveUserInfo({
-          [NAME.USERNAME]: "",
-          [NAME.BIRTH]: "",
-          [NAME.COMMENT]: "",
-        });
+        // this.props.saveUserInfo({
+        //   [NAME.USERNAME]: "",
+        //   [NAME.BIRTH]: "",
+        //   [NAME.COMMENT]: "",
+        // });
         this.storage.cleanItems(GROUP);
       } else {
         return; //stop
@@ -242,7 +233,6 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
   };
 
   render() {
-    const {isUser} = this.props;
     const { modal_show, subFunc_show, moreFunc_show, alramFunc_show, menuList, writeExcel, clockMode, secondMode } = this.state;
 
     return (
@@ -255,7 +245,7 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
         >
           <FxContainer jContent={"space-between"}>
             <FxItem flex={"0 0 700px"} alignSelf={"center"}>
-              <Jenkins name={isUser.name} />
+              <Jenkins />
             </FxItem>
             <FxItem flex={"1 1 auto"}/>
             <FxItem flex={"0 0 50px"} style={{margin: "20px auto", textAlign: "center"}}>

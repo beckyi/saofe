@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import ContextComp from "../Container/Context";
+import NAME from "../../utils/Enum";
 
-type JenkinsProps = {
-  name: string;
-};
+type JenkinsProps = {};
 
 const Logo = styled.img`
   display: inline-block;
@@ -23,30 +23,34 @@ const Name = styled.em`
   color: #403b3b;
 `;
 
-const Jenkins: React.FC<JenkinsProps> = ({ name }) => {
+const Jenkins: React.FC<JenkinsProps> = () => {
   const [who_show, setWhoShow] = useState(false);
-
   const handleMouseOver = (): void => setWhoShow(true);
   const handleMouseOut = (): void => setWhoShow(false);
 
-  const MSG = who_show
-    ? ["오늘의 젠킨스씨는 ", <Name key={"NK"}>{name}</Name>, "입니다."]
-    : [<Name key={"NK"}>{name}</Name>,`님 오하요~`];
-
   return (
-    <header>
-      <Logo
-        // src={require("../img/jenkins.png")}
-        src={"img/jenkins.png"}
-        width={"50px"}
-        // className="App-logo"
-        alt="jenkins"
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-      />
+    <ContextComp.Consumer>
+      {({value, actions}) => (
+        <header>
+          <Logo
+            // src={require("../img/jenkins.png")}
+            src={"img/jenkins.png"}
+            width={"50px"}
+            // className="App-logo"
+            alt="jenkins"
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+          />
 
-      <Hone>{MSG}</Hone>
-    </header>
+          <Hone>
+            {who_show
+              ? ["오늘의 젠킨스씨는 ", <Name key={"NK"}>{value.userInfo.name}</Name>, "입니다."]
+              : [<Name key={"NK"}>{value.userInfo.name}</Name>,`님 오하요~`]
+            }
+          </Hone>
+        </header>
+      )}
+    </ContextComp.Consumer>
   );
 };
 export default Jenkins;

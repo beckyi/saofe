@@ -10,7 +10,7 @@ interface IAppProps {}
 interface kwType {
   keywords: Array<string>;
 }
-interface IAppState extends kwType {
+interface IAppState {
   isUser: IUserInfo;
 }
 
@@ -38,7 +38,6 @@ const BaseGround = styled.div`
 `;
 
 const storageUser = `${NAME.GROUP}USER`;
-const storageBackground = `${NAME.GROUP}BACKGROUND`;
 const userForm = {
   [NAME.USERNAME]: "",
   [NAME.BIRTH]: "",
@@ -55,7 +54,6 @@ export default class App extends React.Component<IAppProps, IAppState> {
     
     this.state = {
       isUser: this.storage.getItem(storageUser) || userForm,
-      keywords: this.storage.getItem(storageBackground) || [],
     };
   }
 
@@ -78,16 +76,15 @@ export default class App extends React.Component<IAppProps, IAppState> {
   };
 
   render() {
-    const { isUser } = this.state;
+    const { userInfo } = this.context.value;
+    const { setUserInfo } = this.context.actions;
 
     return (
         <BaseGround id="SAOFE" keywords={this.context.value.keywords}>
-          {isUser.name ?
-            // <MyContext.Provider>
-              <Moment isUser={isUser} saveUserInfo={this.saveUserInfo}/> 
-            // </MyContext.Provider>
+          {userInfo.name ?
+            <Moment /> 
           :
-            <Login saveUserInfo={this.saveUserInfo}/>
+            <Login saveUserInfo={setUserInfo}/>
           }
         </BaseGround>
     );
