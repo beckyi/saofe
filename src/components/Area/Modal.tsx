@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import styled from "styled-components";
 import Dimm from "./Dimm";
 import Calendar from "./Calendar";
@@ -56,4 +56,4 @@ const Modal = ({ modal_show, menuList, onClick, onIconClick, setMenuProp }: Prop
   );
 };
 
-export default Modal;
+export default memo(Modal);

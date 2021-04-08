@@ -1,4 +1,4 @@
-import React, { Component, createRef, FocusEvent, ChangeEvent, MouseEvent, KeyboardEvent,} from "react";
+import React, { PureComponent, createRef, FocusEvent, ChangeEvent, MouseEvent, KeyboardEvent} from "react";
 import styled from "styled-components";
 import ContextComp from "../Container/Context";
 import Icon from "./Icon";
@@ -140,7 +140,7 @@ const EditInput = styled.input`
 
 //enter, ",", ";"
 const insertKeyCode = [13, 186, 188];
-class TagField extends Component<ITagProps, ITagState> {
+class TagField extends PureComponent<ITagProps, ITagState> {
   private tagArea: React.RefObject<HTMLDivElement>;
   private editIp: React.RefObject<HTMLInputElement>;
 
@@ -221,7 +221,7 @@ class TagField extends Component<ITagProps, ITagState> {
             <TagLi>            
               {tags.map((item:string, idx:number)=>{
                   return (
-                    <Tag>
+                    <Tag key={`tag${idx}`}>
                       <TagItem>
                         {item}
                         <CloseBtn>

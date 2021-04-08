@@ -9,7 +9,7 @@ const Messages = {
   askReset: "초기 상태로 돌아갑니다. 초기화 하시겠습니까?",
   askName: "What's your name?",
   askBirthday: "When is your BirthDay?",
-  askJoke: ["위 서비스는 배포 스트레스를 조금이나마 덜기 위해 개발되었습니다.",<br/>,"배경은 무료 이미지 사이트에서 랜덤으로 불러와 개발자 의지와 무관합니다. :)"],
+  askJoke: ["위 서비스는 배포 스트레스를 조금이나마 덜기 위해 개발되었습니다.",<br key={1}/>,"배경은 무료 이미지 사이트에서 랜덤으로 불러와 개발자 의지와 무관합니다. :)"],
 }
 
 export default Messages;

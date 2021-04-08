@@ -78,7 +78,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
   render() {
     const { userInfo } = this.context.value;
     const { setUserInfo } = this.context.actions;
-
+console.log("APP", this.context)
     return (
         <BaseGround id="SAOFE" keywords={this.context.value.keywords}>
           {userInfo.name ?

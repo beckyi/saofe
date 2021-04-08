@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
 import Dimm from "../Area/Dimm";
@@ -151,7 +151,7 @@ const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
             <FxItem flex={"1 0 50px"} alignSelf={"center"}/>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}>
               <form onSubmit={submitAnswer}>
-                <UserInput type="text"value={answer} maxLength={getMaxLength()} onChange={handleOnChange}/>
+                <UserInput type="text" value={answer} maxLength={useMemo(()=> getMaxLength(), [seq])} onChange={handleOnChange}/>
               </form>
             </FxItem>
             <FxItem flex={"1 0 50px"} alignSelf={"center"}/>

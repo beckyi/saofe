@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import styled from "styled-components";
 import NAME from "../../utils/Enum";
 
@@ -182,7 +182,7 @@ const setOptions = (name: string): optionsIFC => {
 // const SVGIcon = ({ name, onClick }: IconProps) => {
 */
 const SVGIcon = ({ name, onClick, ...props }: Props) => {
-  const option = setOptions(name);
+  const option = useMemo(()=> setOptions(name), [name]);
   const { viewBox, width, height, fill, d_path } = option;
 
   const onIconClick = (event:React.MouseEvent) => {

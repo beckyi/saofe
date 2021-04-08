@@ -64,7 +64,6 @@ interface FileProps {
 
 export const UploadXlsx = forwardRef<HTMLInputElement, FileProps>(
   ({ enterence, onExcelClose }: FileProps, ref) => {
-    console.log(ref, "!!!!!!!");
 
     const xlsxInput = ref as React.RefObject<HTMLInputElement>;
     const [file, setFile] = useState({});

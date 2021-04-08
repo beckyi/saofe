@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; //MouseEvent
+import React, { useState, useEffect, useMemo } from "react"; //MouseEvent
 import styled from "styled-components";
 import {getTodayYMD} from "../../utils/utils";
 import NAME from "../../utils/Enum";
@@ -153,11 +153,11 @@ const checkAlramTime = (pTime:string):void => {
 
 const Clock = (props:IAppProps) => {
   const {clockMode, secondMode} = props;
-  const date = setDate();
+  const date = useMemo(()=> setDate(), [today]);
   const [time, setTime] = useState<string>("00:00");
   const [seconds, setSec] = useState<string>("00");
   const [isShow, showDate] = useState<boolean>(false);
-  const apm = today.getHours() > 12 ? "PM" : "AM";
+  const apm = useMemo(()=> today.getHours() > 12 ? "PM" : "AM", [today]);
 
   const handleMouseOver = (): void => showDate(true);
   const handleMouseOut = (): void => showDate(false);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import styled from "styled-components";
 import ContextComp from "../Container/Context";
 import NAME from "../../utils/Enum";
@@ -53,4 +53,4 @@ const Jenkins: React.FC<JenkinsProps> = () => {
     </ContextComp.Consumer>
   );
 };
-export default Jenkins;
+export default memo(Jenkins);

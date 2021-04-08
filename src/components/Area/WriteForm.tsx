@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import { UploadXlsx } from "../../utils/UploadXlsx";
 import Dimm from "./Dimm";
@@ -101,13 +101,13 @@ const WriteForm: React.FunctionComponent<IWFProps> = ({
   const [excel_show, setExcelShow] = useState(true);
   const xlsx = useRef<HTMLInputElement>(null);
   const [contentList, setContentList] = useState([]);
-  const title = `[${today.getFullYear()}-${(today.getMonth() + 1)
+  const title = useMemo(()=> `[${today.getFullYear()}-${(today.getMonth() + 1)
     .toString()
     .padStart(2, "0")}-${today
     .getDate()
     .toString()
-    .padStart(2, "0")}] Smart AX 회계, 급여관리서비스 정기 업데이트`;
-  const ttt = form.concat(contentList);
+    .padStart(2, "0")}] Smart AX 회계, 급여관리서비스 정기 업데이트`,[today]);
+  const ttt = useMemo(()=> form.concat(contentList),[form, contentList]);
 
   const onExcelClose = (excelJson: any): void => {
     // 엑셀 파일 업로드 끝!

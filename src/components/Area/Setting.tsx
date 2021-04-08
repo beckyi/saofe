@@ -1,4 +1,4 @@
-import React, { Component, MouseEvent, ChangeEvent } from 'react';
+import React, { PureComponent, MouseEvent, ChangeEvent } from 'react';
 import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
 import TagField from "./TagField";
@@ -74,7 +74,7 @@ const customStyle:styleType = {
 };
 const {Heads, Bubble, Wall} = customStyle;
 
-class Setting extends Component<ISetProps, ISetState>{
+class Setting extends PureComponent<ISetProps, ISetState>{
   constructor(props: ISetProps) {
     super(props);
     this.state = {
