@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
 import Dimm from "../Area/Dimm";
@@ -83,10 +83,9 @@ const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
       [NAME.BIRTH]: "",
       [NAME.COMMENT]: "",
     }
-    console.log(userInfo,"DIDMOUNT")
   }, []);
   
-  const submitAnswer = (e:React.FormEvent<HTMLFormElement>) => {
+  const submitAnswer = useCallback((e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const id:string = getID();
@@ -102,9 +101,9 @@ const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
     if(seq === 3 && id === NAME.COMMENT){
       saveUserInfo(userInfo);
     }
-  }
+  }, [answer]);
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const id:string = getID();
     const value = e.target.value;
 
@@ -113,7 +112,7 @@ const Login:React.FunctionComponent<ILogProps> = (props:ILogProps) => {
     }
     
     setAnswer(value);
-  }
+  }, []);
 
   return(
     <Dimm brightness={0.7}>

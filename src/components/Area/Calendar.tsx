@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from "react";
+import React, { MouseEvent, useState, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import { Container, Item } from "../Layout/Grid";
 import {
@@ -110,11 +110,11 @@ const weekArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const Calendar = ({ modal_show }: Props) => {
   const [current, setCurrent] = useState(makeYMD(TODAY));
-  const monthInfo = getCalendar(current.substr(0, 6)); //2d Array
-  const before_monthInfo = getCalendar(addMonths(current,-1).substr(0, 6));
-  const next_monthInfo = getCalendar(addMonths(current,1).substr(0, 6));
+  const monthInfo = useMemo(()=> getCalendar(current.substr(0, 6)), [current]); //2d Array
+  const before_monthInfo = useMemo(()=> getCalendar(addMonths(current,-1).substr(0, 6)), [current]);
+  const next_monthInfo = useMemo(()=> getCalendar(addMonths(current,1).substr(0, 6)), [current]);
 
-  const handleClick = (event: MouseEvent): void => {
+  const handleClick = useCallback((event: MouseEvent): void => {
     const toDate = new Date(makeDateSlash(current));
     const target = event.target as HTMLTextAreaElement;
     let who = target.id;
@@ -125,7 +125,7 @@ const Calendar = ({ modal_show }: Props) => {
         : makeYMD(new Date(toDate.setMonth(toDate.getMonth() - 1)));
 
     setCurrent(_current); //날짜 갱신
-  };
+  }, [current]);
 
   return (
     <CalMonth>

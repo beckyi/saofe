@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import { Container, Item } from "../Layout/Grid";
 import { UploadXlsx } from "../../utils/UploadXlsx";
 import NAME from "../../utils/Enum";
-import BrowserStorage from "../../utils/BrowserStorage";
 import { getThisMonday } from "../../utils/utils";
 import Messages from "../../utils/Messages";
 
@@ -69,7 +68,6 @@ type excelProps = {
 
 const cols = ["15px", "25%", "25%", "25%", "25%"];
 const rows = ["15px", "20px", "20%", "20%", "20%", "20%", "20%"];
-const storage = new BrowserStorage("local");
 
 const makeMenuList = (menuList: calenInterface) => {
   let components = [];
@@ -106,27 +104,27 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
   const [excel_show, setExcelShow] = useState(false);
   const xlsx = useRef<HTMLInputElement>(null);
   // const xlsx = useRef<React.FunctionComponent<excelProps>>(null);
-  const menuBool = menuList.length > 0;
+  const menuBool = useMemo(()=> menuList.length > 0, [menuList]);
   console.log("xlsx", xlsx);
   useEffect(() => {
     //동기
     console.log(xlsx, "useEffect", menuList, excel_show);
   });
 
-  async function asnySetExcelShow(bool: boolean) {
+  const asnySetExcelShow = useCallback(async (bool: boolean) => {
     await setExcelShow(bool);
-  }
+  }, []);
 
-  const handleOnClick = (): void => {
+  const handleOnClick = useCallback((): void => {
     // 엑셀 파일 업로드 시작!
     if (excel_show && xlsx && xlsx.current !== null) {
       xlsx.current.click();
     } else {
       asnySetExcelShow(true);
     }
-  };
+  }, [excel_show, xlsx]);
 
-  const onExcelClose = (excelJson: any): void => {
+  const onExcelClose = useCallback((excelJson: any): void => {
     // 엑셀 파일 업로드 끝!
     setExcelShow(false);
 
@@ -177,7 +175,7 @@ const Menu: React.FunctionComponent<IMenuProps> = ({
         window.alert(Messages.warnErrMenuExcel);
       }
     }
-  };
+  }, []);
   console.log(menuList);
   return (
     <MenuBase>

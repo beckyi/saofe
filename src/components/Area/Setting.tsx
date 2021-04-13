@@ -1,9 +1,10 @@
 import React, { PureComponent, MouseEvent, ChangeEvent } from 'react';
 import styled from "styled-components";
 import { Container, Item, FxContainer, FxItem } from "../Layout";
+import Icon from "./Icon";
 import TagField from "./TagField";
 import Memo from "./Memo";
-import Icon from "./Icon";
+import Profile from "./Profile";
 import NAME from "../../utils/Enum";
 
 interface ISetProps {
@@ -23,18 +24,6 @@ interface styleType {
 
 const HeadLine = styled.span`
   margin-left: 5px;
-`;
-
-const GreetUser = styled.p`
-  font-size: 2em;
-  margin: 3px 5px 10px;
-`;
-
-const Motto = styled.p`
-  font: italic 1.2em "Fira Sans", serif;
-  margin: 0px;
-  padding: 0.3rem;
-  color: #b1b3b2;
 `;
 
 const DDay = styled.span`
@@ -97,6 +86,8 @@ class Setting extends PureComponent<ISetProps, ISetState>{
       onIconClick
     } = this.props;
 
+    const {editMode} = this.state;
+
     return (
       <Container cols={["155px","60%","40%","150px"]} rows={["30px", "40%", "60%"]}>
         <Item range={[[1,1],[1,3]]} style={Heads}>
@@ -119,8 +110,7 @@ class Setting extends PureComponent<ISetProps, ISetState>{
         <Item range={[[2,2],[2,3]]}>
           <FxContainer jContent={"center"} alignItems={"center"}>
             <FxItem flex={"1 1 auto"} alignSelf={"center"} style={Bubble}>
-              <GreetUser>Hello JAEN</GreetUser>
-              <Motto>Be Brave, Be Happy, Be yourself</Motto>
+              <Profile editMode={editMode} />
             </FxItem>
           </FxContainer>
         </Item>

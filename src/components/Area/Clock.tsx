@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react"; //MouseEvent
+import React, { useState, useEffect, useMemo, useCallback } from "react"; //MouseEvent
 import styled from "styled-components";
 import {getTodayYMD} from "../../utils/utils";
 import NAME from "../../utils/Enum";
@@ -159,8 +159,8 @@ const Clock = (props:IAppProps) => {
   const [isShow, showDate] = useState<boolean>(false);
   const apm = useMemo(()=> today.getHours() > 12 ? "PM" : "AM", [today]);
 
-  const handleMouseOver = (): void => showDate(true);
-  const handleMouseOut = (): void => showDate(false);
+  const handleMouseOver = useCallback((): void => showDate(true), []);
+  const handleMouseOut = useCallback((): void => showDate(false), []);
   
   useEffect(() => {
   
@@ -189,7 +189,7 @@ const Clock = (props:IAppProps) => {
       console.log('unmounted',tictokIV);
       clearInterval(tictokIV);
     };
-  },[clockMode, secondMode]);
+  }, [clockMode, secondMode]);
   
   return (
     <div style={{position: "relative"}}>

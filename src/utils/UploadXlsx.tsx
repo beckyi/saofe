@@ -1,8 +1,9 @@
 import React, {
+  ChangeEvent,
   useState,
   forwardRef,
   useLayoutEffect,
-  ChangeEvent,
+  useCallback
 } from "react";
 import NAME from "../utils/Enum";
 // import { fixdata } from "../utils/utils";
@@ -68,7 +69,7 @@ export const UploadXlsx = forwardRef<HTMLInputElement, FileProps>(
     const xlsxInput = ref as React.RefObject<HTMLInputElement>;
     const [file, setFile] = useState({});
 
-    const readFileInfo = () => {
+    const readFileInfo = useCallback(() => {
       let bool = window.confirm("엑셀 파일 있으신가요? 다운받으러 가실까요?");
       if (bool) {
         const url =
@@ -90,15 +91,15 @@ export const UploadXlsx = forwardRef<HTMLInputElement, FileProps>(
       } else if (xlsxInput.current !== null) {
         xlsxInput.current.click();
       }
-    };
+    }, [enterence]);
 
-    const handleSelectFile = (event: ChangeEvent<HTMLInputElement>): void => {
+    const handleSelectFile = useCallback((event: ChangeEvent<HTMLInputElement>): void => {
       const target = event.target as HTMLInputElement;
       const files = target.files as FileList; //유사배열
 
       setFile(files[0]);
       readExcel(files[0], enterence, onExcelClose);
-    };
+    }, []);
 
     useLayoutEffect(() => {
       //비동기 (Rendering 직후 Dom Element 값을 읽는 경우)

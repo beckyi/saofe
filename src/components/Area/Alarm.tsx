@@ -1,6 +1,6 @@
 
 import { time } from "console";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import styled from "styled-components";
 import Dimm from "./Dimm";
 import BrowserStorage from "../../utils/BrowserStorage";
@@ -191,12 +191,12 @@ const Alarm: React.FunctionComponent<IWFProps> = ({onClick}: IWFProps) => {
   },[]);
 
   //알라정보 저장용
-  const saveAlramDatas = (idx:number, param:alObj):void => {
+  const saveAlramDatas = useCallback((idx:number, param:alObj):void => {
     let result = alTimes.slice(0)
     result[idx] = param;
     setAlramTime(result);
-    storage.setItem(storage_id,JSON.stringify(result)); 
-  }
+    storage.setItem(storage_id, JSON.stringify(result)); 
+  }, [alTimes]);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useCallback } from "react";
 import styled from "styled-components";
 import ContextComp from "../Container/Context";
 import NAME from "../../utils/Enum";
@@ -25,9 +25,8 @@ const Name = styled.em`
 
 const Jenkins: React.FC<JenkinsProps> = () => {
   const [who_show, setWhoShow] = useState(false);
-  const handleMouseOver = (): void => setWhoShow(true);
-  const handleMouseOut = (): void => setWhoShow(false);
-
+  const handleMouseOver = useCallback((): void => setWhoShow(true),[]);
+  const handleMouseOut = useCallback((): void => setWhoShow(false), []);
   return (
     <ContextComp.Consumer>
       {({value, actions}) => (

@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {useMemo, useCallback} from "react";
 import styled from "styled-components";
 import NAME from "../../utils/Enum";
 
@@ -185,10 +185,10 @@ const SVGIcon = ({ name, onClick, ...props }: Props) => {
   const option = useMemo(()=> setOptions(name), [name]);
   const { viewBox, width, height, fill, d_path } = option;
 
-  const onIconClick = (event:React.MouseEvent) => {
+  const onIconClick = useCallback((event:React.MouseEvent) => {
     event.stopPropagation(); //stop bubbling and capturing
     onClick(name, event);
-  }
+  }, [name]);
   
   return (
     <IconArea name={name} onClick={onIconClick} {...props}>
