@@ -15,7 +15,9 @@ import Messages from "../../utils/Messages";
 import NAME from "../../utils/Enum";
 
 
-export interface IMoProps {}
+export interface IMoProps {
+  setUserInfo: (param:IUserInfo) => void;
+}
 export interface IMoState {
   modal_show: string;
   subFunc_show: boolean;
@@ -25,6 +27,13 @@ export interface IMoState {
   menuList: any;
   clockMode: string;
   secondMode: boolean;
+}
+
+interface IUserInfo {
+  [key:string]:string;
+  [NAME.USERNAME]: string;
+  [NAME.BIRTH]: string;
+  [NAME.COMMENT]: string;
 }
 
 const MoreFunc = styled.div`
@@ -157,7 +166,7 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
     }
   }
 
-  onIconClick=(name:string, event: React.MouseEvent)=> {
+  onIconClick = (name:string, event: React.MouseEvent) => {
     event.stopPropagation(); //stop bubbling and capturing
 
     const { CALENDAR, RICE, SETTING, WRITE, BELL, INFORM, RESET, GROUP } = NAME;
@@ -177,12 +186,11 @@ export default class Moment extends React.Component<IMoProps, IMoState> {
       const isReset = window.confirm(Messages.askReset);
       if(isReset){
         //위 서비스 관련 모든 정보 삭제 (사용자, 알람 등)
-        // this.props.saveUserInfo({
-        //   [NAME.USERNAME]: "",
-        //   [NAME.BIRTH]: "",
-        //   [NAME.COMMENT]: "",
-        // });
-        this.storage.cleanItems(GROUP);
+        this.props.setUserInfo({
+          [NAME.USERNAME]: "",
+          [NAME.BIRTH]: "",
+          [NAME.COMMENT]: "",
+        });
       } else {
         return; //stop
       }

@@ -2,22 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { Login, Moment } from "../components/Container"
 import ContextComp from "./Container/Context"
-import BrowserStorage from "../utils/BrowserStorage";
-import NAME from "../utils/Enum";
 
 interface IAppProps {}
 
+interface IAppState {}
 interface kwType {
   keywords: Array<string>;
-}
-interface IAppState {
-  isUser: IUserInfo;
-}
-
-interface IUserInfo {
-  [NAME.USERNAME]: string;
-  [NAME.BIRTH]: string;
-  [NAME.COMMENT]: string;
 }
 
 const BaseGround = styled.div`
@@ -36,25 +26,12 @@ const BaseGround = styled.div`
   background-position: center;
   background-repeat: no-repeat;
 `;
-
-const storageUser = `${NAME.GROUP}USER`;
-const userForm = {
-  [NAME.USERNAME]: "",
-  [NAME.BIRTH]: "",
-  [NAME.COMMENT]: "",
-};
 export default class App extends React.Component<IAppProps, IAppState> {
   public storage: any;
 
   constructor(props: IAppProps) {
-    super(props);
-
-    // this.onhandleClick = this.onhandleClick.bind(this);
-    this.storage = new BrowserStorage("local");
-    
-    this.state = {
-      isUser: this.storage.getItem(storageUser) || userForm,
-    };
+    super(props);    
+    this.state = {};
   }
 
   componentDidMount() {    
@@ -68,21 +45,14 @@ export default class App extends React.Component<IAppProps, IAppState> {
     };
   }
 
-  saveUserInfo = (pUserInfo:IUserInfo): void=> {
-    this.setState({isUser: pUserInfo},()=>{
-      //save data in local storage
-      this.storage.setItem(storageUser, pUserInfo);
-    });
-  };
-
   render() {
     const { userInfo } = this.context.value;
     const { setUserInfo } = this.context.actions;
-console.log("APP", this.context)
+console.log("APP", this.context, userInfo)
     return (
         <BaseGround id="SAOFE" keywords={this.context.value.keywords}>
           {userInfo.name ?
-            <Moment /> 
+            <Moment setUserInfo={setUserInfo}/> 
           :
             <Login saveUserInfo={setUserInfo}/>
           }

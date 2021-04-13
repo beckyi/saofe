@@ -18,7 +18,7 @@ interface IState {
 };
 
 interface Props {
-  setUserInfo: (userInfo:object) => void;
+  setUserInfo: (userInfo:IUserInfo) => void;
   setKeywords: (keywords:any) => void;
 }
 
@@ -53,10 +53,17 @@ export const BackProvider:React.FunctionComponent<IProps> = (props:IProps) => {
   const [userInfo, setUserInfo] = useState(storage.getItem(storageUser) || userForm);
   const [keywords, setKeywords] = useState(storage.getItem(storageBackground) || []);
 
-  const saveUserInfo = (pUserInfo: IUserInfo | object): void=> {
+  const saveUserInfo = (pUserInfo: IUserInfo): void=> {
+    const { GROUP, USERNAME } = NAME;
     setUserInfo(pUserInfo);
-    storage.setItem(storageUser, pUserInfo);
+    
+    if(pUserInfo[USERNAME] === ""){
+      storage.cleanItems(GROUP);
+    } else {
+      storage.setItem(storageUser, pUserInfo);
+    }
   };
+  
   const saveKeywords = (pArr:[]): void=> {
     setKeywords(pArr);
     storage.setItem(storageBackground, pArr);
